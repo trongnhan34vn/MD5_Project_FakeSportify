@@ -1,9 +1,20 @@
 import { Link } from 'react-router-dom'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ToastLogin from '../Toast/ToastLogin'
+import { useDispatch, useSelector } from 'react-redux'
+import * as actions from '../../redux/actions';
+import { currentUserSelector, getMessageSelector } from '../../redux/selector';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const message = useSelector(getMessageSelector);
+    const currentUser = useSelector(currentUserSelector);
+
     const [inputValue, setInputValue] = useState({
         email: "",
         password: ""
@@ -37,21 +48,21 @@ export default function Login() {
 
     const checkPassword = (password) => {
         if (password.trim() === "") {
-            setErrorMessage({...errorMessage, password: "Please enter a password!"})
+            setErrorMessage({ ...errorMessage, password: "Please enter a password!" })
         } else {
-            setErrorMessage({...errorMessage, password: ""})
-            setInputValue({...inputValue, password: password})
+            setErrorMessage({ ...errorMessage, password: "" })
+            setInputValue({ ...inputValue, password: password })
         }
     }
 
     const checkEmail = (email) => {
-        if (email.trim() === "") { 
-            setErrorMessage({...errorMessage, email: "Please enter a valid email!"})
+        if (email.trim() === "") {
+            setErrorMessage({ ...errorMessage, email: "Please enter a valid email!" })
         } else if (!validateEmail(email)) {
-            setErrorMessage({...errorMessage, email: "Invalid Email! Please enter a valid email!"})
+            setErrorMessage({ ...errorMessage, email: "Invalid Email! Please enter a valid email!" })
         } else {
-            setErrorMessage({...errorMessage, email: ""})
-            setInputValue({...inputValue, email: email})
+            setErrorMessage({ ...errorMessage, email: "" })
+            setInputValue({ ...inputValue, email: email })
         }
     }
 
@@ -68,6 +79,8 @@ export default function Login() {
         event.preventDefault()
         if (checkSubmit()) {
             // validate xong mới gửi request
+            console.log("in");
+            dispatch(actions.login(inputValue))
         } else {
             setToggleToast(true);
             // không thể đăng kí
@@ -77,6 +90,27 @@ export default function Login() {
         }
     }
 
+    useEffect(() => {
+        if (currentUser != null) {
+            if (currentUser.token !== "") {
+                setToggleToast(true);
+                // thành công
+                setErrorLogin("Sign In Success! Let listen!")
+                closeToast()
+                setTimeout(() => {
+                    navigate("/")
+                }, 5000)
+            }
+        }
+        if (message.trim() != "") {
+            setToggleToast(true);
+            // không thể đăng kí
+            console.log("thất bại");
+            setErrorLogin("Sign In Failed! Try Again!")
+            closeToast()
+        }
+    }, [currentUser, message])
+
     const closeToast = () => {
         setTimeout(() => {
             setToggleToast(false);
@@ -85,7 +119,7 @@ export default function Login() {
     return (
         <div>
             {/* Login */}
-            <div id='login' className='w-[448px]'>
+            <div id='login' className='w-[448px] mx-auto'>
                 {/* Header */}
                 <header className='border-b-[1px] border-solid border-[#d9dadc] mb-8'>
                     <div className='header-logo block pt-8 mb-4'>
@@ -162,7 +196,7 @@ export default function Login() {
                 {/* Login */}
             </div>
             {/* Login */}
-            <ToastLogin errorLogin={errorLogin} toggleToast={toggleToast} /> 
+            <ToastLogin errorLogin={errorLogin} toggleToast={toggleToast} />
         </div>
     )
 }

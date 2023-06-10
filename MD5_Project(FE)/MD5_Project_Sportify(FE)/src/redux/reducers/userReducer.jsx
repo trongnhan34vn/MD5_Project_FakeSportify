@@ -5,14 +5,16 @@ const initState = {
     message: "",
 }
 
-const getMessLoginRegis = (state = initState, action) => {
+const userSlice = (state = initState, action) => {
     switch (action.type) {
         case actionType.GET_MESSAGE:
             return { ...state, message: action.payload }
+        case actionType.GET_CURRENT_USER:
+            return { ...state, user: action.payload }
         default:
             return state;
     }
 
 }
 
-export default getMessLoginRegis;
+export default userSlice;

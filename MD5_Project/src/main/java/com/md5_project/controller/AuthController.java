@@ -12,10 +12,12 @@ import com.md5_project.security.userPrincipal.UserPrinciple;
 import com.md5_project.service.IRoleService;
 import com.md5_project.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -85,21 +87,26 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm, HttpServletResponse response) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateJwtToken(authentication);
-        UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
-        JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), userDetails.getFullName(), userDetails.getAuthorities());
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signInForm.getEmail(), signInForm.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateJwtToken(authentication);
+            UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
+            JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getFullName(), userDetails.getUsername(), userDetails.getAuthorities());
 
-        Cookie cookie = new Cookie("jwtToken", jwt);
-        cookie.setMaxAge(24 * 60 * 60); // expires in 1 day
-        cookie.setSecure(false);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return ResponseEntity.ok().body(jwtResponse);
+            Cookie cookie = new Cookie("jwtToken", jwt);
+            cookie.setMaxAge(24 * 60 * 60); // expires in 1 day
+            cookie.setSecure(false);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return ResponseEntity.ok().body(jwtResponse);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(new ResponseMessage("Invalid username or password!"), HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
 }
 

@@ -17,3 +17,17 @@ export const getMessage = (data) => {
         payload: data
     }
 }
+
+export const login = (data) => {
+    return {
+        type: actionType.LOGIN,
+        payload: data
+    }
+}
+
+export const getCurrentUser = (data) => {
+    return {
+        type: actionType.GET_CURRENT_USER,
+        payload: data
+    }
+}

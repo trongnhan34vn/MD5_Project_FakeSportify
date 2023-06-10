@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import getMessLoginRegis from "./userReducer";
+import userSlice from "./userReducer";
 
 const rootReducer = combineReducers(
    {
-    getMessLoginRegis
+      userSlice
    }
 )
 

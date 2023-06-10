@@ -7,7 +7,8 @@ export const rootSaga = function* () {
     yield all(
         [
             // USER
-            takeLatest(actionType.REGISTER, userSaga.register)
+            takeLatest(actionType.REGISTER, userSaga.register),
+            takeLatest(actionType.LOGIN, userSaga.login)
         ]
     )
 }
