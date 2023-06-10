@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import ToastRegister from '../Toast/ToastRegister';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../redux/actions';
+import { getMessageSelector } from '../../redux/selector';
 
 const Register = () => {
+    const dispatch = useDispatch();
+    const message = useSelector(getMessageSelector);
+
+
     const [inputVal, setInputValue] = useState({
         email: "",
         password: "",
+        rePassword: "",
         fullName: "",
         day: "",
         month: "",
@@ -12,7 +21,22 @@ const Register = () => {
         gender: true,
     })
 
-    const [error, setError] = useState("");
+    const [errorMess, setErrorMess] = useState({
+        email: "",
+        password: "",
+        rePassword: "",
+        fullName: "",
+        day: "",
+        month: "",
+        year: "",
+        gender: true,
+    });
+
+    const [toggleToast, setToggleToast] = useState(false);
+
+    const [errorRegis, setErrorRegis] = useState("");
+
+    const navigate = useNavigate();
 
     const validateEmail = (email) => {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -24,34 +48,201 @@ const Register = () => {
     const handleChange = (event) => {
         let value = event.target.value;
         let key = event.target.name;
-        validate(key, value);
+        checkAll(key, value)
     }
-    let validMessageEmail = "";
 
-    const validate = (key, value) => {
-        console.log(key, value);
-        let checkValid = false;
-        if (key === 'email') {
-            if (value.trim() === '') {
-                checkValid = false;
-                validMessageEmail = "Please enter a valid email!";
-                return;
-            } else {
-                if (!validateEmail(value)) {
-                    checkValid = false;
-                    validMessageEmail = "Invalid email!";
-                    console.log(validMessageEmail);
-                    return;
+    const checkAll = (key, value) => {
+        switch (key) {
+            case "email":
+                checkEmail(value)
+                break;
+            case "password":
+                checkPassword(value)
+                break;
+            case "rePassword":
+                checkRePassword(value)
+                break;
+            case "fullName":
+                checkFullName(value)
+                break;
+            case "day":
+                checkBirthDate(key, value);
+                break;
+            case "month":
+                checkBirthDate(key, value);
+                break
+            case "year":
+                checkBirthDate(key, value);
+                break;
+            case "gender":
+                setInputValue({ ...inputVal, gender: value })
+                break;
+        }
+    }
+
+    const checkBirthDate = (key, value) => {
+        switch (key) {
+            case "day":
+                if (value.trim() === "") {
+                    setErrorMess({ ...errorMess, day: "Please enter a day of month!" })
+                    return false;
                 } else {
-                    checkValid = true
+                    setErrorMess({ ...errorMess, day: "" })
+                    setInputValue({ ...inputVal, day: value })
+                    return true;
                 }
+
+            case "month":
+                if (value.trim() === "") {
+                    setErrorMess({ ...errorMess, month: "Please enter a month of year!" })
+                    return false;
+                } else if (value.trim() === "") {
+                    setErrorMess({ ...errorMess, month: "Please choose a month!" })
+                } else {
+                    setErrorMess({ ...errorMess, month: "" })
+                    setInputValue({ ...inputVal, month: value })
+                    return true;
+                }
+
+            case "year":
+                if (value.trim() === "") {
+                    setErrorMess({ ...errorMess, year: "Please enter a year!" })
+                    return false;
+                } else {
+                    setErrorMess({ ...errorMess, year: "" })
+                    setInputValue({ ...inputVal, year: value })
+                    return true;
+                }
+
+        }
+    }
+
+    const checkFullName = (fullName) => {
+        if (fullName.trim() === "") {
+            setErrorMess({ ...errorMess, fullName: "Please enter a full name!" })
+            return false;
+        } else {
+            setErrorMess({ ...errorMess, fullName: "" })
+            setInputValue({ ...inputVal, fullName: fullName })
+            return true;
+        }
+    }
+
+    const checkRePassword = (rePassword) => {
+        if (rePassword.trim() === "") {
+            setErrorMess({ ...errorMess, rePassword: "Please enter re-password!" })
+            return false;
+        }
+        if (rePassword !== inputVal.password) {
+            setErrorMess({ ...errorMess, rePassword: "Re-Password is not matched to the password! Try again" })
+            return false;
+        } else {
+            setErrorMess({ ...errorMess, rePassword: "" })
+            return true;
+        }
+    }
+
+    const checkPassword = (password) => {
+        if (checkBlank(password)) {
+            setErrorMess({ ...errorMess, password: "Please enter password!" })
+            return false;
+        } else if (password.length < 6) {
+            setErrorMess({ ...errorMess, password: "Password requires more than 6 characters!" })
+            return false;
+        } else {
+            setInputValue({ ...inputVal, password: password })
+            setErrorMess({ ...errorMess, password: "" })
+            return true;
+        }
+    }
+
+    const checkEmail = (email) => {
+        if (checkBlank(email)) {
+            setErrorMess({ ...errorMess, email: "Please enter a valid email!" })
+            return false;
+        } else if (!validateEmail(email)) {
+            setErrorMess({ ...errorMess, email: "Invalid email!" })
+            return false;
+        } else {
+            setInputValue({ ...inputVal, email: email })
+            setErrorMess({ ...errorMess, email: "" })
+            return true;
+        }
+    }
+
+    const checkBlank = (value) => {
+        if (value.trim() == "") {
+            return true;
+        }
+        return false;
+    }
+
+    const checkRegisSuccess = (newUser) => {
+        if (inputVal.month.trim() === "" || inputVal.year.trim() === "" || inputVal.day.trim() === "") {
+            return false;
+        }
+        for (let key in newUser) {
+            if (newUser[key].trim() == "") {
+                return false;
             }
         }
-        console.log(validMessageEmail);
+        return true;
+    }
+
+    const getNewUser = () => {
+        return {
+            email: inputVal.email,
+            password: inputVal.password,
+            fullName: inputVal.fullName,
+            birthDate: inputVal.year + "-" + inputVal.month + "-" + inputVal.day,
+            gender: inputVal.gender,
+        }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const newUser = getNewUser();
+
+
+        if (checkRegisSuccess(newUser)) {
+            // có thể đăng kí
+            // console.log("thành công");
+            // setErrorRegis("Register Success!");
+            // setTimeout(() => {
+            //     navigate("/login")
+            // }, 3000)
+            dispatch(actions.register(newUser))
+        } else {
+            setToggleToast(true);
+            // không thể đăng kí
+            console.log("thất bại");
+            setErrorRegis("Register Failed! Try Again!")
+            closeToast()
+        }
+    }
+
+    useEffect(() => {
+        if (message.trim() !== "") {
+            setToggleToast(true);
+            if (message === "Register Success!") {
+                console.log("thành công");
+                console.log(message);
+                setErrorRegis("Register Success!");
+                setTimeout(() => {
+                    navigate("/login")
+                }, 3000)
+            } else {
+                console.log("thất bại");
+                setErrorRegis("Email is already existed! Try Again!")
+                closeToast()
+            }
+        }
+    }, [message])
+
+    const closeToast = () => {
+        setTimeout(() => {
+            setToggleToast(false);
+        }, 5000)
     }
 
     return (
@@ -93,34 +284,35 @@ const Register = () => {
                     <div className='sign-up-form-input mb-4'>
                         <label className='block mb-2'>Email address or username</label>
                         <input name='email' onChange={handleChange} className={`focus:outline-2 focus:outline-[#000] focus:shadow-inner border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook'`} type="text" placeholder='Email address or username' />
-                        <span className='text-[red] font-CircularLight text-xs'>{error}</span>
+                        <span className='text-[red] font-CircularLight text-xs'>{errorMess.email}</span>
                     </div>
                     <div className='sign-up-form-input mb-4'>
                         <label className='block mb-2'>Password</label>
                         <input name='password' onChange={handleChange} className={`focus:outline-2 focus:outline-[#000] focus:shadow-inner border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook`} type="password" placeholder='Password' />
-                        <span className='text-[red] font-CircularLight text-xs'></span>
+                        <span className='text-[red] font-CircularLight text-xs'>{errorMess.password}</span>
                     </div>
                     <div className='sign-up-form-input mb-4'>
                         <label className='block mb-2'>Nhập lại Password</label>
                         <input name='rePassword' onChange={handleChange} className={`focus:outline-2 focus:outline-[#000] focus:shadow-inner border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook`} type="password" placeholder='Nhập lại password' />
-                        <span className='text-[red] font-CircularLight text-xs'></span>
+                        <span className='text-[red] font-CircularLight text-xs'>{errorMess.rePassword}</span>
                     </div>
                     <div className='sign-up-form-input mb-4'>
                         <label className='block mb-2'>Bạn tên gì?</label>
-                        <input name='name' onChange={handleChange} className={`focus:outline-2 focus:outline-[#000] focus:shadow-inner border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook`} type="text" placeholder='Nhập tên hồ sơ' />
-                        <span className='text-[red] font-CircularLight text-xs'></span>
+                        <input name='fullName' onChange={handleChange} className={`focus:outline-2 focus:outline-[#000] focus:shadow-inner border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook`} type="text" placeholder='Nhập tên hồ sơ' />
+                        <span className='text-[red] font-CircularLight text-xs'>{errorMess.fullName}</span>
                     </div>
                     <div className='sign-up-form-input mb-4'>
                         <label className='block mb-2'>Bạn sinh ngày nào?</label>
                         <div className='flex gap-5'>
                             <div className='flex-1'>
                                 <label className='block mb-2'>Ngày</label>
-                                <input name='day' className='focus:outline-2 focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook' type="text" placeholder='DD' />
+                                <input name='day' onChange={handleChange} className='focus:outline-2 focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded text-base font-CircularBook' type="text" placeholder='DD' />
+                                <span className='text-[red] font-CircularLight text-xs'>{errorMess.day}</span>
                             </div>
                             <div className='flex-auto'>
 
                                 <label className='block mb-2'>Tháng</label>
-                                <select name='month' className="focus:outline-2 text-base focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3 h-[54px] rounded bg-transparent">
+                                <select name='month' onChange={handleChange} className="focus:outline-2 text-base focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3 h-[54px] rounded bg-transparent">
                                     <option value="">Tháng</option>
                                     <option value="01">Tháng 1</option>
                                     <option value="02">Tháng 2</option>
@@ -135,11 +327,12 @@ const Register = () => {
                                     <option value="11">Tháng 11</option>
                                     <option value="12">Tháng 12</option>
                                 </select>
-
+                                <span className='text-[red] font-CircularLight text-xs'>{errorMess.month}</span>
                             </div>
                             <div className='flex-1'>
                                 <label className='block mb-2'>Năm</label>
-                                <input name='year' className='focus:outline-2 text-base focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded' type="text" placeholder='YY' />
+                                <input onChange={handleChange} name='year' className='focus:outline-2 text-base focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded' type="text" placeholder='YY' />
+                                <span className='text-[red] font-CircularLight text-xs'>{errorMess.year}</span>
                             </div>
                         </div>
                     </div>
@@ -165,6 +358,7 @@ const Register = () => {
                 {/* Sign Up Form */}
             </div>
             {/* Sign Up */}
+            <ToastRegister toggleToast={toggleToast} errorRegis={errorRegis} />
         </div>
     );
 }

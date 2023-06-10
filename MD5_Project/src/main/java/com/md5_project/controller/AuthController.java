@@ -79,7 +79,7 @@ public class AuthController {
         }
         user.setRoles(roles);
         userService.save(user);
-        return ResponseEntity.ok(new ResponseMessage("Create Success!"));
+        return ResponseEntity.ok(new ResponseMessage("Register Success!"));
     }
 
 

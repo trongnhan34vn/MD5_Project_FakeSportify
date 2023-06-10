@@ -1,8 +1,87 @@
 import { Link } from 'react-router-dom'
 
 import React, { useState } from 'react'
+import ToastLogin from '../Toast/ToastLogin'
 
 export default function Login() {
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: ""
+    })
+
+    const [errorMessage, setErrorMessage] = useState({
+        email: "",
+        password: ""
+    })
+
+    const [errorLogin, setErrorLogin] = useState("")
+    const [toggleToast, setToggleToast] = useState(false);
+
+    const validateEmail = (email) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            return (true)
+        }
+        return (false)
+    }
+
+    const handleChange = (event) => {
+        let key = event.target.name;
+        let value = event.target.value;
+        if (key === "email") {
+            checkEmail(value)
+        }
+        if (key === "password") {
+            checkPassword(value)
+        }
+    }
+
+    const checkPassword = (password) => {
+        if (password.trim() === "") {
+            setErrorMessage({...errorMessage, password: "Please enter a password!"})
+        } else {
+            setErrorMessage({...errorMessage, password: ""})
+            setInputValue({...inputValue, password: password})
+        }
+    }
+
+    const checkEmail = (email) => {
+        if (email.trim() === "") { 
+            setErrorMessage({...errorMessage, email: "Please enter a valid email!"})
+        } else if (!validateEmail(email)) {
+            setErrorMessage({...errorMessage, email: "Invalid Email! Please enter a valid email!"})
+        } else {
+            setErrorMessage({...errorMessage, email: ""})
+            setInputValue({...inputValue, email: email})
+        }
+    }
+
+    const checkSubmit = () => {
+        for (const key in inputValue) {
+            if (inputValue[key] === "") {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        if (checkSubmit()) {
+            // validate xong mới gửi request
+        } else {
+            setToggleToast(true);
+            // không thể đăng kí
+            console.log("thất bại");
+            setErrorLogin("Sign In Failed! Try Again!")
+            closeToast()
+        }
+    }
+
+    const closeToast = () => {
+        setTimeout(() => {
+            setToggleToast(false);
+        }, 5000)
+    }
     return (
         <div>
             {/* Login */}
@@ -53,12 +132,12 @@ export default function Login() {
                         <div className='mb-4'>
                             <label className='block mb-2'>Email address or username</label>
                             <input name='email' onChange={handleChange} className='focus:outline-2 focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded' type="text" placeholder='Email address or username' />
-                            <span className='text-red-600 font-CircularLight text-xs'>{error}</span>
+                            <span className='text-red-600 font-CircularLight text-xs'>{errorMessage.email}</span>
                         </div>
                         <div className='mb-4'>
                             <label className='block mb-2'>Password</label>
                             <input name='password' onChange={handleChange} className='focus:outline-2 focus:shadow-inner focus:outline-[#000] border border-[#878787] hover:border-[#000] w-full p-3.5 rounded' type="password" placeholder='Password' />
-                            <span className='text-red-600 font-CircularLight text-xs'></span>
+                            <span className='text-red-600 font-CircularLight text-xs'>{errorMessage.password}</span>
                         </div>
                         <a className='block mb-5 underline' href="">Forgot you password?</a>
                         <div className='mb-5 flex justify-between '>
@@ -83,6 +162,7 @@ export default function Login() {
                 {/* Login */}
             </div>
             {/* Login */}
+            <ToastLogin errorLogin={errorLogin} toggleToast={toggleToast} /> 
         </div>
     )
 }

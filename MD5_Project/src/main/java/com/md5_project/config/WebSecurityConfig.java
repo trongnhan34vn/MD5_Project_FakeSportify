@@ -62,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/api/auth/register/**", "/api/auth/signup").permitAll();
 
-
         http.addFilterBefore(authenTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -75,7 +74,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-
-
 }
 
