@@ -32,7 +32,12 @@
 		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Book.woff2") format("woff2");
 }
 
-:root {
+.bg-show {
+	background-color: #101010;
+	transition: all ease 0.3s;
+}
+
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -46,7 +51,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
+} */
 
 /* a {
   font-weight: 500;

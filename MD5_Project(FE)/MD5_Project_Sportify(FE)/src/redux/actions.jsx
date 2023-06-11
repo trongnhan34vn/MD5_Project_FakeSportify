@@ -31,3 +31,45 @@ export const getCurrentUser = (data) => {
         payload: data
     }
 }
+
+// ALBUM
+export const findAllAlbums = () => {
+    return {
+        type: actionType.FIND_ALL_ALBUMS
+    }
+}
+
+export const getAllAlbums = (data) => {
+    return {
+        type: actionType.GET_ALL_ALBUMS,
+        payload: data
+    }
+}
+
+export const findAlbumById = (data) => {
+    return {
+        type: actionType.FIND_ALBUM_BY_ID,
+        payload: data
+    }
+}
+
+export const getAlbumById = (data) => {
+    return {
+        type: actionType.GET_ALBUM_BY_ID,
+        payload: data
+    }
+}
+
+export const controllCurrentAudio = (data) => {
+    return {
+        type: actionType.CONTROLL_CURRENT_ALBUM,
+        payload: data
+    }
+}
+
+export const setPlayStat = (data) => {
+    return {
+        type: actionType.SET_PLAY_STAT,
+        payload: data
+    }
+} 

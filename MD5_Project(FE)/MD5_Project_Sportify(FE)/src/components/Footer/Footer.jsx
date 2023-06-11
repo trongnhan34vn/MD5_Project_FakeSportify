@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import { currentUserSelector } from '../../redux/selector';
 import AuthenFailed from './Auth/AuthenFailed';
+import AuthenSuccess from './Auth/AuthenSuccess';
 
 const Footer = () => {
     const currentUser = useSelector(currentUserSelector);

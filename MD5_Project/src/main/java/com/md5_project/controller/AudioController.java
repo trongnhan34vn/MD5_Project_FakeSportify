@@ -15,11 +15,13 @@ public class AudioController {
     IAudioService audioService;
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
+
         return ResponseEntity.ok(audioService.findAll());
     }
 
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
+
         return ResponseEntity.ok(audioService.findById(id));
     }
 

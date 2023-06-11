@@ -1,7 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const AuthenSuccess = () => {
+    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     // Hiệu ứng navbar
     const [menuToggle, setMenuToggle] = useState(false)
     // const toggleStatus = useSelector(toggleSelector)
@@ -22,12 +28,10 @@ const AuthenSuccess = () => {
     // Toggle menu navbar thò thụt
     const handleMenuToggle = () => {
         setMenuToggle(!menuToggle)
-        dispatch(actToggleNav())
     }
 
     const handleSignOut = () => {
         setMenuToggle(false)
-        localStorage.removeItem("currentUser")
         navigate("/")
     }
     const elementIconToggle = (menuToggle) ? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>

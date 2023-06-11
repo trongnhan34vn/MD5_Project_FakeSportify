@@ -22,6 +22,9 @@ public class Audio {
     @JoinColumn(name = "audio_artist")
     @JsonIgnoreProperties({"audios"})
     private Artist artist;
+
+    @Lob
+
     private String path;
 
     @ManyToOne(fetch = FetchType.EAGER)

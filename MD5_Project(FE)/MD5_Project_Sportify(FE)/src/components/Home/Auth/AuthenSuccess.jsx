@@ -1,9 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { iconPause_TrackItem } from '../../../assets/icon/icon';
 import DirectMenu from '../../DirectMenu/DirectMenu';
 import Navbar from '../../Navbar/Navbar';
+import Footer from '../../Footer/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { albumSelector, currentAlbumSelector } from '../../../redux/selector';
+import * as actions from '../../../redux/actions';
 
 const AuthenSuccess = () => {
+    const dispatch = useDispatch()
+
+    const listAlbums = useSelector(albumSelector);
+    const controllAlbumsMethod = useSelector(currentAlbumSelector);
+
+    const handleSelectAlbum = (id) => {
+        dispatch(actions.findAlbumById(id))
+        if (!controllAlbumsMethod.currentAlbum.includes(id)) {
+            // chưa có bài nào
+            dispatch(actions.controllCurrentAudio({
+                audioId: id,
+                isPlaying: true,
+                isReset: true
+            }))
+        } else {
+            // đã tồn tại
+            dispatch(actions.controllCurrentAudio({
+                audioId: id,
+                isPlaying: !controllAlbumsMethod.isPlay,
+                isReset: false
+            }))
+        }
+    }
+
+    useEffect(() => {
+        dispatch(actions.findAllAlbums())
+    }, [])
+
+    const elementAlbum = listAlbums.map(element => {
+        return <div key={element.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+            <button onClick={() => handleSelectAlbum(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                {iconPause_TrackItem}
+            </button>
+            <button className='block w-full album-wrap p-4'>
+                <div className='album-img flex flex-col mb-4 relative'>
+                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                </div>
+                <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
+                    <h3 className='font-CircularMedium text-base mb-1 truncate'>{element.name}</h3>
+                    <p className='font-CircularLight text-sm text-[#6a6a6a]'></p>
+                </div>
+            </button>
+        </div>
+    });
     return (
         <div>
             {/* Home Page - Log in*/}
@@ -32,8 +80,8 @@ const AuthenSuccess = () => {
                             {/* Playlist Title */}
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4  l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
                                 {/* Playlist Item */}
-                                <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-                                    <button onClick={() => handlePlay()} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                                {/* <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+                                    <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                                         {iconPause_TrackItem}
                                     </button>
                                     <button className='block w-full album-wrap p-4'>
@@ -45,7 +93,8 @@ const AuthenSuccess = () => {
                                             <p className='font-CircularLight text-sm text-[#6a6a6a]'>đẹp zai</p>
                                         </div>
                                     </button>
-                                </div>
+                                </div> */}
+                                {elementAlbum}
                                 {/* Playlist Item */}
                             </div>
                         </div>
@@ -61,9 +110,9 @@ const AuthenSuccess = () => {
                                 </a>
                             </div>
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4 l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
-                                 {/* Playlist Item */}
-                                 <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-                                    <button onClick={() => handlePlay()} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                                {/* Playlist Item */}
+                                <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+                                    <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                                         {iconPause_TrackItem}
                                     </button>
                                     <button className='block w-full album-wrap p-4'>
@@ -91,9 +140,9 @@ const AuthenSuccess = () => {
                                 </a>
                             </div>
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4 l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
-                                 {/* Playlist Item */}
-                                 <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-                                    <button onClick={() => handlePlay()} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                                {/* Playlist Item */}
+                                <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+                                    <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                                         {iconPause_TrackItem}
                                     </button>
                                     <button className='block w-full album-wrap p-4'>
@@ -122,7 +171,7 @@ const AuthenSuccess = () => {
                 </div>
                 {/* Content */}
                 {/* Footer */}
-
+                <Footer />
                 {/* Footer */}
             </div>
             {/* Home Page - Log in*/}
