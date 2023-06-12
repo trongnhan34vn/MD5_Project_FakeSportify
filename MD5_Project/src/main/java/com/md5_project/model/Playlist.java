@@ -23,5 +23,7 @@ public class Playlist {
     @OneToMany(mappedBy = "playlist", targetEntity = Audio.class)
     @JsonIgnoreProperties({"playlist"})
     private Set<Audio> audios;
+
+    @Column(columnDefinition = "BIT DEFAULT FALSE")
     private boolean status;
 }

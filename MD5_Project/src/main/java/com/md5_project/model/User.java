@@ -48,6 +48,8 @@ public class User {
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "audio_id"))
     private Set<Audio> favorites;
+
+    @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
 
 }

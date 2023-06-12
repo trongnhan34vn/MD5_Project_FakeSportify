@@ -3,10 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useRef, useState } from 'react';
 import { iconMute, iconPauseBtn_Playlist, iconPauseTrackBtn_Footer, iconPlayTrackBtn_Footer, iconUnMute } from '../../../assets/icon/icon.jsx';
 import * as actions from '../../../redux/actions';
-import { albumSelector, currentAlbumSelector, selectAlbumSelector } from '../../../redux/selector';
-// import { controlAudio } from '../../../redux/selector';
-// import { playlists } from '../../../redux/selector';
-// import { actGetPlaylists, actPlayAudio } from '../../../redux/actions';
+import { selectAlbumSelector } from '../../../redux/selector';
 
 
 const AuthenSuccess = () => {
@@ -16,26 +13,21 @@ const AuthenSuccess = () => {
     const [songArr, setSongArr] = useState([])
     const [isPlay, setIsPlay] = useState(false)
     const selectAlbum = useSelector(selectAlbumSelector);
-    const controllAlbumsMethod = useSelector(currentAlbumSelector);
-    const [playingAlbum, setPlayingAlbum] = useState();
-
     useEffect(() => {
-        if (controllAlbumsMethod !== null) {
-            console.log("controll Method Play: " , controllAlbumsMethod.isPlay);
-            console.log("controll Method Reset: " , controllAlbumsMethod.reset);
-            console.log("controll Method Album: " , controllAlbumsMethod);
-            setIsPlay(controllAlbumsMethod.isPlay)
-            console.log("isPlay ------> ", isPlay);
-            console.log(isReset);
+        if (selectAlbum.select != null) {
+            setSongArr(selectAlbum.select.audios)
         }
-    }, [controllAlbumsMethod])
-
-    useEffect(() => {
-        if (selectAlbum != null) {
-            setSongArr(selectAlbum.audios)
-        }
-        console.log("123",songArr);
     }, [selectAlbum])
+
+    useEffect(() => {
+        console.log(selectAlbum.isPlay);
+        setIsPlay(selectAlbum.isPlay)
+        console.log(isPlay);
+    }, [selectAlbum.isPlay, isPlay])
+
+    useEffect(() => {
+        setIsReset(selectAlbum.isReset)
+    }, [selectAlbum.isReset])
 
     useEffect(() => {
         dispatch(actions.findAlbumById(1))
@@ -95,15 +87,6 @@ const AuthenSuccess = () => {
                 setTypePlay(typArr)
             }
         }
-
-        // if (isOneSong) {
-        //     setTypePlay(pre => pre.push("1song"))
-        // } else {
-        //     if (typePlay.includes("1song")) {
-        //         let index = typePlay.indexOf("1song");
-        //         setTypePlay(pre => pre.slice(index, 1))
-        //     }
-        // }
     }, [isRandom])
 
     useEffect(() => {
@@ -132,16 +115,8 @@ const AuthenSuccess = () => {
                 }
                 setNextSong(songIndex + 1)
             }
-            // switch (typePlay) {
-            //     case "1song":
-            //         setNextSong(songIndex);
-            //         break;
-            //     case "random":
-            //         setNextSong(Math.floor(Math.random() * songArr.length))
             console.log("nextSong -----> ", nextSong);
             console.log("type -----> ", typePlay);
-            //         break;
-            // }
         }
     }, [typePlay, playLength])
 
@@ -166,9 +141,9 @@ const AuthenSuccess = () => {
 
     const handlePlay = () => {
         setIsPlay(pre => !pre)
+        dispatch(actions.setPlayStat(selectAlbum.isPlay))
         // dispatch(actPlayAudio())
         // console.log("Footer -----> ", controllAlbums);
-
     }
 
     useEffect(() => {
@@ -189,7 +164,7 @@ const AuthenSuccess = () => {
             clearInterval(progress.current)
         }
         return () => clearInterval(progress.current)
-    }, [isPlay, currentTime, audioRef])
+    }, [isPlay, currentTime])
 
     useEffect(() => {
         if (playLength >= 100) {
@@ -220,16 +195,14 @@ const AuthenSuccess = () => {
     // let reset = playAudio.reset
 
     useEffect(() => {
-        console.log(isReset);
         if (isReset) {
-            console.log("in reset");
-            setPlayLength(pre=> pre = 0)
+            setPlayLength(0)
             setCurrentTime(
                 pre => ({ ...pre, minutes: 0, seconds: 0 })
             )
             audioRef.current.currentTime = 0
         }
-    }, [isReset])
+    }, [selectAlbum])
     // Handle Play Audio
 
     // Handle Prev Track

@@ -60,16 +60,16 @@ export const getAlbumById = (data) => {
     }
 }
 
-export const controllCurrentAudio = (data) => {
-    return {
-        type: actionType.CONTROLL_CURRENT_ALBUM,
-        payload: data
-    }
-}
-
 export const setPlayStat = (data) => {
     return {
         type: actionType.SET_PLAY_STAT,
         payload: data
     }
 } 
+
+export const setResetStat = (data) => {
+    return {
+        type: actionType.SET_RESET_STAT,
+        payload: data
+    }
+}

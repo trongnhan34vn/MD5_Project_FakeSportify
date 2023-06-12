@@ -19,6 +19,7 @@ public class  Artist {
     private String name;
     @Lob
     private String image;
+    @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
     @OneToMany(mappedBy ="artist")
     @JsonIgnoreProperties({"artist"})

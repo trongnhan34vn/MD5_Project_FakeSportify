@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as actions from '../../redux/actions';
 import { currentUserSelector, getMessageSelector } from '../../redux/selector';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie'
 
 export default function Login() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(["token"])
 
     const message = useSelector(getMessageSelector);
     const currentUser = useSelector(currentUserSelector);
@@ -90,6 +92,10 @@ export default function Login() {
         }
     }
 
+    const handleCookie = () => {
+        setCookie("token", currentUser.token, { path: "/", maxAge: 24 * 60 * 60 })
+    }
+
     useEffect(() => {
         if (currentUser != null) {
             if (currentUser.token !== "") {
@@ -100,12 +106,13 @@ export default function Login() {
                 setTimeout(() => {
                     navigate("/")
                 }, 5000)
+                handleCookie()
             }
         }
-        if (message.trim() != "") {
+        if (message.trim() != "" && message.trim() !== "Register Success!") {
             setToggleToast(true);
             // không thể đăng kí
-            console.log("thất bại");
+            console.log(message);
             setErrorLogin("Sign In Failed! Try Again!")
             closeToast()
         }
@@ -116,6 +123,8 @@ export default function Login() {
             setToggleToast(false);
         }, 5000)
     }
+
+
     return (
         <div>
             {/* Login */}

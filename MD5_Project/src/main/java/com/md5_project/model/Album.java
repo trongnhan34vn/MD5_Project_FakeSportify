@@ -17,8 +17,7 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Lob
-    private String cover;
+    @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
     @OneToMany(mappedBy = "album", targetEntity = Audio.class)
     @JsonIgnoreProperties({"album"})

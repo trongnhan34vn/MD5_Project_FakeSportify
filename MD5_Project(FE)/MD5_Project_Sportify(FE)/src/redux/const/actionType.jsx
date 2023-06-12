@@ -10,6 +10,6 @@ export const FIND_ALL_ALBUMS = 'FIND_ALL_ALBUMS';
 export const GET_ALL_ALBUMS = 'GET_ALL_ALBUMS';
 export const FIND_ALBUM_BY_ID = 'FIND_ALBUM_BY_ID';
 export const GET_ALBUM_BY_ID = 'GET_ALBUM_BY_ID';
-export const CONTROLL_CURRENT_ALBUM = 'CONTROLL_CURRENT_ALBUM';
 export const SET_PLAY_STAT = 'SET_PLAY_STAT';
+export const SET_RESET_STAT = 'SET_RESET_STAT';
 

@@ -44,5 +44,7 @@ public class Audio {
     @JsonIgnoreProperties({"audios"})
     private Set<Category> category;
     private int playCount;
+
+    @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
 }
