@@ -20,10 +20,8 @@ const AuthenSuccess = () => {
     }, [selectAlbum])
 
     useEffect(() => {
-        console.log(selectAlbum.isPlay);
         setIsPlay(selectAlbum.isPlay)
-        console.log(isPlay);
-    }, [selectAlbum.isPlay, isPlay])
+    }, [selectAlbum.isPlay])
 
     useEffect(() => {
         setIsReset(selectAlbum.isReset)
@@ -141,7 +139,7 @@ const AuthenSuccess = () => {
 
     const handlePlay = () => {
         setIsPlay(pre => !pre)
-        dispatch(actions.setPlayStat(selectAlbum.isPlay))
+        dispatch(actions.setPlayStat(!selectAlbum.isPlay))
         // dispatch(actPlayAudio())
         // console.log("Footer -----> ", controllAlbums);
     }

@@ -13,3 +13,7 @@ export const GET_ALBUM_BY_ID = 'GET_ALBUM_BY_ID';
 export const SET_PLAY_STAT = 'SET_PLAY_STAT';
 export const SET_RESET_STAT = 'SET_RESET_STAT';
 
+// CATEGORY 
+export const FIND_ALL_CATEGOTY = 'FIND_ALL_CATEGORY';
+export const GET_ALL_CATEGORY = 'GET_ALL_CATEGORY';
+

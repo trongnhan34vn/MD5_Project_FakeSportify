@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/artist")
 public class ArtistController {
@@ -51,5 +53,14 @@ public class ArtistController {
             e.printStackTrace();
             return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> search(@PathVariable String search) {
+        List<Artist> artistList = artistService.searchArtistByName(search);
+        if (artistList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(artistList, HttpStatus.OK);
     }
 }

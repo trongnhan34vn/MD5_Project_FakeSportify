@@ -1,12 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AuthenSuccess = () => {
-    
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
+
+    // const searchInput = (location.pathname === "/search") ? 
 
     // Hiệu ứng navbar
     const [menuToggle, setMenuToggle] = useState(false)
@@ -52,7 +55,7 @@ const AuthenSuccess = () => {
                     <i className="ti-angle-right text-[#fff] font-bold" />
                 </button>
             </div> */}
-            <nav className={`fixed z-[60] right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] ${stickyClass}`}>
+            <nav className={`fixed z-[60] right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
                 <div className='nav-direction-page flex items-center gap-4 z-[60]'>
                     <button onClick={() => navigate(-1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-left text-[#fff] font-bold" />
@@ -60,6 +63,10 @@ const AuthenSuccess = () => {
                     <button onClick={() => navigate(1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-right text-[#fff] font-bold" />
                     </button>
+                    <div className='bg-[#242424] px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
+                        <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
+                        <input placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none'/>
+                    </div>
                 </div>
                 <div className='nav-list flex items-center gap-4 z-[70]'>
                     <ul className='text-[#fff] flex gap-4 relative font-CircularBook'>

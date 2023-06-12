@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
@@ -50,5 +52,15 @@ public class AlbumController {
             e.printStackTrace();
             return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> searchByName (@PathVariable String search) {
+        List<Album> listSearch = albumService.searchAlbumByName(search);
+        if (listSearch.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listSearch, HttpStatus.OK);
     }
 }

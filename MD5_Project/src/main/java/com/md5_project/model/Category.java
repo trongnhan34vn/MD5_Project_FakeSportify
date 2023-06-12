@@ -20,6 +20,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Lob
+    private String img;
     @ManyToMany
     @JoinTable(name = "category_audio",
     joinColumns = @JoinColumn(name = "category_id"),

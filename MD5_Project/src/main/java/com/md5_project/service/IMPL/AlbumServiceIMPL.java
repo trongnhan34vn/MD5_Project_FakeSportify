@@ -6,6 +6,7 @@ import com.md5_project.service.IAlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class AlbumServiceIMPL implements IAlbumService {
@@ -29,5 +30,10 @@ public class AlbumServiceIMPL implements IAlbumService {
     @Override
     public void remove(Long id) {
         albumRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Album> searchAlbumByName(String search) {
+        return albumRepository.searchAlbumByName(search);
     }
 }

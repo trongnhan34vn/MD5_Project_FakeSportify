@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/audio")
 public class AudioController {
@@ -52,5 +54,14 @@ public class AudioController {
             e.printStackTrace();
             return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> search(@PathVariable String search) {
+        List<Audio> audioList = audioService.searchAudioByName(search);
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
     }
 }

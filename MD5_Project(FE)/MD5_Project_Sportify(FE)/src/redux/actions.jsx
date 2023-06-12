@@ -73,3 +73,17 @@ export const setResetStat = (data) => {
         payload: data
     }
 }
+
+// CATEGORY
+export const findAllCategory = () => {
+    return {
+        type: actionType.FIND_ALL_CATEGOTY
+    }
+}
+
+export const getAllCategory = (data) => {
+    return {
+        type: actionType.GET_ALL_CATEGORY,
+        payload: data
+    }
+}

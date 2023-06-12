@@ -165,7 +165,6 @@ const AuthenSuccess = () => {
                 </div>
                 {/* Content */}
                 {/* Footer */}
-                <Footer />
                 {/* Footer */}
             </div>
             {/* Home Page - Log in*/}

@@ -6,6 +6,7 @@ import com.md5_project.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ArtistServiceIMPL implements IArtistService {
@@ -29,5 +30,10 @@ public class ArtistServiceIMPL implements IArtistService {
     @Override
     public void remove(Long id) {
         artistRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Artist> searchArtistByName(String name) {
+        return artistRepository.searchArtistByName(name);
     }
 }
