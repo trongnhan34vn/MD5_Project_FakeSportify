@@ -6,13 +6,19 @@ import Footer from '../../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { albumSelector, selectAlbumSelector } from '../../../redux/selector';
 import * as actions from '../../../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
 
 const AuthenSuccess = () => {
     const dispatch = useDispatch()
     const listAlbums = useSelector(albumSelector);
     const currentAlbum = useSelector(selectAlbumSelector);
+    const navigate = useNavigate();
 
+    const handlePlaylist = (id) => {
+        navigate('/playlist');
+        dispatch(actions.findAlbumById(id))
+    }
 
     useEffect(() => {
         dispatch(actions.findAllAlbums())
@@ -35,7 +41,7 @@ const AuthenSuccess = () => {
             <button onClick={() => handleSelectAlbums(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
                 {(currentAlbum.isPlay && currentAlbum.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem }
             </button>
-            <button className='block w-full album-wrap p-4'>
+            <button onClick={() => handlePlaylist(element.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
                     <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
                 </div>
@@ -59,7 +65,7 @@ const AuthenSuccess = () => {
                 {/* Content */}
                 <div className='content w-full'>
                     {/* List Playlists - Log Out */}
-                    <div className='list-playlists pt-[64px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
+                    <div className='list-playlists pt-[90px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
                         {/* Playlists - Your Playlist */}
                         <div className='list-playlists-item px-8 mb-4'>
                             {/* Playlist Title */}

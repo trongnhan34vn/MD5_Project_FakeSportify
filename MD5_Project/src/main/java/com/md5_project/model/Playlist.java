@@ -26,4 +26,8 @@ public class Playlist {
 
     @Column(columnDefinition = "BIT DEFAULT FALSE")
     private boolean status;
+
+    @ManyToOne
+    @JsonIgnoreProperties("playlists")
+    private User user;
 }

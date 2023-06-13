@@ -1,6 +1,7 @@
 package com.md5_project.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,24 +27,30 @@ public class User {
     private Long id;
     @NotBlank
     private String fullName;
+
     @Email
     @NotBlank
     @Column(unique = true)
     private String email;
+
     @Lob
     private String image;
+
     @Size(min = 6)
     @JsonIgnore
     @NotBlank
     private String password;
+
     private boolean gender;
 
     private LocalDate birthDate;
+
     @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
     @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name = "favorites",
     joinColumns = @JoinColumn(name = "user_id"),
@@ -51,5 +59,9 @@ public class User {
 
     @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
+
+    @OneToMany
+    @JsonIgnoreProperties("user")
+    private List<Playlist> playlists;
 
 }

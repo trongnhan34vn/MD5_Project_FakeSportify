@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import * as actions from '../../../redux/actions';
 import { stateOnSearchSelector } from '../../../redux/selector';
 
@@ -9,7 +9,9 @@ const AuthenSuccess = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const stateOnSearch = useSelector(stateOnSearchSelector)
-    
+    const location = useLocation();
+    const path = location.pathname;
+
     const handleChange = (e) => {
         let value = e.target.value;
         let key = e.target.name;
@@ -19,6 +21,45 @@ const AuthenSuccess = () => {
         dispatch(actions.checkOnSearch(value))
         // 3 dispatch request search audios, album, artist
     }
+
+    const elementFilterSearch = (stateOnSearch.searchVal != '') ? <div className='flex'>
+        <NavLink className='px-3 bg-[#fff] rounded-[500px]'>
+            <button className='text-[#000] font-CircularBook text-[14px]'>All</button>
+        </NavLink>
+        <div className='px-3'>
+            <button className='text-[#fff] font-CircularBook text-[14px]'>Songs</button>
+        </div>
+        <div className='px-3'>
+            <button className='text-[#fff] font-CircularBook text-[14px]'>Artist</button>
+        </div>
+        <div className='px-3'>
+            <button className='text-[#fff] font-CircularBook text-[14px]'>Albums</button>
+        </div>
+    </div> : <></>;
+
+    const elementSearchBar = path === '/search' ? <div className='flex justify-center flex-col'>
+        <div className='bg-[#242424] mb-2 px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
+            <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
+            <input value={stateOnSearch.searchVal} onChange={handleChange} name='search' placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none' />
+        </div>
+        {/* <div className='flex'>
+            <NavLink className='px-3 bg-[#fff] rounded-[500px]'>
+                <button className='text-[#000] font-CircularBook text-[14px]'>All</button>
+            </NavLink>
+            <div className='px-3'>
+                <button className='text-[#fff] font-CircularBook text-[14px]'>Songs</button>
+            </div>
+            <div className='px-3'>
+                <button className='text-[#fff] font-CircularBook text-[14px]'>Artist</button>
+            </div>
+            <div className='px-3'>
+                <button className='text-[#fff] font-CircularBook text-[14px]'>Albums</button>
+            </div>
+        </div> */}
+        {elementFilterSearch}
+
+    </div> : <></>;
+
 
     // const searchInput = (location.pathname === "/search") ? 
 
@@ -66,18 +107,15 @@ const AuthenSuccess = () => {
                     <i className="ti-angle-right text-[#fff] font-bold" />
                 </button>
             </div> */}
-            <nav className={`fixed z-[60] right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
-                <div className='nav-direction-page flex items-center gap-4 z-[60]'>
+            <nav className={`fixed z-[60] ${(path === '/search' && stateOnSearch.searchVal != '') ? 'p-12' : ''} right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
+                <div className='nav-direction-page  flex items-center gap-4 z-[60]'>
                     <button onClick={() => navigate(-1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-left text-[#fff] font-bold" />
                     </button>
                     <button onClick={() => navigate(1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-right text-[#fff] font-bold" />
                     </button>
-                    <div className='bg-[#242424] px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
-                        <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
-                        <input value={stateOnSearch.searchVal} onChange={handleChange} name='search' placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none' />
-                    </div>
+                    {elementSearchBar}
                 </div>
                 <div className='nav-list flex items-center gap-4 z-[70]'>
                     <ul className='text-[#fff] flex gap-4 relative font-CircularBook'>

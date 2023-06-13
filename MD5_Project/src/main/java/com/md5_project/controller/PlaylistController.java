@@ -57,4 +57,9 @@ public class PlaylistController {
             return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @PutMapping("/insert-song/{songId}")
+    public ResponseEntity<?> insertSong(@PathVariable Long songId) {
+        return ResponseEntity.ok("a");
+    }
 }

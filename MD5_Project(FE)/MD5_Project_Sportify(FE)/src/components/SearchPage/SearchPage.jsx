@@ -9,28 +9,24 @@ import OnSearch from './items/OnSearch';
 
 const SearchPage = () => {
     const stateOnSearch = useSelector(stateOnSearchSelector)
-    
+
     const elementSearchPage = (stateOnSearch.searchVal !== '') ? <OnSearch /> : <NonSearch />
 
     return (
-        <div>
-            {/* Home Page - Log in*/}
-            <div className='relative home-page mb-[66px] w-full flex'>
-                {/* Direction Menu */}
-                <DirectMenu />
-                {/* Direction Menu */}
-                {/* Nav */}
-                <Navbar />
-                {/* Nav */}
-                {/* Content */}
-                {/* {elementSearchPage} */}
-                <OnSearch />
-                {/* Content */}
-                {/* Footer */}
-                {/* Footer */}
-            </div>
-            {/* Home Page - Log in*/}
+        <div className='relative home-page mb-[66px] w-full flex'>
+            {/* Direction Menu */}
+            <DirectMenu />
+            {/* Direction Menu */}
+            {/* Nav */}
+            <Navbar />
+            {/* Nav */}
+            {/* Content */}
+            {elementSearchPage}
+            {/* Content */}
+            {/* Footer */}
+            {/* Footer */}
         </div>
+
     );
 }
 

@@ -8,6 +8,7 @@ import Login from './components/Register_Login/Login'
 import Home from './components/Home/Home'
 import Footer from './components/Footer/Footer'
 import SearchPage from './components/SearchPage/SearchPage'
+import Playlist from './components/Playlist/Playlist'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/playlist" element={<Playlist />} />
       </Routes>
       <Footer />
     </>
