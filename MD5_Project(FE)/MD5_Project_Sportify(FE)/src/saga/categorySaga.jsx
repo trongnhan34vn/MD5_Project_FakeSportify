@@ -7,8 +7,7 @@ export const getAllCategory = function* () {
     try {
         let categories = yield call(categoryService.GET_ALL_CATEGORY)
         yield put(actions.getAllCategory(categories))
-        console.log(categories);
     } catch (error) {
-        console.log(error);
+
     }
 }

@@ -4,23 +4,26 @@ const initState = {
     list: [],
     select: null,
     isPlay: false,
-    isReset: false
+    isReset: false,
+    search: []
 };
 
 const albumSlice = (state = initState, action) => {
     switch (action.type) {
         case actionType.GET_ALL_ALBUMS:
-            return {...state, list: action.payload};
+            return { ...state, list: action.payload };
         case actionType.GET_ALBUM_BY_ID:
-            return {...state, select: action.payload};
+            return { ...state, select: action.payload };
         case actionType.SET_PLAY_STAT:
-            return {...state, isPlay: action.payload};
+            return { ...state, isPlay: action.payload };
         case actionType.SET_RESET_STAT:
-            return {...state, isReset: action.payload};
+            return { ...state, isReset: action.payload };
+        case actionType.GET_ALBUM_BY_NAME:
+            return { ...state, search: action.payload };
         default:
             return state
     }
-  
+
 }
 
 export default albumSlice;

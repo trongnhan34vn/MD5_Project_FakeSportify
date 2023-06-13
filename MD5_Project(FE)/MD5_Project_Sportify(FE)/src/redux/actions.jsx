@@ -1,6 +1,12 @@
 import * as actionType from "./const/actionType"
 
-
+// CHECK ON SEARCH
+export const checkOnSearch = (data) => {
+    return {
+        type: actionType.CHECK_ON_SEARCH,
+        payload: data
+    }
+}
 
 
 // USER
@@ -74,6 +80,20 @@ export const setResetStat = (data) => {
     }
 }
 
+export const searchAlbumByName = (data) => { 
+    return {
+        type: actionType.SEARCH_ALBUM_BY_NAME,
+        payload: data
+    }
+}
+
+export const getAlbumByName = (data) => {
+    return {
+        type: actionType.GET_ALBUM_BY_NAME,
+        payload: data
+    }
+}
+
 // CATEGORY
 export const findAllCategory = () => {
     return {
@@ -87,3 +107,34 @@ export const getAllCategory = (data) => {
         payload: data
     }
 }
+
+// AUDIO
+export const searchAudioByName = (data) => {
+    return {
+        type: actionType.SEARCH_AUDIO_BY_NAME,
+        payload: data
+    }
+}
+
+export const getAudioByName = (data) => {
+    return {
+        type: actionType.GET_AUDIO_BY_NAME,
+        payload: data
+    }
+}
+
+// ARTIST
+export const searchArtistByName = (data) => {
+    return {
+        type: actionType.SEARCH_ARTIST_BY_NAME,
+        payload: data
+    }
+}
+
+export const getSearchArtistByName = (data) => {
+    return {
+        type: actionType.GET_SEARCH_ARTIST_BY_NAME,
+        payload: data
+    }
+}
+

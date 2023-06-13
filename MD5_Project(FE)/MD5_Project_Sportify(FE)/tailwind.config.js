@@ -14,7 +14,20 @@ export default {
         'CircularBlack': ["Circular Sp Vit Bold Web", 'sans-serif'],
       },
       colors: {
-        'primaryColor': '#1ed760'
+        'primaryColor': '#1ed760',
+        'tahiti': {
+          100: '#e01d26',
+          200: '#e45527',
+          300: '#c13e30',
+          400: '#43102e',
+          500: '#860607',
+          600: '#eb9eeb',
+          700: '#79ab7d',
+          800: '#7360d0',
+          900: '#695189',
+          1000: '#fef08a',
+          1100: '#6429ae'
+        },
       },
       screens: {
         xl: { max: "1300px" },
@@ -24,6 +37,6 @@ export default {
       important: true,
     },
   },
-plugins: [],
+  plugins: [],
 }
 

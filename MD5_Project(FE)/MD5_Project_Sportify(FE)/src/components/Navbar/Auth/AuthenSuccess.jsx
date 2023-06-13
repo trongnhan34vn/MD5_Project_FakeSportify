@@ -1,13 +1,24 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import * as actions from '../../../redux/actions';
+import { stateOnSearchSelector } from '../../../redux/selector';
 
 const AuthenSuccess = () => {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const location = useLocation();
+    const stateOnSearch = useSelector(stateOnSearchSelector)
+    
+    const handleChange = (e) => {
+        let value = e.target.value;
+        let key = e.target.name;
+        dispatch(actions.searchAudioByName(value));
+        dispatch(actions.searchAlbumByName(value));
+        dispatch(actions.searchArtistByName(value));
+        dispatch(actions.checkOnSearch(value))
+        // 3 dispatch request search audios, album, artist
+    }
 
     // const searchInput = (location.pathname === "/search") ? 
 
@@ -65,7 +76,7 @@ const AuthenSuccess = () => {
                     </button>
                     <div className='bg-[#242424] px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
                         <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
-                        <input placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none'/>
+                        <input value={stateOnSearch.searchVal} onChange={handleChange} name='search' placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none' />
                     </div>
                 </div>
                 <div className='nav-list flex items-center gap-4 z-[70]'>
