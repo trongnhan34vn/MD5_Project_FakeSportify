@@ -1,13 +1,19 @@
 package com.md5_project.controller;
 
 import com.md5_project.dto.response.ResponseMessage;
+import com.md5_project.model.Artist;
+import com.md5_project.model.Audio;
 import com.md5_project.model.Playlist;
+import com.md5_project.service.IArtistService;
+import com.md5_project.service.IAudioService;
 import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,6 +21,10 @@ import java.util.Optional;
 public class PlaylistController {
     @Autowired
     IPlaylistService playlistService;
+    @Autowired
+    IArtistService artistService;
+    @Autowired
+    IAudioService audioService;
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(playlistService.findAll());

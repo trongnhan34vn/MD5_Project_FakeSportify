@@ -6,7 +6,7 @@ import { albumSlice } from '../../../../redux/selector'
 export default function AlbumSearch() {
   const albumSearch = useSelector(albumSlice)
   const elementSearchAlbum = albumSearch.search.map((item) => {
-    return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+    return <div key={item.id} className='group relative  album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
         <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
             {iconPause_TrackItem}
         </button>
@@ -23,7 +23,7 @@ export default function AlbumSearch() {
   return (
     <div className='content w-full'>
       {/* List Playlists - Log Out */}
-      <div className='list-playlists pt-[120px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
+      <div className='list-playlists pt-[120px] h-screen ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
         {/* Playlists - Your Playlist */}
         <div className='list-playlists-item px-8 mb-4'>
           {/* Playlist Title */}

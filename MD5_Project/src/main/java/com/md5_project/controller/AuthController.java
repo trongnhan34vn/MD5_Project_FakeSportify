@@ -49,7 +49,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
-        if(userService.existsByEmail(signUpForm.getEmail())) {
+        if (userService.existsByEmail(signUpForm.getEmail())) {
             return ResponseEntity.badRequest().body(new ResponseMessage("Email is already exist!"));
         }
         User user = new User();
@@ -59,22 +59,22 @@ public class AuthController {
         user.setBirthDate(signUpForm.getBirthDate());
         user.setFullName(signUpForm.getFullName());
         user.setStatus(true);
-        Set<String> strRole =  signUpForm.getRoles();
+        Set<String> strRole = signUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         if (strRole == null) {
-            Role role = roleService.findByName(RoleName.USER).orElseThrow(()-> new RuntimeException("Role Not Found!"));
+            Role role = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role Not Found!"));
             roles.add(role);
         } else {
             strRole.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(()-> new RuntimeException("Role Not Found!"));
+                        Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow(() -> new RuntimeException("Role Not Found!"));
                         roles.add(adminRole);
                     case "pm":
-                        Role pmRole = roleService.findByName(RoleName.PM).orElseThrow(()-> new RuntimeException("Role Not Found!"));
+                        Role pmRole = roleService.findByName(RoleName.PM).orElseThrow(() -> new RuntimeException("Role Not Found!"));
                         roles.add(pmRole);
                     case "user":
-                        Role userRole = roleService.findByName(RoleName.USER).orElseThrow(()-> new RuntimeException("Role Not Found!"));
+                        Role userRole = roleService.findByName(RoleName.USER).orElseThrow(() -> new RuntimeException("Role Not Found!"));
                         roles.add(userRole);
                 }
             });
@@ -94,7 +94,7 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateJwtToken(authentication);
             UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
-            JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getFullName(), userDetails.getUsername(), userDetails.getAuthorities());
+            JwtResponse jwtResponse = new JwtResponse(userDetails.getId(), jwt, userDetails.getFullName(), userDetails.getUsername(), userDetails.getAuthorities());
 
             Cookie cookie = new Cookie("jwtToken", jwt);
             cookie.setMaxAge(24 * 60 * 60); // expires in 1 day
@@ -106,7 +106,6 @@ public class AuthController {
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(new ResponseMessage("Invalid username or password!"), HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 }
 

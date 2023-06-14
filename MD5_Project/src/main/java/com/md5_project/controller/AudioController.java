@@ -1,7 +1,9 @@
 package com.md5_project.controller;
 
 import com.md5_project.dto.response.ResponseMessage;
+import com.md5_project.model.Artist;
 import com.md5_project.model.Audio;
+import com.md5_project.service.IArtistService;
 import com.md5_project.service.IAudioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,8 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +22,9 @@ import java.util.List;
 public class AudioController {
     @Autowired
     IAudioService audioService;
+
+    @Autowired
+    IArtistService artistService;
 
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
@@ -78,5 +85,14 @@ public class AudioController {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(audioList, HttpStatus.OK) ;
+    }
+
+    @GetMapping("/find-audio-by-category-and-artist")
+    public ResponseEntity<?> findAudioByCategoryAndArtist(@RequestParam Long categoryId, @RequestParam Long artistId) {
+        List<Audio> audioList = audioService.findAudioByCategoryAndArtist(categoryId,artistId);
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
     }
 }

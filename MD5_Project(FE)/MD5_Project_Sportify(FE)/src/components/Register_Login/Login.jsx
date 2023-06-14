@@ -12,7 +12,7 @@ export default function Login() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(["token"])
+    const [cookies, setCookie] = useCookies(["token", "user"])
 
     const message = useSelector(getMessageSelector);
     const currentUser = useSelector(currentUserSelector);
@@ -94,6 +94,7 @@ export default function Login() {
 
     const handleCookie = () => {
         setCookie("token", currentUser.token, { path: "/", maxAge: 24 * 60 * 60 })
+        setCookie("user", currentUser.fullName, { path: "/", maxAge: 24 * 60 * 60})
     }
 
     useEffect(() => {

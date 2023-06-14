@@ -36,7 +36,7 @@ export default function SongSearch() {
     return (
         <div className='content w-full'>
             {/* List Playlists - Log Out */}
-            <div className='list-playlists pt-[120px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
+            <div className='list-playlists pt-[120px] ml-[241px] h-screen flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
                 {/* Playlists - Your Playlist */}
                 <div className='list-playlists-item px-8 mb-4'>
                     {/* Playlist Title */}
@@ -49,7 +49,7 @@ export default function SongSearch() {
                     <div className='list-playlists-item list-albums'>
                         {/* Songs */}
                         <table border={'1'} className='w-full'>
-                            <thead className='font-CircularBook text-[14px] text-[#fff]'>
+                            <thead className='font-CircularBook text-[18px] text-[#fff]'>
                                 <tr>
                                     <td>#</td>
                                     <td></td>

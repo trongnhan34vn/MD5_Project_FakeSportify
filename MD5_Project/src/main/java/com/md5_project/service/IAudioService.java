@@ -9,4 +9,5 @@ import java.util.List;
 public interface IAudioService extends IGenericService<Audio> {
     List<Audio> searchAudioByName(String search);
     Page<Audio> searchAudioByName(String search, Pageable pageable);
+    List<Audio> findAudioByCategoryAndArtist(Long categoryId, Long artistId);
 }

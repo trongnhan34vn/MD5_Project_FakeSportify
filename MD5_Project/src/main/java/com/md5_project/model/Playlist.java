@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,9 +21,6 @@ public class Playlist {
     private String name;
     @Lob
     private String image;
-    @OneToMany(mappedBy = "playlist", targetEntity = Audio.class)
-    @JsonIgnoreProperties({"playlist"})
-    private Set<Audio> audios;
 
     @Column(columnDefinition = "BIT DEFAULT FALSE")
     private boolean status;
@@ -30,4 +28,10 @@ public class Playlist {
     @ManyToOne
     @JsonIgnoreProperties("playlists")
     private User user;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "playlist_audio",
+            joinColumns = @JoinColumn(name = "playlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "audio_id"))
+    private Set<Audio> audios;
 }

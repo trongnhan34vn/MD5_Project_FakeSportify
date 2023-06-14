@@ -40,17 +40,17 @@ const AuthenSuccess = () => {
     }, [location.pathname])
 
     const elementFilterSearch = (stateOnSearch.searchVal != '') ? <div className='flex'>
-        <NavLink to={"/search"} className={`${activeTab === "All" && "bg-[#fff] rounded-[500px]"}`}>
-            <button className='text-[#000] px-3 font-CircularBook text-[14px]'>All</button>
+        <NavLink to={"/search"} className={`${activeTab === "All" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
+            <button className={`${activeTab==="All"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>All</button>
         </NavLink>
-        <NavLink to={"/search/songs"} className={`${activeTab === "Songs" && "bg-[#fff] rounded-[500px]"}`}>
-            <button className='text-[#fff] px-3 font-CircularBook text-[14px]'>Songs</button>
+        <NavLink to={"/search/songs"} className={`${activeTab === "Songs" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
+            <button className={`${activeTab==="Songs"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Songs</button>
         </NavLink>
-        <NavLink to={"/search/artist"} className={`${activeTab === "Artist" && "bg-[#fff] rounded-[500px]"}`}>
-            <button className='text-[#fff] px-3 font-CircularBook text-[14px]'>Artist</button>
+        <NavLink to={"/search/artist"} className={`${activeTab === "Artist" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
+            <button className={`${activeTab==="Artist"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Artist</button>
         </NavLink>
-        <NavLink to={"/search/albums"} className={`${activeTab === "Albums" && "bg-[#fff] rounded-[500px]"}`}>
-            <button className='text-[#fff] px-3 font-CircularBook text-[14px]'>Albums</button>
+        <NavLink to={"/search/albums"} className={`${activeTab === "Albums" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
+            <button className={`${activeTab==="Albums"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Albums</button>
         </NavLink>
     </div> : <></>;
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,11 +31,6 @@ public class Audio {
     @JoinColumn(name = "audio_album")
     @JsonIgnoreProperties({"audios"})
     private Album album;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "audio_playlist")
-    @JsonIgnoreProperties({"audios"})
-    private Playlist playlist;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "category_audio",

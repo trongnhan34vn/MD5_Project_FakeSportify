@@ -1,0 +1,11 @@
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (1, null, 'EDM');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (2, null, 'Acoustic');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (3, null, 'Pop');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (4, null, 'Chill');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (5, null, 'Indie');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (6, null, 'Funk & Disco');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (7, null, 'Hip Hop');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (8, null, 'R&B');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (9, null, 'K-pop');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (10, null, 'Love');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (11, null, 'Country');

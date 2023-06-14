@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const AuthenSuccess = () => {
     const dispatch = useDispatch()
     const listAlbums = useSelector(albumSelector);
-    const currentAlbum = useSelector(selectAlbumSelector);
+    const currentAlbums = useSelector(selectAlbumSelector);
     const navigate = useNavigate();
 
     const handlePlaylist = (id) => {
@@ -25,21 +25,21 @@ const AuthenSuccess = () => {
     }, [])
 
     const handleSelectAlbums = (id) => {
-        if (!(currentAlbum.select.id === id)) {
+        if (!(currentAlbums.select.id === id)) {
             dispatch(actions.findAlbumById(id))
             dispatch(actions.setPlayStat(true))
             dispatch(actions.setResetStat(true))
             setTimeout(() => dispatch(actions.setResetStat(false)), 150)
         
         } else {
-            dispatch(actions.setPlayStat(!currentAlbum.isPlay))
+            dispatch(actions.setPlayStat(!currentAlbums.isPlay))
         }
     }
 
     const elementAlbum = listAlbums.map(element => {
         return <div key={element.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button onClick={() => handleSelectAlbums(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
-                {(currentAlbum.isPlay && currentAlbum.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem }
+                {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem }
             </button>
             <button onClick={() => handlePlaylist(element.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
