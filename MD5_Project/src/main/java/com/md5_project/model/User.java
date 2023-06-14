@@ -60,7 +60,7 @@ public class User {
     @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private List<Playlist> playlists;
 

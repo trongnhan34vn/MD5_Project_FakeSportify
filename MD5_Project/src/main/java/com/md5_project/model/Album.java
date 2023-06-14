@@ -2,6 +2,7 @@ package com.md5_project.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,6 +24,6 @@ public class Album {
     @OneToMany(mappedBy = "album", targetEntity = Audio.class)
     @JsonIgnoreProperties({"album"})
     private Set<Audio> audios;
-    @Column(columnDefinition = "DATE DEFAULT NOW()")
+    @CreationTimestamp
     private LocalDate dateAdded;
 }

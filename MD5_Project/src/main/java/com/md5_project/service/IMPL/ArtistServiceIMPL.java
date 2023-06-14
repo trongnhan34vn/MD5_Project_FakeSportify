@@ -4,6 +4,8 @@ import com.md5_project.model.Artist;
 import com.md5_project.repository.IArtistRepository;
 import com.md5_project.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,4 +38,11 @@ public class ArtistServiceIMPL implements IArtistService {
     public List<Artist> searchArtistByName(String name) {
         return artistRepository.searchArtistByName(name);
     }
+
+    @Override
+    public Page<Artist> searchArtistByName(String name, Pageable pageable) {
+        return artistRepository.findArtistByNameContainingIgnoreCase(name, pageable);
+    }
+
+
 }

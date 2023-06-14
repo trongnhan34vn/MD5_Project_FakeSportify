@@ -32,7 +32,7 @@ export default function NonSearch() {
             {/* Content */}
             <div className='content w-full'>
                 {/* List Playlists - Log Out */}
-                <div className='list-playlists w-full pt-[100px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
+                <div className='list-playlists pt-[100px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
                     {/* Playlists - Your Playlist */}
                     <div className='list-playlists-item px-8 mb-4'>
                         {/* Playlist Title */}

@@ -4,6 +4,9 @@ import com.md5_project.dto.response.ResponseMessage;
 import com.md5_project.model.Audio;
 import com.md5_project.service.IAudioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import java.util.List;
 public class AudioController {
     @Autowired
     IAudioService audioService;
+
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
 
@@ -52,7 +56,7 @@ public class AudioController {
             return new ResponseEntity<>(new ResponseMessage("Remove Success!"), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(new ResponseMessage("Remove Failed!"), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -63,5 +67,16 @@ public class AudioController {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(audioList, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchPaging")
+    public ResponseEntity<?> searchPagingByName(@RequestParam String search, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), 4);
+        Page<Audio> page = audioService.searchAudioByName(search, pageable);
+        List<Audio> audioList = page.getContent();
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
 }

@@ -1,13 +1,17 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, matchPath, NavLink, useLocation } from 'react-router-dom';
 
 const DirectMenu = () => {
+    const location = useLocation();
+
+    const isSearch = location.pathname.match("/search/*");
+    
     return (
         <div>
             {/* Direction Menu */}
             <div id='direction-menu' className='h-auto pt-6 w-[241px] bg-[#000] fixed z-10 bottom-0 top-0'>
                 {/* Logo */}
-                <NavLink to={"/"} className=' direction-menu-logo block mb-7 px-6'>
+                <NavLink to={"/"} className=' direction-menu-logo block mb-7 px-6'>       
                     <svg
                         role="img"
                         viewBox="0 0 78 24"
@@ -21,9 +25,7 @@ const DirectMenu = () => {
                 {/* Logo */}
                 {/* Menu Items */}
                 <ul className='dircet-menu-list text-[#fff] mb-7 px-2'>
-                    <NavLink style={({isActive}) => ({
-                        opacity: isActive ? 1 : 0.75
-                    })} to={'/'} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <NavLink to={'/'} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <svg
                             role="img"
                             height="24"
@@ -35,9 +37,7 @@ const DirectMenu = () => {
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Trang chủ</span>
                     </NavLink>
-                    <NavLink style={({isActive}) => ({
-                        opacity: isActive ? 1 : 0.75
-                    })} to={"/search"} className='px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <NavLink to={"/search"} className='px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <svg
                             role="img"
                             height="24"
@@ -46,13 +46,12 @@ const DirectMenu = () => {
                             aria-hidden="true"
                             className="Svg-sc-ytk21e-0 uPxdw search-icon"
                             viewBox="0 0 24 24" data-encore-id="icon">
+                            {isSearch ? <path d="M15.356 10.558c0 2.623-2.16 4.75-4.823 4.75-2.664 0-4.824-2.127-4.824-4.75s2.16-4.75 4.824-4.75c2.664 0 4.823 2.127 4.823 4.75z"></path> : <></>}
                             <path d="M10.533 1.279c-5.18 0-9.407 4.14-9.407 9.279s4.226 9.279 9.407 9.279c2.234 0 4.29-.77 5.907-2.058l4.353 4.353a1 1 0 1 0 1.414-1.414l-4.344-4.344a9.157 9.157 0 0 0 2.077-5.816c0-5.14-4.226-9.28-9.407-9.28zm-7.407 9.279c0-4.006 3.302-7.28 7.407-7.28s7.407 3.274 7.407 7.28-3.302 7.279-7.407 7.279-7.407-3.273-7.407-7.28z"></path>
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Tìm kiếm</span>
                     </NavLink>
-                    <NavLink style={({isActive}) => ({
-                        opacity: isActive ? 1 : 0.75
-                    })} to={"/cba"} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <NavLink to={"/cba"} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <svg
                             role="img"
                             height="24"

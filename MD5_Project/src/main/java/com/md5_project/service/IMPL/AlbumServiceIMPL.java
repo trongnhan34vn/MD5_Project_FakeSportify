@@ -4,6 +4,8 @@ import com.md5_project.model.Album;
 import com.md5_project.repository.IAlbumRepository;
 import com.md5_project.service.IAlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +37,10 @@ public class AlbumServiceIMPL implements IAlbumService {
     @Override
     public List<Album> searchAlbumByName(String search) {
         return albumRepository.searchAlbumByName(search);
+    }
+
+    @Override
+    public Page<Album> searchAlbumByName(String search, Pageable pageable) {
+        return albumRepository.findAlbumByNameContainingIgnoreCase(search, pageable);
     }
 }

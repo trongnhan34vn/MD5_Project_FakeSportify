@@ -24,7 +24,6 @@ public class Audio {
     private Artist artist;
 
     @Lob
-
     private String path;
 
     @ManyToOne(fetch = FetchType.EAGER)

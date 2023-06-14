@@ -22,6 +22,7 @@ export const findAlbumById = function* (action) {
 
 export const searchAlbumByName = function* (action) {
     try {
+        console.log("in")
         let albums = yield call(albumService.SEARCH_ALBUM_BY_NAME, action.payload)
         yield put(actions.getAlbumByName(albums))
     } catch (error) {

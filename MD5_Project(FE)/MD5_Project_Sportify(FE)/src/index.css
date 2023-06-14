@@ -103,3 +103,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   } */
 }
+
+.active {
+  opacity: 1;
+}
+
+.active svg {
+  fill: #ffffff;
+}
+
+.isActive {
+  background-color: #fff;
+}

@@ -12,6 +12,6 @@ export const FIND_ALBUM_BY_ID = async (id) => {
 }
 
 export const SEARCH_ALBUM_BY_NAME = async (search) => {
-    let response = await instance.get(`/album/search/${search}`)
+    let response = await instance.get(`/album/searchPaging?search=${search}`)
     return response.data;
 }

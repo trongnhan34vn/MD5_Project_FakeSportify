@@ -6,7 +6,8 @@ import * as actions from "../redux/actions";
 export const searchAudioByName = function* (action) {
     try {
         let audios = yield call(audioService.SEARCH_AUDIO_BY_NAME, action.payload)
-        put(actions.getAudioByName(audios))
+        console.log(audios);
+        yield put(actions.getAudioByName(audios))
     } catch (error) {
         
     }

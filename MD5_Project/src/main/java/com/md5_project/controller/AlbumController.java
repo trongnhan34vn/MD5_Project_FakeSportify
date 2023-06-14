@@ -2,8 +2,12 @@ package com.md5_project.controller;
 
 import com.md5_project.dto.response.ResponseMessage;
 import com.md5_project.model.Album;
+import com.md5_project.model.Artist;
 import com.md5_project.service.IAlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +57,6 @@ public class AlbumController {
             return new ResponseEntity<>(new ResponseMessage("Remove Failed!"),  HttpStatus.NOT_ACCEPTABLE);
         }
     }
-
-
     @GetMapping("/search/{search}")
     public ResponseEntity<?> searchByName (@PathVariable String search) {
         List<Album> listSearch = albumService.searchAlbumByName(search);
@@ -62,5 +64,16 @@ public class AlbumController {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(listSearch, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchPaging")
+    public ResponseEntity<?> searchPaging(@RequestParam String search, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), 4);
+        Page<Album> page = albumService.searchAlbumByName(search, pageable);
+        List<Album> audioList = page.getContent();
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
 }

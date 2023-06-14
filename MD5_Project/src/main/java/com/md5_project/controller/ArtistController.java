@@ -3,8 +3,12 @@ package com.md5_project.controller;
 import com.md5_project.dto.response.ResponseMessage;
 import com.md5_project.model.Album;
 import com.md5_project.model.Artist;
+import com.md5_project.model.Audio;
 import com.md5_project.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,5 +66,16 @@ public class ArtistController {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(artistList, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchPaging")
+    public ResponseEntity<?> searchPaging(@RequestParam String search, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), 4);
+        Page<Artist> page = artistService.searchArtistByName(search, pageable);
+        List<Artist> audioList = page.getContent();
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
 }
