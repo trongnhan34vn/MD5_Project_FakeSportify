@@ -167,4 +167,33 @@ export const getSearchArtistByCategory = (data) => {
 }
 
 
+// PLAYLIST
+export const findPlaylistByName = (data) => {
+    return {
+        type: actionType.FIND_PLAYLIST_BY_NAME,
+        payload: data
+    }
+}
+
+export const getPlaylistByName = (data) => {
+    return {
+        type: actionType.GET_PLAYLIST_BY_NAME,
+        payload: data
+    }
+}
+
+export const findPlaylistById = (data) => {
+    return {
+        type: actionType.FIND_PLAYLIST_BY_ID,
+        payload: data
+    }
+}
+
+export const getPlaylistById = (data) => {
+    return {
+        type: actionType.GET_PLAYLIST_BY_ID,
+        payload: data
+    }
+}
+
 

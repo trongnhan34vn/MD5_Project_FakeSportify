@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAlbumSelector } from '../../redux/selector';
+import { playlistSelector, selectAlbumSelector } from '../../redux/selector';
 import { iconPauseBtn_Playlist, iconPause_TrackItem } from '../../assets/icon/icon';
 import Navbar from '../Navbar/Navbar';
 import DirectMenu from '../DirectMenu/DirectMenu';
 
 const Playlist = () => {
-    const selectAlbum = useSelector(selectAlbumSelector)
+    let selectAlbum = useSelector(selectAlbumSelector);
+    const selectPlaylist = useSelector(playlistSelector);
+    console.log(selectPlaylist);
     console.log(selectAlbum);
+
+    useEffect(() => {
+        selectAlbum = (selectAlbum) ? selectAlbum : selectPlaylist
+        console.log(selectAlbum);
+    }, [selectAlbum, selectPlaylist])
+
     const listAudios = selectAlbum && selectAlbum.select.audios;
-    const elementList = listAudios.map((audio,index) => {
+    const elementList = listAudios.map((audio, index) => {
         return <tr key={audio.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
             <td className='text-center'>
                 <div className='relative'>
                     <p className='group-hover:opacity-0 transition-all duration-300'>{index + 1}</p>
-                    <button className='z-20 fill-[#dbdbdb] -top-3 left-2 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
+                    <button className='z-20 fill-[#dbdbdb] -top-3 left-4 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
                         {iconPause_TrackItem}
                     </button>
                 </div>
@@ -51,9 +59,9 @@ const Playlist = () => {
                             <img className='w-full object-cover h-full drop-shadow-2xl' src="" alt="" />
                         </div>
                         <div className='overflow-hidden banner-song-info text-[#fff]'>
-                            <p className='text-xs font-CircularBook'>Playlist</p>
-                            <h3 className='font-CircularBold text-[72px] truncate'>Tên album</h3>
-                            <p className='text-xs font-CircularLight'>Danh sách nghệ sĩ</p>
+                            <p className='text-[16px] font-CircularBook'>Playlist</p>
+                            <h3 className='font-CircularBold text-[72px] truncate'>{selectAlbum.select.name}</h3>
+                            <p className='text-[16px] font-CircularLight'>Danh sách nghệ sĩ</p>
                         </div>
                     </div>
                     <div className='section-playlist-list-song h-full bg-[#121212]'>

@@ -4,7 +4,7 @@ import DirectMenu from '../../DirectMenu/DirectMenu';
 import Navbar from '../../Navbar/Navbar';
 import Footer from '../../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { albumSelector, selectAlbumSelector } from '../../../redux/selector';
+import { albumSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
 import * as actions from '../../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,13 +15,42 @@ const AuthenSuccess = () => {
     const currentAlbums = useSelector(selectAlbumSelector);
     const navigate = useNavigate();
 
-    const handlePlaylist = (id) => {
+    const handlePlaylist = (id, action) => {
+        if (action === 'daily-mix') {
+            console.log("abc");
+            dispatch(actions.findPlaylistById(id))
+        }
+        if (action === 'album') {
+            dispatch(actions.findAlbumById(id))
+            console.log("xyz");
+        }
         navigate('/playlist');
-        // dispatch(actions.findAlbumById(id))
     }
+
+    const listDailyMix = useSelector(playlistSelector).search;
+    const elementPlaylist = listDailyMix && listDailyMix.map((item) => {
+        return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+            <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                {iconPause_TrackItem}
+            </button>
+            <button onClick={() => handlePlaylist(item.id, 'daily-mix')} className='block w-full album-wrap p-4'>
+                <div className='album-img flex flex-col mb-4 relative'>
+                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                </div>
+                <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
+                    <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>
+                    <p className='font-CircularLight text-sm text-[#6a6a6a]'>{ }</p>
+                </div>
+            </button>
+        </div>
+    })
 
     useEffect(() => {
         dispatch(actions.findAllAlbums())
+    }, [])
+
+    useEffect(() => {
+        dispatch(actions.findPlaylistByName("Daily Mix"))
     }, [])
 
     const handleSelectAlbums = (id) => {
@@ -30,7 +59,7 @@ const AuthenSuccess = () => {
             dispatch(actions.setPlayStat(true))
             dispatch(actions.setResetStat(true))
             setTimeout(() => dispatch(actions.setResetStat(false)), 150)
-        
+
         } else {
             dispatch(actions.setPlayStat(!currentAlbums.isPlay))
         }
@@ -39,9 +68,9 @@ const AuthenSuccess = () => {
     const elementAlbum = listAlbums.map(element => {
         return <div key={element.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button onClick={() => handleSelectAlbums(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
-                {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem }
+                {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
-            <button onClick={() => handlePlaylist(element.id)} className='block w-full album-wrap p-4'>
+            <button onClick={() => handlePlaylist(element.id, 'album')} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
                     <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
                 </div>
@@ -71,7 +100,7 @@ const AuthenSuccess = () => {
                             {/* Playlist Title */}
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
                                 <a href="" className=''>
-                                    <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Your Playlist</h3>
+                                    <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Recommend Albums</h3>
                                 </a>
                                 <a href="" className=''>
                                     <p className="text-[#B3B3B3] font-CircularMedium text-sm hover:underline">Show all</p>
@@ -103,7 +132,7 @@ const AuthenSuccess = () => {
                         <div className='list-playlists-item px-8 mb-4'>
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
                                 <a href="" className=''>
-                                    <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Spotify Playlists</h3>
+                                    <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Your Top Mix</h3>
                                 </a>
                                 <a href="" className=''>
                                     <p className="text-[#B3B3B3] font-CircularMedium text-sm hover:underline">Show all</p>
@@ -111,20 +140,7 @@ const AuthenSuccess = () => {
                             </div>
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4 l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
                                 {/* Playlist Item */}
-                                <div className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-                                    <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
-                                        {iconPause_TrackItem}
-                                    </button>
-                                    <button className='block w-full album-wrap p-4'>
-                                        <div className='album-img flex flex-col mb-4 relative'>
-                                            <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
-                                        </div>
-                                        <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
-                                            <h3 className='font-CircularMedium text-base mb-1 truncate'>Nhân tic</h3>
-                                            <p className='font-CircularLight text-sm text-[#6a6a6a]'>đẹp zai</p>
-                                        </div>
-                                    </button>
-                                </div>
+                                {elementPlaylist}
                                 {/* Playlist Item */}
                             </div>
                         </div>

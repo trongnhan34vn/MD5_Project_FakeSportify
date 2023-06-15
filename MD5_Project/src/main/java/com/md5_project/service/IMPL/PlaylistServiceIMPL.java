@@ -6,6 +6,7 @@ import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class PlaylistServiceIMPL implements IPlaylistService {
@@ -29,5 +30,10 @@ public class PlaylistServiceIMPL implements IPlaylistService {
     @Override
     public void remove(Long id) {
         playlistRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Playlist> findPlaylistByName(String name) {
+        return playlistRepository.findPlaylistByNameContainingIgnoreCase(name);
     }
 }

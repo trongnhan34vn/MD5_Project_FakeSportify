@@ -72,4 +72,13 @@ public class PlaylistController {
     public ResponseEntity<?> insertSong(@PathVariable Long songId) {
         return ResponseEntity.ok("a");
     }
+
+    @GetMapping("/find-by-name")
+    public ResponseEntity<?> findByName(@RequestParam String name) {
+        List<Playlist> playlists = playlistService.findPlaylistByName(name);
+        if (playlists.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(playlists, HttpStatus.OK);
+    }
 }

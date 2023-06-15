@@ -5,6 +5,7 @@ import * as albumSaga from "./albumSaga"
 import * as categorySaga from "./categorySaga"
 import * as audioSaga from "./audioSaga"
 import * as artistSaga from "./artistSaga"
+import * as playlistSaga from "./playlistSaga"
 
 
 export const rootSaga = function* () {
@@ -24,7 +25,10 @@ export const rootSaga = function* () {
             takeLatest(actionType.SEARCH_AUDIO_BY_NAME, audioSaga.searchAudioByName),
             // ARTIST
             takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName),
-            takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory)
+            takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory),
+            // PLAYLIST
+            takeLatest(actionType.FIND_PLAYLIST_BY_NAME, playlistSaga.findPlaylistByName),
+            takeLatest(actionType.FIND_PLAYLIST_BY_ID, playlistSaga.findPlaylistById)
         ]
     )
 }
