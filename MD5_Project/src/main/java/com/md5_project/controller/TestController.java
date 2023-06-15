@@ -2,22 +2,20 @@ package com.md5_project.controller;
 
 import com.md5_project.dto.request.PlaylistDTO;
 import com.md5_project.dto.response.ResponseMessage;
+import com.md5_project.model.Artist;
 import com.md5_project.model.Audio;
+import com.md5_project.model.Category;
 import com.md5_project.model.Playlist;
 import com.md5_project.service.IArtistService;
 import com.md5_project.service.IAudioService;
+import com.md5_project.service.ICategoryService;
 import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class TestController {
@@ -26,6 +24,9 @@ public class TestController {
 
     @Autowired
     IArtistService artistService;
+
+    @Autowired
+    ICategoryService categoryService;
 
     @Autowired
     IPlaylistService playlistService;
@@ -40,19 +41,39 @@ public class TestController {
         return ResponseEntity.ok(artistService.findAll());
     }
 
-    @PostMapping("/playlist/createNew")
+    @PostMapping("/playlist/create-daily-mix")
     public ResponseEntity<?> createNewPlaylist() {
-        PlaylistDTO playlistDTO = new PlaylistDTO("Daily Mix");
-        Playlist playlist = new Playlist();
-        playlist.setName(playlistDTO.getName());
-        Iterable<Audio> audios = audioService.findAll();
-        Set<Audio> audioList = new HashSet<>();
-        for (int i = 0; i < 10; i++) {
-            audios.forEach(audioList::add);
+        Iterable<Playlist> playlists = playlistService.findAll();
+        for (int i = 0; i < 5; i++) {
+            String playlistName = "Daily Mix " + (i + 1);
+            if (checkPlaylistExist(playlists, playlistName)) {
+                return new ResponseEntity<>(new ResponseMessage("Playlist " + playlistName + " existed!"), HttpStatus.FOUND);
+            }
+            PlaylistDTO playlistDTO = new PlaylistDTO(playlistName);
+            Playlist playlist = new Playlist();
+            playlist.setName(playlistDTO.getName());
+            Iterable<Audio> audios = audioService.findAll();
+            List<Audio> allAudios = new ArrayList<>();
+            audios.forEach(allAudios::add);
+            Set<Audio> audioList = new HashSet<>();
+            do {
+                int randomIndex = (int) Math.floor(Math.random() * allAudios.size());
+                audioList.add(allAudios.get(randomIndex));
+            } while (audioList.size() < 10);
+            playlist.setAudios(audioList);
+            playlistService.save(playlist);
         }
-        playlist.setAudios(audioList);
-        playlistService.save(playlist);
-        return ResponseEntity.ok(new ResponseMessage("Success!"));
+        return new ResponseEntity<>(new ResponseMessage("Create Success!"), HttpStatus.OK);
     }
+
+    private boolean checkPlaylistExist(Iterable<Playlist> playlists, String plaulistName) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getName().equals(plaulistName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

@@ -44,5 +44,10 @@ public class ArtistServiceIMPL implements IArtistService {
         return artistRepository.findArtistByNameContainingIgnoreCase(name, pageable);
     }
 
+    @Override
+    public Page<Artist> searchArtistByCategory(Long categoryId, Pageable pageable) {
+        return artistRepository.findArtistByCategory(categoryId, pageable);
+    }
+
 
 }

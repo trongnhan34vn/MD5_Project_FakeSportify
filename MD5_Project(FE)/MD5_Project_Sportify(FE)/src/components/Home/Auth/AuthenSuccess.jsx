@@ -17,7 +17,7 @@ const AuthenSuccess = () => {
 
     const handlePlaylist = (id) => {
         navigate('/playlist');
-        dispatch(actions.findAlbumById(id))
+        // dispatch(actions.findAlbumById(id))
     }
 
     useEffect(() => {

@@ -19,10 +19,12 @@ export const rootSaga = function* () {
             takeLatest(actionType.SEARCH_ALBUM_BY_NAME, albumSaga.searchAlbumByName),
             // CATEGORY
             takeLatest(actionType.FIND_ALL_CATEGOTY, categorySaga.getAllCategory),
+            takeLatest(actionType.FIND_CATEGORY_BY_ID, categorySaga.findCategoryById),
             // AUDIO
             takeLatest(actionType.SEARCH_AUDIO_BY_NAME, audioSaga.searchAudioByName),
             // ARTIST
-            takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName)
+            takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName),
+            takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory)
         ]
     )
 }

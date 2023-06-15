@@ -12,6 +12,7 @@ import Playlist from './components/Playlist/Playlist'
 import SongSearch from './components/SearchPage/items/OnSearchItem/SongSearch'
 import AlbumSearch from './components/SearchPage/items/OnSearchItem/AlbumSearch'
 import ArtistSearch from './components/SearchPage/items/OnSearchItem/ArtistSearch'
+import CategorySearch from './components/SearchPage/items/NonSearchItem/CategorySearch'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="songs" element={<SongSearch/> } />
             <Route path="artist" element={<ArtistSearch/> } />
             <Route path="albums" element={<AlbumSearch/> } />
+            <Route path="category" element={<CategorySearch/> } />
         </Route>
         <Route path="/playlist" element={<Playlist />} />
       </Routes>

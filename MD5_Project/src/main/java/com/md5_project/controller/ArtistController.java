@@ -78,4 +78,16 @@ public class ArtistController {
         }
         return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
+
+
+    @GetMapping("/find-artist-by-category")
+    public ResponseEntity<?> findArtistByCategory(@RequestParam Long categoryId, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), 5);
+        Page<Artist> page = artistService.searchArtistByCategory(categoryId, pageable);
+        List<Artist> result = page.getContent();
+        if (result.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK) ;
+    }
 }

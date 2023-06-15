@@ -108,6 +108,20 @@ export const getAllCategory = (data) => {
     }
 }
 
+export const findCategoryById = (data) => {
+    return {
+        type: actionType.FIND_CATEGORY_BY_ID,
+        payload: data
+    }
+}
+
+export const getCategoryById = (data) => {
+    return {
+        type: actionType.GET_CATEGORY_BY_ID,
+        payload: data
+    }
+}
+
 // AUDIO
 export const searchAudioByName = (data) => {
     return {
@@ -137,4 +151,20 @@ export const getSearchArtistByName = (data) => {
         payload: data
     }
 }
+
+export const searchArtistByCategory = (data) => {
+    return {
+        type: actionType.SEARCH_ARTIST_BY_CATEGORY,
+        payload: data
+    }
+}
+
+export const getSearchArtistByCategory = (data) => {
+    return {
+        type: actionType.GET_SEARCH_ARTIST_BY_CATEGORY,
+        payload: data
+    }
+}
+
+
 

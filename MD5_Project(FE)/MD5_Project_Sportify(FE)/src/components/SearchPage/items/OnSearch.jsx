@@ -8,7 +8,9 @@ import ArtistSearch from './OnSearchItem/ArtistSearch';
 
 const OnSearch = () => {
     const location = useLocation()
-    const resultElement = (location.pathname === '/search') ? <IndexOnSearch /> : (location.pathname === '/search/songs') ? <SongSearch /> : location.pathname === '/search/albums' ? <AlbumSearch /> : <ArtistSearch />
+    const resultElement = (location.pathname === '/search') ? <IndexOnSearch /> : 
+    (location.pathname === '/search/songs') ? <SongSearch /> : 
+    (location.pathname === '/search/albums') ? <AlbumSearch /> : <ArtistSearch />
     return (
         <div className='content w-full'>
             {/* List Playlists - Log Out */}

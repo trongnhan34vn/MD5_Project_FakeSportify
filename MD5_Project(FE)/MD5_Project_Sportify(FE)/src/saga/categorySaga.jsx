@@ -11,3 +11,12 @@ export const getAllCategory = function* () {
 
     }
 }
+
+export const findCategoryById = function* (action) {
+    try {
+        let category = yield call(categoryService.FIND_CATEGORY_BY_ID, action.payload)
+        yield put (actions.getCategoryById(category))
+    } catch (error) {
+        
+    }
+}

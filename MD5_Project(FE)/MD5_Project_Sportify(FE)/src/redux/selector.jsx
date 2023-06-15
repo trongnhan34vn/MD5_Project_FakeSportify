@@ -15,6 +15,7 @@ export const albumSlice = state => state.albumSlice
 
 // CATEGORY
 export const allCateforySelector = state => state.categorySlice.listAll
+export const categorySelector = state => state.categorySlice
 
 
 // AUDIO

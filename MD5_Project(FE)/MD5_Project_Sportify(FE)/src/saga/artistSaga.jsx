@@ -10,3 +10,12 @@ export const searchArtistByName = function*(action) {
         
     }
 }
+
+export const searchArtistByCategory = function* (action) {
+    try {
+        let artists = yield call(artistService.SEARCH_ARTIST_BY_CATEGORY, action.payload)
+        yield put(actions.getSearchArtistByCategory(artists))
+    } catch(error) {
+
+    }
+}
