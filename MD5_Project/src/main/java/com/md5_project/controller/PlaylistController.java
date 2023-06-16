@@ -1,5 +1,6 @@
 package com.md5_project.controller;
 
+import com.md5_project.dto.request.PlaylistDTO;
 import com.md5_project.dto.response.ResponseMessage;
 import com.md5_project.model.Artist;
 import com.md5_project.model.Audio;
@@ -7,6 +8,7 @@ import com.md5_project.model.Playlist;
 import com.md5_project.service.IArtistService;
 import com.md5_project.service.IAudioService;
 import com.md5_project.service.IPlaylistService;
+import com.md5_project.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class PlaylistController {
     IArtistService artistService;
     @Autowired
     IAudioService audioService;
+
+    @Autowired
+    IUserService userService;
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(playlistService.findAll());
@@ -40,12 +45,16 @@ public class PlaylistController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Playlist playlist) {
-        Playlist newPlaylist = playlistService.save(playlist);
-        if (newPlaylist == null) {
+    public ResponseEntity<?> create(@RequestBody PlaylistDTO playlistDTO) {
+        System.out.println(playlistDTO);
+        Playlist newPlaylist = new Playlist();
+        newPlaylist.setName(playlistDTO.getName());
+        newPlaylist.setStatus(playlistDTO.isStatus());
+        newPlaylist.setUser(userService.findById(playlistDTO.getUserId()).orElseThrow(() -> new RuntimeException("NOT FOUND USER")));
+        if (playlistService.save(newPlaylist) == null) {
             return new ResponseEntity<>(new ResponseMessage("Create Failed!"), HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<>(new ResponseMessage("Create Success!"), HttpStatus.OK);
+        return new ResponseEntity<>(playlistService.save(newPlaylist), HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -68,11 +77,6 @@ public class PlaylistController {
         }
     }
 
-    @PutMapping("/insert-song/{songId}")
-    public ResponseEntity<?> insertSong(@PathVariable Long songId) {
-        return ResponseEntity.ok("a");
-    }
-
     @GetMapping("/find-by-name")
     public ResponseEntity<?> findByName(@RequestParam String name) {
         List<Playlist> playlists = playlistService.findPlaylistByName(name);
@@ -81,4 +85,14 @@ public class PlaylistController {
         }
         return new ResponseEntity<>(playlists, HttpStatus.OK);
     }
+
+    @GetMapping("/find-by-user-id/{id}")
+    public ResponseEntity<?> findByUserId(@PathVariable Long id) {
+        List<Playlist> playlists = (List<Playlist>) playlistService.findPlaylistByUserId(id);
+        if (playlists.isEmpty()) {
+            return new ResponseEntity<>(playlists, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(playlists, HttpStatus.OK);
+    }
+
 }

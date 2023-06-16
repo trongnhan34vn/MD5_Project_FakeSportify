@@ -12,7 +12,23 @@ public class JwtResponse {
     private String email;
     private Collection<? extends GrantedAuthority> roles;
 
-    public JwtResponse(Long id,String token, String fullName, String email, Collection<? extends GrantedAuthority> roles) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Collection<? extends GrantedAuthority> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<? extends GrantedAuthority> roles) {
+        this.roles = roles;
+    }
+
+    public JwtResponse(Long id, String token, String fullName, String email, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.token = token;
         this.fullName = fullName;
@@ -53,5 +69,17 @@ public class JwtResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", type='" + type + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

@@ -28,7 +28,9 @@ export const rootSaga = function* () {
             takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory),
             // PLAYLIST
             takeLatest(actionType.FIND_PLAYLIST_BY_NAME, playlistSaga.findPlaylistByName),
-            takeLatest(actionType.FIND_PLAYLIST_BY_ID, playlistSaga.findPlaylistById)
+            takeLatest(actionType.FIND_PLAYLIST_BY_ID, playlistSaga.findPlaylistById),
+            takeLatest(actionType.FIND_PLAYLIST_BY_USER_ID, playlistSaga.findPlaylistByUserId),
+            takeLatest(actionType.CREATE_PLAYLIST, playlistSaga.createPlaylist)
         ]
     )
 }

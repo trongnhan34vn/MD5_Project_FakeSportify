@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, matchPath, NavLink, useLocation } from 'react-router-dom';
+import * as actions from '../../redux/actions';
+import { playlistSelector } from '../../redux/selector';
 
 const DirectMenu = () => {
     const location = useLocation();
-
     const isSearch = location.pathname.match("/search/*");
-    
     return (
         <div>
             {/* Direction Menu */}
             <div id='direction-menu' className='h-auto pt-6 w-[241px] bg-[#000] fixed z-10 bottom-0 top-0'>
                 {/* Logo */}
-                <NavLink to={"/"} className=' direction-menu-logo block mb-7 px-6'>       
+                <NavLink to={"/"} className=' direction-menu-logo block mb-7 px-6'>
                     <svg
                         role="img"
                         viewBox="0 0 78 24"
@@ -68,7 +70,7 @@ const DirectMenu = () => {
                 </ul>
                 {/* Menu Items */}
                 <ul className='dircet-menu-list text-[#fff] mb-7 px-2'>
-                    <a href='#' className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <NavLink to={"/form-playlist"} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <div className='w-6 h-6 bg-[#fff] rounded flex items-center justify-center'>
                             <svg
                                 role="img"
@@ -82,7 +84,7 @@ const DirectMenu = () => {
                             </svg>
                         </div>
                         <span className='font-CircularMedium text-sm leading-10'>Tạo playlist</span>
-                    </a>
+                    </NavLink>
                     <a href='#' className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <div className='w-6 h-6 bg-[linear-gradient(135deg,#450af5,#c4efd9)] rounded flex items-center justify-center'>
                             <svg

@@ -36,4 +36,9 @@ public class PlaylistServiceIMPL implements IPlaylistService {
     public List<Playlist> findPlaylistByName(String name) {
         return playlistRepository.findPlaylistByNameContainingIgnoreCase(name);
     }
+
+    @Override
+    public Iterable<Playlist> findPlaylistByUserId(Long userId) {
+        return playlistRepository.findPlaylistByUserId(userId);
+    }
 }

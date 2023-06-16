@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface IPlaylistRepository extends JpaRepository<Playlist, Long> {
     List<Playlist> findPlaylistByNameContainingIgnoreCase(String name);
+    Iterable<Playlist> findPlaylistByUserId(Long userId);
 }

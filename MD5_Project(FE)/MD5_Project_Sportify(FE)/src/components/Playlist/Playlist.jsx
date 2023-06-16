@@ -6,15 +6,8 @@ import Navbar from '../Navbar/Navbar';
 import DirectMenu from '../DirectMenu/DirectMenu';
 
 const Playlist = () => {
-    let selectAlbum = useSelector(selectAlbumSelector);
+    const selectAlbum = useSelector(selectAlbumSelector);
     const selectPlaylist = useSelector(playlistSelector);
-    console.log(selectPlaylist);
-    console.log(selectAlbum);
-
-    useEffect(() => {
-        selectAlbum = (selectAlbum) ? selectAlbum : selectPlaylist
-        console.log(selectAlbum);
-    }, [selectAlbum, selectPlaylist])
 
     const listAudios = selectAlbum && selectAlbum.select.audios;
     const elementList = listAudios.map((audio, index) => {

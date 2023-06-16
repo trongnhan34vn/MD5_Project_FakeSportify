@@ -71,7 +71,7 @@ export const setPlayStat = (data) => {
         type: actionType.SET_PLAY_STAT,
         payload: data
     }
-} 
+}
 
 export const setResetStat = (data) => {
     return {
@@ -80,7 +80,7 @@ export const setResetStat = (data) => {
     }
 }
 
-export const searchAlbumByName = (data) => { 
+export const searchAlbumByName = (data) => {
     return {
         type: actionType.SEARCH_ALBUM_BY_NAME,
         payload: data
@@ -192,6 +192,41 @@ export const findPlaylistById = (data) => {
 export const getPlaylistById = (data) => {
     return {
         type: actionType.GET_PLAYLIST_BY_ID,
+        payload: data
+    }
+}
+
+export const findPlaylistByUserId = (data) => {
+    return {
+        type: actionType.FIND_PLAYLIST_BY_USER_ID,
+        payload: data
+    }
+}
+
+export const getPlaylistByUserId = (data) => {
+    return {
+        type: actionType.GET_PLAYLIST_BY_USER_ID,
+        payload: data
+    }
+}
+
+export const createPlaylist = (data) => { 
+    return {
+        type: actionType.CREATE_PLAYLIST,
+        payload: data
+    }
+}
+
+export const getLatestPlaylist = (data) => {
+    return {
+        type: actionType.GET_LATEST_PLAYLIST,
+        payload: data
+    }
+}
+
+export const updatePlaylist = (data) => {
+    return {
+        type: actionType.UPDATE_PLAYLIST,
         payload: data
     }
 }

@@ -13,6 +13,9 @@ export default {
         'CircularBook': ["Circular Sp Vit Book Web", 'sans-serif'],
         'CircularBlack': ["Circular Sp Vit Bold Web", 'sans-serif'],
       },
+      dropShadow: {
+        '3xl' : '0 4px 4px rgba(0,0,0,.3)'
+      },
       colors: {
         'primaryColor': '#1ed760',
         'tahiti': {

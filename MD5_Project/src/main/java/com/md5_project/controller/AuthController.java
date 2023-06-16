@@ -95,7 +95,6 @@ public class AuthController {
             String jwt = jwtProvider.generateJwtToken(authentication);
             UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
             JwtResponse jwtResponse = new JwtResponse(userDetails.getId(), jwt, userDetails.getFullName(), userDetails.getUsername(), userDetails.getAuthorities());
-
             Cookie cookie = new Cookie("jwtToken", jwt);
             cookie.setMaxAge(24 * 60 * 60); // expires in 1 day
             cookie.setSecure(false);

@@ -20,3 +20,21 @@ export const findPlaylistById = function* (action) {
         
     }
 }
+
+export const findPlaylistByUserId = function* (action) {
+    try {
+        let playlists = yield call(playlistService.FIND_PLAYLIST_BY_USER_ID, action.payload)
+        yield put(actions.getPlaylistByUserId(playlists))
+    } catch (error) {
+        
+    }
+}
+
+export const createPlaylist = function* (action) {
+    try {
+        let response = yield call(playlistService.CREATE_PLAYLIST, action.payload)
+        yield put(actions.getLatestPlaylist(response))
+    } catch (error) {
+        console.log(error);
+    }
+}
