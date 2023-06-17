@@ -1,14 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, matchPath, NavLink, useLocation } from 'react-router-dom';
+import { Link, matchPath, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 import { playlistSelector } from '../../redux/selector';
 
 const DirectMenu = () => {
-    const [cookies] = useCookies(["userId"])
     const location = useLocation();
     const isSearch = location.pathname.match("/search/*");
+    const dispatch = useDispatch();
+    const [activeTab, setActiveTab] = useState('')
+    const [cookies] = useCookies(["userId"])
+    const getPlaylistByUserId = useSelector(playlistSelector).searchByUserId;
+    const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
+    const [fetchingState, setFetchingState] = useState();
+
+
+    useEffect(() => {
+        let activeArr = [
+            { path: "/", tab: "Home" },
+            { path: "/search", tab: "Search" },
+            { path: "/your-library", tab: "YourLibrary", },
+            { path: "/form-playlist", tab: "FormPlaylist", }
+        ];
+        activeArr.forEach((val) => {
+            if (val.path === location.pathname) {
+                return setActiveTab(val.tab)
+            }
+        })
+    }, [location.pathname])
+    const navigate = useNavigate();
+
+    
+    const createPlaylist = () => {
+        setFetchingState(latestPlaylist);
+        dispatch(actions.createPlaylist({
+            name: 'My Playlist #',
+            userId: cookies["userId"],
+            audios: [],
+            status: true
+        }))
+    }
+
+    useEffect(() => {
+        if (fetchingState && latestPlaylist !== fetchingState) {
+            setFetchingState();
+            navigate('/form-playlist', {state: {playlistId:latestPlaylist.id}})
+        }
+    }, [latestPlaylist])
+
     return (
         <div>
             {/* Direction Menu */}
@@ -28,7 +68,7 @@ const DirectMenu = () => {
                 {/* Logo */}
                 {/* Menu Items */}
                 <ul className='dircet-menu-list text-[#fff] mb-7 px-2'>
-                    <NavLink to={'/'} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <li onClick={() => { navigate("/") }} className={`${activeTab === 'Home' && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <svg
                             role="img"
                             height="24"
@@ -39,8 +79,8 @@ const DirectMenu = () => {
                             <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732l-7.5-4.33z"></path>
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Trang chủ</span>
-                    </NavLink>
-                    <NavLink to={"/search"} className='px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    </li>
+                    <li onClick={() => { navigate("/search") }} className={`${activeTab === 'Search' && 'active'} cursor-pointer px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <svg
                             role="img"
                             height="24"
@@ -53,8 +93,8 @@ const DirectMenu = () => {
                             <path d="M10.533 1.279c-5.18 0-9.407 4.14-9.407 9.279s4.226 9.279 9.407 9.279c2.234 0 4.29-.77 5.907-2.058l4.353 4.353a1 1 0 1 0 1.414-1.414l-4.344-4.344a9.157 9.157 0 0 0 2.077-5.816c0-5.14-4.226-9.28-9.407-9.28zm-7.407 9.279c0-4.006 3.302-7.28 7.407-7.28s7.407 3.274 7.407 7.28-3.302 7.279-7.407 7.279-7.407-3.273-7.407-7.28z"></path>
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Tìm kiếm</span>
-                    </NavLink>
-                    <NavLink to={"/cba"} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    </li>
+                    <li onClick={() => { navigate("/your-library") }} className={`${activeTab === 'YourLibrary' && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <svg
                             role="img"
                             height="24"
@@ -67,11 +107,15 @@ const DirectMenu = () => {
                             <path d="M14.5 2.134a1 1 0 0 1 1 0l6 3.464a1 1 0 0 1 .5.866V21a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1V3a1 1 0 0 1 .5-.866zM16 4.732V20h4V7.041l-4-2.309zM3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1zm6 0a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1z"></path>
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Thư viện</span>
-                    </NavLink>
+                    </li>
                 </ul>
                 {/* Menu Items */}
                 <ul className='dircet-menu-list text-[#fff] mb-7 px-2'>
-                    <NavLink to={"/form-playlist"} className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <li onClick={() => {
+                        createPlaylist()
+                        // navigate('/form-playlist', {state: {playlistId: latestPlaylist.id}})
+                    }}
+                        className={`${activeTab === 'FormPlaylist' && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <div className='w-6 h-6 bg-[#fff] rounded flex items-center justify-center'>
                             <svg
                                 role="img"
@@ -85,8 +129,8 @@ const DirectMenu = () => {
                             </svg>
                         </div>
                         <span className='font-CircularMedium text-sm leading-10'>Tạo playlist</span>
-                    </NavLink>
-                    <a href='#' className='px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    </li>
+                    <li onClick={() => { navigate("/favorite") }} className='cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
                         <div className='w-6 h-6 bg-[linear-gradient(135deg,#450af5,#c4efd9)] rounded flex items-center justify-center'>
                             <svg
                                 role="img"
@@ -101,7 +145,7 @@ const DirectMenu = () => {
                         </div>
 
                         <span className='font-CircularMedium text-sm leading-10'>Bài hát đã thích</span>
-                    </a>
+                    </li>
                 </ul>
             </div>
             {/* Direction Menu */}

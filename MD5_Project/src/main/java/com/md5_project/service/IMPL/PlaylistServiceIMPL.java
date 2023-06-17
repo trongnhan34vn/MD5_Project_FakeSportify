@@ -49,4 +49,10 @@ public class PlaylistServiceIMPL implements IPlaylistService {
         return playlistRepository.findPlaylistByUserId(userId);
     }
 
+    @Override
+    public Playlist insertAudioToPlaylist(Long playlistId, List<Audio> audios) {
+        Optional<Playlist> playlist = findById(playlistId);
+        playlist.ifPresent(value -> value.setAudios(audios));
+        return playlist.map(this::save).orElse(null);
+    }
 }

@@ -14,6 +14,7 @@ import AlbumSearch from './components/SearchPage/items/OnSearchItem/AlbumSearch'
 import ArtistSearch from './components/SearchPage/items/OnSearchItem/ArtistSearch'
 import CategorySearch from './components/SearchPage/items/NonSearchItem/CategorySearch'
 import FormPlaylist from './components/FormPlaylist/FormPlaylist'
+import YourLibrary from './components/YourLibrary/YourLibrary'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="albums" element={<AlbumSearch/> } />
             <Route path="category" element={<CategorySearch/> } />
         </Route>
+        <Route path="/your-library" element={<YourLibrary />} />
         <Route path="/playlist" element={<Playlist />} />
         <Route path="/form-playlist" element={<FormPlaylist />} />
       </Routes>

@@ -8,40 +8,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { audioSelector, playlistSelector } from '../../redux/selector';
 import Modal from '../Modal/Modal';
+import { useLocation } from 'react-router-dom';
+
 
 
 const FormPlaylist = () => {
-    const [cookies, setCookie] = useCookies(["userId"])
     const dispatch = useDispatch();
-
-    const playlistByUserId = useSelector(playlistSelector).searchByUserId;
-    const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
+    const [cookies] = useCookies(["userId", "fullName"]);
+    const location = useLocation()
+    const playlistId = location.state.playlistId;
     const audioList = useSelector(audioSelector).search;
-    const selelctAudio = useSelector(audioSelector).select;
-    const [isOpenModal, setIsOpenModal] = useState(false)
-    const [defaultPlaylist, setDefaultPlaylist] = useState({
-        name: '',
-        userId: 0,
-        status: false
-    });
-
-    const modalElement = isOpenModal ? <Modal setIsOpenModal={setIsOpenModal} /> : <></>;
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const selectPlaylist = useSelector(playlistSelector).select;
+    
 
     useEffect(() => {
-        dispatch(actions.findPlaylistByUserId(cookies["userId"]))
-        console.log(playlistByUserId);
-        let numOrder;
-        if (playlistByUserId.length === 0) {
-            numOrder = 1
-        } else {
-            numOrder = playlistByUserId.length + 1
-        }
-        setDefaultPlaylist({
-            name: 'My Playlist #' + numOrder,
-            userId: cookies["userId"],
-            status: true
-        })
+        console.log(playlistId);
+        dispatch(actions.findPlaylistById(playlistId))
     }, [])
+
+    const modalElement = isOpenModal ? <Modal setIsOpenModal={setIsOpenModal} /> : <></>;
 
     const handleModal = () => {
         setIsOpenModal(pre => !pre);
@@ -52,15 +38,9 @@ const FormPlaylist = () => {
     }
 
     const handleInsertToPlaylist = (audioId) => {
-        console.log(latestPlaylist);
-        dispatch(actions.findAudioById(audioId))
-        dispatch(actions.updatePlaylist({
-            id: latestPlaylist.id,
-            name: latestPlaylist.name,
-            audios: latestPlaylist.audios == null ? [selelctAudio] : [...latestPlaylist.audios, selelctAudio],
-            status: true
-        }))
+
     }
+
 
     const elementAudioSearch = audioList.map((item) => {
         return (
@@ -84,12 +64,6 @@ const FormPlaylist = () => {
         )
     })
 
-    useEffect(() => {
-        if (defaultPlaylist.name.trim() !== '' && defaultPlaylist.userId != 0) {
-            dispatch(actions.createPlaylist(defaultPlaylist))
-        }
-    }, [defaultPlaylist])
-
     return (
         <div>
             {/* Direction Menu */}
@@ -105,8 +79,8 @@ const FormPlaylist = () => {
                     </div>
                     <div onClick={handleModal} className='overflow-hidden banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularMedium'>Playlist</p>
-                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{latestPlaylist && latestPlaylist.name}</span></button></h3>
-                        <p className='text-[16px] font-CircularLight'>{latestPlaylist && latestPlaylist.user.fullName}</p>
+                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{selectPlaylist&&selectPlaylist.name}</span></button></h3>
+                        <p className='text-[16px] font-CircularLight'>{cookies["fullName"]}</p>
                     </div>
                 </div>
                 <div className='section-playlist-list-song h-full bg-[#121212]'>

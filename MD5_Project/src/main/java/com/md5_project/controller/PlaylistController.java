@@ -48,7 +48,16 @@ public class PlaylistController {
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody PlaylistDTO playlistDTO) {
         Playlist newPlaylist = new Playlist();
-        newPlaylist.setName(playlistDTO.getName());
+        List<Playlist> playlists = (List<Playlist>) playlistService.findPlaylistByUserId(playlistDTO.getUserId());
+        int count;
+        if (playlists.size() == 0) {
+            count = 1;
+        } else {
+            count = playlists.size() + 1;
+        }
+        List<Audio> audios = new ArrayList<>();
+        newPlaylist.setAudios(audios);
+        newPlaylist.setName(playlistDTO.getName() + count);
         newPlaylist.setStatus(playlistDTO.isStatus());
         newPlaylist.setUser(userService.findById(playlistDTO.getUserId()).orElseThrow(() -> new RuntimeException("NOT FOUND USER")));
         if (playlistService.save(newPlaylist) == null) {
@@ -93,6 +102,15 @@ public class PlaylistController {
             return new ResponseEntity<>(playlists, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(playlists, HttpStatus.OK);
+    }
+
+    @PatchMapping("/insert-audio-playlist")
+    public ResponseEntity<?> insertAudioToPlaylist(@RequestParam Long playlistId ,@RequestBody List<Audio> audios) {
+        Playlist playlist = playlistService.insertAudioToPlaylist(playlistId, audios);
+        if (playlist == null) {
+            return new ResponseEntity<>(new ResponseMessage("INSERT FAILED"),HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
 
 }

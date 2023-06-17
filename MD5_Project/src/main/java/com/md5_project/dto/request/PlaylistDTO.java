@@ -1,9 +1,14 @@
 package com.md5_project.dto.request;
 
+import com.md5_project.model.Audio;
+
+import java.util.List;
+
 public class PlaylistDTO {
     private String name;
     private Long userId;
     private boolean status;
+    private List<Audio> audios;
 
     public PlaylistDTO(String name) {
         this.name = name;
