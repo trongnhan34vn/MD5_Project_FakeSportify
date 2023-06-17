@@ -20,3 +20,8 @@ export const CREATE_PLAYLIST = async (data) => {
     let response = await instance.post(`playlist/create`, data);
     return response.data;
 } 
+
+export const UPDATE_PLAYLIST = async (data) => {
+    let response = await instance.put('playlist/update', data);
+    return response.data;
+}

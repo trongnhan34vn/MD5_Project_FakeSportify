@@ -95,4 +95,15 @@ public class AudioController {
         }
         return new ResponseEntity<>(audioList, HttpStatus.OK);
     }
+
+    @GetMapping("/search-by-name-paging")
+    public ResponseEntity<?> findAllPaging(@RequestParam String search, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), 10);
+        Page<Audio> page = audioService.searchAudioByName(search, pageable);
+        List<Audio> audioList = page.getContent();
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
+    }
 }

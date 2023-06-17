@@ -33,5 +33,5 @@ public class Playlist {
     @JoinTable(name = "playlist_audio",
             joinColumns = @JoinColumn(name = "playlist_id"),
             inverseJoinColumns = @JoinColumn(name = "audio_id"))
-    private Set<Audio> audios;
+    private List<Audio> audios;
 }

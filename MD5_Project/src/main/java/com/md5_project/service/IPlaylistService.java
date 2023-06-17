@@ -6,7 +6,5 @@ import java.util.List;
 
 public interface IPlaylistService extends IGenericService<Playlist> {
     List<Playlist> findPlaylistByName(String name);
-
     Iterable<Playlist> findPlaylistByUserId(Long userId);
-
 }

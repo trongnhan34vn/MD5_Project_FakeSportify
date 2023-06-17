@@ -38,3 +38,12 @@ export const createPlaylist = function* (action) {
         console.log(error);
     }
 }
+
+export const updatePlaylist = function* (action) {
+    try {
+        let response = yield call(playlistService.UPDATE_PLAYLIST, action.payload)
+        console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
+}

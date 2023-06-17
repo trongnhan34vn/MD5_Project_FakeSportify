@@ -1,17 +1,24 @@
 package com.md5_project.service.IMPL;
 
+import com.md5_project.model.Audio;
 import com.md5_project.model.Playlist;
 import com.md5_project.repository.IPlaylistRepository;
+import com.md5_project.service.IAudioService;
 import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class PlaylistServiceIMPL implements IPlaylistService {
     @Autowired
     IPlaylistRepository playlistRepository;
+
+    @Autowired
+    IAudioService audioService;
+
     @Override
     public Iterable<Playlist> findAll() {
         return playlistRepository.findAll();
@@ -41,4 +48,5 @@ public class PlaylistServiceIMPL implements IPlaylistService {
     public Iterable<Playlist> findPlaylistByUserId(Long userId) {
         return playlistRepository.findPlaylistByUserId(userId);
     }
+
 }

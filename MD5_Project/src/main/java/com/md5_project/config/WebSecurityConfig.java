@@ -20,11 +20,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceIMPL userDetailService;
@@ -54,25 +58,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();;
+        http.cors().and().csrf().disable();
 
         http = http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
-        http.authorizeRequests().antMatchers("/api/auth/register/**", "/api/auth/signup").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/register/**", "/api/auth/signup").permitAll()
+                        .and()
+                                .authorizeRequests().antMatchers("/playlist/**").permitAll();
+
 
         http.addFilterBefore(authenTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
-        UrlBasedCorsConfigurationSource source = new
-                UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+    public CorsConfigurationSource corsConfiguration() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.applyPermitDefaultValues();
+        corsConfig.setAllowCredentials(true);
+        corsConfig.addAllowedMethod("GET");
+        corsConfig.addAllowedMethod("PATCH");
+        corsConfig.addAllowedMethod("PUT");
+        corsConfig.addAllowedMethod("POST");
+        corsConfig.addAllowedMethod("OPTIONS");
+        corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        corsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }
+
 }
 

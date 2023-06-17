@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/playlist")
+@CrossOrigin(origins = "*")
 public class PlaylistController {
     @Autowired
     IPlaylistService playlistService;
@@ -46,7 +47,6 @@ public class PlaylistController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody PlaylistDTO playlistDTO) {
-        System.out.println(playlistDTO);
         Playlist newPlaylist = new Playlist();
         newPlaylist.setName(playlistDTO.getName());
         newPlaylist.setStatus(playlistDTO.isStatus());
@@ -63,7 +63,7 @@ public class PlaylistController {
         if (newPlaylist == null) {
             return new ResponseEntity<>(new ResponseMessage("Update Failed!"), HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<>(new ResponseMessage("Create Success!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Update Success!"), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -23,6 +23,8 @@ export const rootSaga = function* () {
             takeLatest(actionType.FIND_CATEGORY_BY_ID, categorySaga.findCategoryById),
             // AUDIO
             takeLatest(actionType.SEARCH_AUDIO_BY_NAME, audioSaga.searchAudioByName),
+            takeLatest(actionType.SEARCH_AUDIO_PAGING, audioSaga.searchAudioPaging),
+            takeLatest(actionType.FIND_AUDIO_BY_ID, audioSaga.findAudioById),
             // ARTIST
             takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName),
             takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory),
@@ -30,7 +32,8 @@ export const rootSaga = function* () {
             takeLatest(actionType.FIND_PLAYLIST_BY_NAME, playlistSaga.findPlaylistByName),
             takeLatest(actionType.FIND_PLAYLIST_BY_ID, playlistSaga.findPlaylistById),
             takeLatest(actionType.FIND_PLAYLIST_BY_USER_ID, playlistSaga.findPlaylistByUserId),
-            takeLatest(actionType.CREATE_PLAYLIST, playlistSaga.createPlaylist)
+            takeLatest(actionType.CREATE_PLAYLIST, playlistSaga.createPlaylist),
+            takeLatest(actionType.UPDATE_PLAYLIST, playlistSaga.updatePlaylist),
         ]
     )
 }

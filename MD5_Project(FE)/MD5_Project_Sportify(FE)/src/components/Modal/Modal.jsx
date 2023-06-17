@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { storage } from '../../firebase/config';
 import { playlistSelector } from '../../redux/selector';
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import * as actions from '../../redux/actions';
+import { useCookies } from 'react-cookie';
 
 const Modal = (props) => {
-
+    const [cookies] = useCookies(["userId"])
     const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
     const [inputValue, setInputValue] = useState({
         id: '',
         name: '',
-        image: '',
-        status: true
+        image: null,
+        status: true,
+        userId: cookies["userId"]
     })
     const dispatch = useDispatch()
 
@@ -25,28 +28,36 @@ const Modal = (props) => {
 
     // Viết hàm upload
     const uploadImgFile = (e) => {
-        setImageUpload(pre => pre = e.target.files[0])
-        let image = e.target.files[0]
+        setImageUpload(pre => pre = e)
+        let image = e
         const imageRef = ref(storage, `images/${image.name}`);
-        uploadBytes(imageRef, image).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-                setImageUrls(url);
+        uploadBytes(imageRef, image)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref)
+                    .then((url) => {
+                        dispatch(actions.updatePlaylist({
+                            id: inputValue.id,
+                            name: inputValue.name,
+                            image: url,
+                            status: true,
+                            userId: cookies["userId"]
+                        }))
+                    })
             });
-        });
-
     };
+
     useEffect(() => {
         setImageUrls([])
     }, []);
 
     useEffect(() => {
-        console.log(latestPlaylist);
         latestPlaylist ?
             setInputValue({
                 id: latestPlaylist.id,
-                name: latestPlaylist.name,
                 image: latestPlaylist.image,
-                status: true
+                name: latestPlaylist.name,
+                status: true,
+                userId: cookies["userId"]
             }) :
             setInputValue({ ...inputValue, name: "" })
     }, [latestPlaylist])
@@ -56,10 +67,9 @@ const Modal = (props) => {
 
     }
 
-    const handleSubmit = () => {
-        props.setIsOpenModal(false);
-
-    }
+    useEffect(() => {
+        
+    },[])
 
     const handleChange = (e) => {
         let key = e.target.name;
@@ -76,13 +86,12 @@ const Modal = (props) => {
                     </div>
                 </div>
                 <div className='body px-[24px] mb-1 items-center justify-center flex gap-6'>
-                    <div className='img w-[180px] flex justify-center items-center bg-[#282828] drop-shadow-3xl h-[180px]'>
+                    <div className='img w-[180px] relative flex flex-col justify-center items-center bg-[#282828] drop-shadow-3xl h-[180px]'>
                         <input
-                            className='text-[#fff] font-CircularLight text-sm hover:underline cursor-pointer truncate'
+                            className='opacity-0 w-full h-full text-[#fff] font-CircularLight text-sm hover:underline cursor-pointer truncate'
                             id='upload-photo'
                             type="file"
                             onChange={(event) => {
-                                console.log(event.target.files[0]);
                                 setSelectedImage(event.target.files[0]);
                             }} />
                         <svg
@@ -93,11 +102,11 @@ const Modal = (props) => {
                             data-testid="playlist"
                             viewBox="0 0 24 24"
                             data-encore-id="icon"
-                            className="Svg-sc-ytk21e-0 haNxPq fill-[#b3b3b3]">
+                            className="Svg-sc-ytk21e-0 haNxPq fill-[#b3b3b3] absolute z-[-1]">
                             <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6V3zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5v-1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5v-1.5z">
                             </path>
                         </svg>
-                        {selectedImage && (<img className='w-48 h-full object-cover shadow-[0 4px 60px rgb(0 0 0 / 50%)]' src={URL.createObjectURL(selectedImage)} alt="" />)} 
+                        {selectedImage && (<img className='w-48 h-full object-cover shadow-[0 4px 60px rgb(0 0 0 / 50%)]' src={URL.createObjectURL(selectedImage)} alt="" />)}
                     </div>
                     <div className='info flex flex-col gap-2'>
                         <div>
@@ -112,7 +121,7 @@ const Modal = (props) => {
                     </div>
                 </div>
                 <div className='px-10 flex justify-end mb-2'>
-                    <button onClick={handleSubmit} className='rounded-[500px] hover:scale-110 transition-all duration-200 font-CircularMedium h-12 px-8 bg-[#fff]'>Save</button>
+                    <button onClick={() => uploadImgFile(selectedImage)} className='rounded-[500px] hover:scale-110 transition-all duration-200 font-CircularMedium h-12 px-8 bg-[#fff]'>Save</button>
                 </div>
                 <div className='px-6 pb-6'>
                     <p className=' font-CircularMedium text-[12px] text-[#fff]'>By proceeding, you agree to give Spotify access to the image you choose to upload. Please make sure you have the right to upload the image.

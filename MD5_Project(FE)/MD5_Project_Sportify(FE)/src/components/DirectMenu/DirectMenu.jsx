@@ -6,6 +6,7 @@ import * as actions from '../../redux/actions';
 import { playlistSelector } from '../../redux/selector';
 
 const DirectMenu = () => {
+    const [cookies] = useCookies(["userId"])
     const location = useLocation();
     const isSearch = location.pathname.match("/search/*");
     return (

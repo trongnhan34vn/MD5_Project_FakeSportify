@@ -137,6 +137,31 @@ export const getAudioByName = (data) => {
     }
 }
 
+export const searchAudioPaging = (data) => {
+    return { type: actionType.SEARCH_AUDIO_PAGING, payload: data }
+}
+
+export const getAudioPaging = (data) => {
+    return {
+        type: actionType.GET_AUDIO_PAGING,
+        payload: data
+    }
+}
+
+export const findAudioById = (data) => {
+    return {
+        type: actionType.FIND_AUDIO_BY_ID,
+        payload: data
+    }
+}
+
+export const getAudioById = (data) => {
+    return {
+        type: actionType.GET_AUDIO_BY_ID,
+        payload: data
+    }
+}
+
 // ARTIST
 export const searchArtistByName = (data) => {
     return {
@@ -210,7 +235,7 @@ export const getPlaylistByUserId = (data) => {
     }
 }
 
-export const createPlaylist = (data) => { 
+export const createPlaylist = (data) => {
     return {
         type: actionType.CREATE_PLAYLIST,
         payload: data

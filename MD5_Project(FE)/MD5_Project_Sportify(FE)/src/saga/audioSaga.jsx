@@ -12,3 +12,21 @@ export const searchAudioByName = function* (action) {
         
     }
 }
+
+export const searchAudioPaging = function* (action) {
+    try {
+        let audios = yield call(audioService.SEARCH_AUDIO_PAGING, action.payload)
+        yield put(actions.getAudioPaging(audios))
+    } catch (error) {
+        
+    }
+}
+
+export const findAudioById = function* (action) {
+    try {
+        let audio = yield call(audioService.FIND_AUDIO_BY_ID, action.payload);
+        yield put(actions.getAudioById(audio))
+    } catch (error) {
+        
+    }
+}
