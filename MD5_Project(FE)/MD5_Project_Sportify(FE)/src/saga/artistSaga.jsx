@@ -19,3 +19,12 @@ export const searchArtistByCategory = function* (action) {
 
     }
 }
+
+export const findArtistById = function* (action) {
+    try {
+        let artist = yield call(artistService.FIND_ARTIST_BY_ID, action.payload);
+        yield put(actions.getArtistById(artist))
+    } catch (error) {
+        
+    }
+}

@@ -11,3 +11,8 @@ export const SEARCH_ARTIST_BY_CATEGORY = async (id) => {
     return response.data;
 }
 
+export const FIND_ARTIST_BY_ID = async (id) => {
+    let response = await instance(new Cookies().get("token")).get(`/artist/find-by-id/${id}`)
+    return response.data;
+}
+

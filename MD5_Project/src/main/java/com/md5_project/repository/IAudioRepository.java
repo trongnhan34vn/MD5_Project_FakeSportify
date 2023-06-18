@@ -21,5 +21,11 @@ public interface IAudioRepository extends JpaRepository<Audio,Long> {
             "    join category_audio ca on a.id = ca.audio_id" +
             "    where a2.id = ?1 and ca.category_id = ?2", nativeQuery = true)
     List<Audio> findAudioByCategoryAndArtist(Long categoryId, Long artistId);
+    List<Audio> findAudioByArtistId(Long artistId);
 
+    @Query(value = "select * from audios" +
+            "    join artists a on audios.audio_artist = a.id" +
+            "    join category_audio ca on audios.id = ca.audio_id" +
+            "    where category_id = ?1 and audio_artist = ?2", nativeQuery = true)
+    List<Audio> findAudioByArtistIdAndCategoryId(Long categoryId, Long artistId);
 }

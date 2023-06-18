@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { iconMute, iconPauseBtn_Playlist, iconPauseTrackBtn_Footer, iconPlayTrackBtn_Footer, iconUnMute } from '../../../assets/icon/icon.jsx';
 import * as actions from '../../../redux/actions';
 import { selectAlbumSelector } from '../../../redux/selector';
-import MusicPlayer from '../../MusicPlayer/MusicPlayer.jsx';
 
 
 const AuthenSuccess = () => {
@@ -120,23 +119,6 @@ const AuthenSuccess = () => {
     }, [typePlay, playLength])
 
     // Handle Play Audio
-    // useEffect(() => {
-    //     dispatch(actGetPlaylists())
-    // }, [])
-
-    // const playAudio = useSelector(controlAudio)
-    // const listTrack = playAudio.currentTrack
-    // const audio = playAudio.audio
-
-    // useEffect(() => {
-    //     playAudio.playlistId && setSongArr(listTrack)
-    // }, [playAudio.playlistId])
-
-    // let isPlayAudio = (playAudio.isPlay)
-
-    // useEffect(() => {
-    //     isPlayAudio ? setIsPlay(true) : setIsPlay(false)
-    // }, [isPlayAudio])
 
     const handlePlay = () => {
         setIsPlay(pre => !pre)
@@ -146,29 +128,24 @@ const AuthenSuccess = () => {
     }
 
     useEffect(() => {
-        (isPlay) ? dispatch(actions.playTrack()) :
-            dispatch(actions.pauseTrack())
-    }, [isPlay])
-
-    // useEffect(() => {
-    //     if (isPlay) {
-    //         setTimeout(() => {
-    //             audioRef.current.play()
-    //         }, 150)
-    //         progress.current = setInterval(() => {
-    //             setPlayLength(pre => pre + 100 / audioRef.current.duration)
-    //             if (currentTime.seconds === 59) {
-    //                 setCurrentTime(pre => ({ minutes: pre.minutes + 1, seconds: 0 }))
-    //             } else {
-    //                 setCurrentTime(pre => ({ ...pre, seconds: pre.seconds + 1 }))
-    //             }
-    //         }, 1000)
-    //     } else {
-    //         audioRef.current.pause()
-    //         clearInterval(progress.current)
-    //     }
-    //     return () => clearInterval(progress.current)
-    // }, [isPlay, currentTime])
+        if (isPlay) {
+            setTimeout(() => {
+                audioRef.current.play()
+            }, 150)
+            progress.current = setInterval(() => {
+                setPlayLength(pre => pre + 100 / audioRef.current.duration)
+                if (currentTime.seconds === 59) {
+                    setCurrentTime(pre => ({ minutes: pre.minutes + 1, seconds: 0 }))
+                } else {
+                    setCurrentTime(pre => ({ ...pre, seconds: pre.seconds + 1 }))
+                }
+            }, 1000)
+        } else {
+            audioRef.current.pause()
+            clearInterval(progress.current)
+        }
+        return () => clearInterval(progress.current)
+    }, [isPlay, currentTime])
 
     useEffect(() => {
         if (playLength >= 100) {
@@ -256,6 +233,7 @@ const AuthenSuccess = () => {
                 setIsPlay(true)
             }, 3000)
         }
+
     }
     // Handle Next Track
 
@@ -286,10 +264,9 @@ const AuthenSuccess = () => {
     const [isMuted, setIsMuted] = useState(false)
     const handleChangeVolume = (event) => {
         let volume = event.target.value
-        setAudioVol(pre => pre = volume)
-        dispatch(actions.changeVolumn(volume))
-        // audioRef.current.volume = volume / 100;
-        if (volume === 0) {
+        setAudioVol(volume)
+        audioRef.current.volume = volume / 100;
+        if (audioRef.current.volume === 0) {
             setIsMuted(true)
         } else {
             setIsMuted(false)
@@ -306,28 +283,29 @@ const AuthenSuccess = () => {
 
     useEffect(() => {
         if (isMuted) {
-            dispatch(actions.changeVolumn(0))
+            audioRef.current.volume = 0
+            setAudioVol(pre => pre = 0)
         } else {
-            dispatch(actions.changeVolumn(localStorage.getItem('volume')))
+            audioRef.current.volume = getVol/100
+            setAudioVol(pre => pre = 100)
         }
     }, [isMuted])
-
-    useEffect(() => {
-        //   setAudioVol(pre => pre = localStorage.getItem('volume'))
-        dispatch(actions.changeVolumn(localStorage.getItem('volume')))
-    }, [])
 
     const getBackgroundSize = () => {
         return {
             backgroundSize: `${(audioVol * 100) / 100}% 100%`
         }
     }
+    useEffect(() => {
+        audioRef.current.volume = getVol / 100
+        // setAudioVol(getVol ? 100 : getVol)
+        localStorage.setItem('volume', 100)
+    }, [])
     // Handle Volumn
 
     return (
         <div>
             {/* Footer */}
-            <MusicPlayer />
             <footer className='fixed z-50 bottom-0 right-0 left-0'>
                 <div className='grid grid-cols-3 items-center bg-[#181818] h-[90px] pt-[11px] pr-[24px] pb-[7px] pl-[15px] '>
                     <div className='footer-content song-info flex items-center'>
@@ -345,7 +323,7 @@ const AuthenSuccess = () => {
                         </div>
                     </div>
                     <div className='song-control flex flex-col'>
-                        {/* <audio ref={audioRef} onLoadedMetadata={onLoadedMetadata} src={(songArr.length > 0) ? songArr[songIndex].path : ''}></audio> */}
+                        <audio ref={audioRef} onLoadedMetadata={onLoadedMetadata} src={(songArr.length > 0) ? songArr[songIndex].path : ''}></audio>
                         <div className='song-control-btn justify-center items-start mb-1 flex gap-4'>
                             <button onClick={() => handleSetTypePlay("random")} className={`w-8 h-8 flex-wrap flex flex-row justify-center items-center ${isRandom ? 'fill-[#1db954] opacity-100' : 'fill-[#fff] opacity-60'} hover:opacity-100`}>
                                 <svg

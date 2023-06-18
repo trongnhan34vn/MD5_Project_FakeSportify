@@ -12,14 +12,13 @@ const YourLibrary = () => {
     const dispatch = useDispatch();
     const [cookies] = useCookies(["userId"])
     const navigate = useNavigate()
+    const userPlaylist = useSelector(playlistSelector).searchByUserId;
 
     const handleSelectPlaylist = (id) => {
-        navigate("/form-playlist")
+        navigate("/form-playlist", { state: { playlistId: id} })
     }
 
-    
 
-    const userPlaylist = useSelector(playlistSelector).searchByUserId;
     const elementUserPlaylist = userPlaylist.map((item, index) => {
         return (
             <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>

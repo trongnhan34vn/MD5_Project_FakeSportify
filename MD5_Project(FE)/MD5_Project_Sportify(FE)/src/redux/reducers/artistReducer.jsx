@@ -12,6 +12,8 @@ const artistSlice = (state = initState, action) => {
             return {...state, search: [...action.payload]};
         case actionType.GET_SEARCH_ARTIST_BY_CATEGORY:
             return {...state, search: [...action.payload]};
+        case actionType.GET_ARTIST_BY_ID:
+            return {...state, select: action.payload};
         default:
             return state;
     }

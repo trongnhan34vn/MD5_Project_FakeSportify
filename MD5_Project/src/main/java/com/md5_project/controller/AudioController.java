@@ -84,12 +84,12 @@ public class AudioController {
         if (audioList.isEmpty()) {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
     }
 
     @GetMapping("/find-audio-by-category-and-artist")
     public ResponseEntity<?> findAudioByCategoryAndArtist(@RequestParam Long categoryId, @RequestParam Long artistId) {
-        List<Audio> audioList = audioService.findAudioByCategoryAndArtist(categoryId,artistId);
+        List<Audio> audioList = audioService.findAudioByCategoryAndArtist(categoryId, artistId);
         if (audioList.isEmpty()) {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
         }
@@ -104,6 +104,24 @@ public class AudioController {
         if (audioList.isEmpty()) {
             return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(audioList, HttpStatus.OK) ;
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-artist/{id}")
+    public ResponseEntity<?> findAudioByArtist(@PathVariable Long id) {
+        List<Audio> audioList = audioService.findAudioByArtistId(id);
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-artist-and-category")
+    public ResponseEntity<?> findAudioByArtistIdAndCategoryId(@RequestParam Long artistId, @RequestParam Long categoryId) {
+        List<Audio> audioList = audioService.findAudioByArtistIdAndCategoryId(categoryId, artistId);
+        if (audioList.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(audioList, HttpStatus.OK);
     }
 }

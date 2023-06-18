@@ -6,11 +6,10 @@ import artistSlice from "./artistReducer";
 import stateOnSearch from "./checkOnSearch";
 import audioSlice from "./audioReducer";
 import playlistSlice from "./playlistReducer";
-import musicPlayerReducer from "./musicPlayerReducer";
 
 const rootReducer = combineReducers(
    {
-      userSlice, albumSlice, categorySlice, audioSlice, artistSlice, stateOnSearch, playlistSlice, musicPlayerReducer
+      userSlice, albumSlice, categorySlice, audioSlice, artistSlice, stateOnSearch, playlistSlice
    }
 )
 

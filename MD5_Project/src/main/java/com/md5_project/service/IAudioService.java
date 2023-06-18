@@ -10,4 +10,6 @@ public interface IAudioService extends IGenericService<Audio> {
     List<Audio> searchAudioByName(String search);
     Page<Audio> searchAudioByName(String search, Pageable pageable);
     List<Audio> findAudioByCategoryAndArtist(Long categoryId, Long artistId);
+    List<Audio> findAudioByArtistIdAndCategoryId(Long categoryId, Long artistId);
+    List<Audio> findAudioByArtistId(Long artistId);
 }

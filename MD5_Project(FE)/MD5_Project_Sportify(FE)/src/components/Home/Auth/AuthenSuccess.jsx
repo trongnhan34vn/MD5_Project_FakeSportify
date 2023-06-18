@@ -2,12 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { iconPause_TrackItem, iconPlay_TrackItem } from '../../../assets/icon/icon';
 import DirectMenu from '../../DirectMenu/DirectMenu';
 import Navbar from '../../Navbar/Navbar';
-import Footer from '../../Footer/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { albumSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
 import * as actions from '../../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-import MusicPlayer from '../../MusicPlayer/MusicPlayer';
 
 
 const AuthenSuccess = () => {
@@ -15,7 +13,6 @@ const AuthenSuccess = () => {
     const listAlbums = useSelector(albumSelector);
     const currentAlbums = useSelector(selectAlbumSelector);
     const navigate = useNavigate();
-    const [isPlaying, setIsPlaying] = useState(false);
 
     const handlePlaylist = (id, action) => {
         if (action === 'daily-mix') {
@@ -86,7 +83,6 @@ const AuthenSuccess = () => {
 
     return (
         <div>
-            <MusicPlayer musicList={currentAlbums.select && currentAlbums.select.audios} />
             {/* Home Page - Log in*/}
             <div className='relative home-page mb-[66px] w-full flex'>
                 {/* Direction Menu */}

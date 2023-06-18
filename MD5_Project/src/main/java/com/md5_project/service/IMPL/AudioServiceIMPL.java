@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class AudioServiceIMPL implements IAudioService {
     @Autowired
     IAudioRepository audioRepository;
+
     @Override
     public Iterable<Audio> findAll() {
         return audioRepository.findAll();
@@ -55,6 +57,16 @@ public class AudioServiceIMPL implements IAudioService {
 
     @Override
     public List<Audio> findAudioByCategoryAndArtist(Long categoryId, Long artistId) {
-        return audioRepository.findAudioByCategoryAndArtist(categoryId,artistId);
+        return audioRepository.findAudioByCategoryAndArtist(categoryId, artistId);
+    }
+
+    @Override
+    public List<Audio> findAudioByArtistIdAndCategoryId(Long categoryId, Long artistId) {
+        return audioRepository.findAudioByArtistIdAndCategoryId(categoryId, artistId);
+    }
+
+    @Override
+    public List<Audio> findAudioByArtistId(Long artistId) {
+        return audioRepository.findAudioByArtistId(artistId);
     }
 }

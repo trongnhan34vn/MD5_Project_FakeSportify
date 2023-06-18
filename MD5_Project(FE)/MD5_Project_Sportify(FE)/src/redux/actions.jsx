@@ -162,6 +162,35 @@ export const getAudioById = (data) => {
     }
 }
 
+export const findAudioByArtist = (data) => {
+    return {
+        type: actionType.FIND_AUDIO_BY_ARTIST,
+        payload: data
+    }
+}
+
+export const getAudioByArtist = (data) => {
+    return {
+        type: actionType.GET_AUDIO_BY_ARTIST,
+        payload: data
+    }
+}
+
+export const findAudioByCategoryAndArtist = (data) => {
+    return {
+        type: actionType.FIND_AUDIO_BY_CATEGORY_ARTIST,
+        payload: data
+    }
+}
+
+export const getAudioByCategoryAndArtist = (data) => {
+    console.log(data);
+    return {
+        type: actionType.GET_AUDIO_BY_CATEGORY_ARTIST,
+        payload: data
+    }
+}
+
 // ARTIST
 export const searchArtistByName = (data) => {
     return {
@@ -187,6 +216,20 @@ export const searchArtistByCategory = (data) => {
 export const getSearchArtistByCategory = (data) => {
     return {
         type: actionType.GET_SEARCH_ARTIST_BY_CATEGORY,
+        payload: data
+    }
+}
+
+export const findArtistById = (data) => {
+    return {
+        type: actionType.FIND_ARTIST_BY_ID,
+        payload: data
+    }
+}
+
+export const getArtistById = (data) => {
+    return {
+        type: actionType.GET_ARTIST_BY_ID,
         payload: data
     }
 }
@@ -270,27 +313,6 @@ export const fetching = (data) => {
         payload: data
     }
 }
-
-// MUSIC PLAY
-export const changeVolumn = (data) => {
-    return {
-        type: actionType.CHANGE_VOLUMN,
-        payload: data
-    }
-}
-
-export const playTrack = () => {
-    return {
-        type: actionType.PLAY_TRACK,
-    }
-}
-
-export const pauseTrack = () => {
-    return {
-        type: actionType.PAUSE_TRACK,
-    }
-}
-
 
 
 

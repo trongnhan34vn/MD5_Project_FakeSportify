@@ -54,7 +54,7 @@ const AuthenSuccess = () => {
         </NavLink>
     </div> : <></>;
 
-    const elementSearchBar = isSearch && location.pathname != "/search/category" ? <div className='flex justify-center flex-col'>
+    const elementSearchBar = isSearch && location.pathname != "/search/category" && location.pathname != '/search-result' ? <div className='flex justify-center flex-col'>
         <div className='bg-[#242424] mb-2 px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
             <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
             <input value={stateOnSearch.searchVal} onChange={handleChange} name='search' placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none' />
@@ -109,7 +109,7 @@ const AuthenSuccess = () => {
                     <i className="ti-angle-right text-[#fff] font-bold" />
                 </button>
             </div> */}
-            <nav className={`fixed z-[60] ${(isSearch && stateOnSearch.searchVal != '') ? 'p-12' : ''} right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
+            <nav className={`fixed z-[60] ${(isSearch && stateOnSearch.searchVal != '' && location.pathname!='/search-result') ? 'p-12' : ''} right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
                 <div className='nav-direction-page  flex items-center gap-4 z-[60]'>
                     <button onClick={() => navigate(-1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-left text-[#fff] font-bold" />

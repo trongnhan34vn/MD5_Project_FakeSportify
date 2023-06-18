@@ -42,7 +42,6 @@ export const createPlaylist = function* (action) {
 export const updatePlaylist = function* (action) {
     try {
         let response = yield call(playlistService.UPDATE_PLAYLIST, action.payload)
-        console.log(response);
     } catch (error) {
         console.log(error);
     }
@@ -51,7 +50,6 @@ export const updatePlaylist = function* (action) {
 export const insertAudioToPlaylist = function* (action) { 
     try {
         let response = yield call(playlistService.INSERT_AUDIO_TO_PLAYLIST, action.payload)
-        console.log(response);
     } catch (error) {
         console.log(error);   
     }
