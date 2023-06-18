@@ -30,3 +30,4 @@ export const playlistSelector = state => state.playlistSlice
 
 //OTHER
 export const fetchSelector = state => state.playlistSlice.fetching
+export const musicPlayerSelector = state => state.musicPlayerReducer

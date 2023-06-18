@@ -67,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(
                         "/api/auth/register/**",
                         "/api/auth/signup",
+                        "/api/auth/signin",
                         "/album/find-all",
                         "/album/find-by-id/**",
                         "/playlist/find-by-name",

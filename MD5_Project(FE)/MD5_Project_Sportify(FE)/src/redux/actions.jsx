@@ -271,6 +271,25 @@ export const fetching = (data) => {
     }
 }
 
+// MUSIC PLAY
+export const changeVolumn = (data) => {
+    return {
+        type: actionType.CHANGE_VOLUMN,
+        payload: data
+    }
+}
+
+export const playTrack = () => {
+    return {
+        type: actionType.PLAY_TRACK,
+    }
+}
+
+export const pauseTrack = () => {
+    return {
+        type: actionType.PAUSE_TRACK,
+    }
+}
 
 
 
