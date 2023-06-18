@@ -10,11 +10,23 @@ public class PlaylistDTO {
     private boolean status;
     private List<Audio> audios;
 
+    public List<Audio> getAudios() {
+        return audios;
+    }
+
+    public void setAudios(List<Audio> audios) {
+        this.audios = audios;
+    }
+
     public PlaylistDTO(String name) {
         this.name = name;
     }
 
     public PlaylistDTO() {
+    }
+
+    public PlaylistDTO(List<Audio> audios) {
+        this.audios = audios;
     }
 
     public PlaylistDTO(String name, Long userId, boolean status) {

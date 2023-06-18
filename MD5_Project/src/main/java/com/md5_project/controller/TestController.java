@@ -55,7 +55,7 @@ public class TestController {
             Iterable<Audio> audios = audioService.findAll();
             List<Audio> allAudios = new ArrayList<>();
             audios.forEach(allAudios::add);
-            List<Audio> audioList = new ArrayList<>();
+            Set<Audio> audioList = new HashSet<>();
             do {
                 int randomIndex = (int) Math.floor(Math.random() * allAudios.size());
                 audioList.add(allAudios.get(randomIndex));

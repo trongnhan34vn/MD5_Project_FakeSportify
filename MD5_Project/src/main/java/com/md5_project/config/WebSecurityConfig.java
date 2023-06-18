@@ -64,10 +64,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
-        http.authorizeRequests().antMatchers("/api/auth/register/**", "/api/auth/signup").permitAll()
-                        .and()
-                                .authorizeRequests().antMatchers("/playlist/**").permitAll();
-
+        http.authorizeRequests().antMatchers(
+                        "/api/auth/register/**",
+                        "/api/auth/signup",
+                        "/album/find-all",
+                        "/album/find-by-id/**",
+                        "/playlist/find-by-name",
+                        "/playlist/find-by-id/**",
+                        "/category/find-all",
+                        "/category/find-by-id/**",
+                        "/artist/find-artist-by-category/**",
+                        "/album/searchPaging/**",
+                        "/artist/searchPaging/**",
+                        "/audio/searchPaging/**").permitAll()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authenTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -256,6 +256,22 @@ export const updatePlaylist = (data) => {
     }
 }
 
+export const insertAudioToPlaylist = (data) => {
+    return {
+        type: actionType.INSERT_AUDIO_TO_PLAYLIST,
+        payload: data
+    }
+}
+
+// OTHER
+export const fetching = (data) => {
+    return {
+        type: actionType.FETCHING,
+        payload: data
+    }
+}
+
+
 
 
 

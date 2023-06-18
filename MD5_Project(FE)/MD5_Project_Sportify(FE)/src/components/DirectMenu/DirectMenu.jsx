@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, matchPath, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import * as actions from '../../redux/actions';
-import { playlistSelector } from '../../redux/selector';
+import { fetchSelector, playlistSelector } from '../../redux/selector';
 
 const DirectMenu = () => {
     const location = useLocation();
@@ -13,7 +13,7 @@ const DirectMenu = () => {
     const [cookies] = useCookies(["userId"])
     const getPlaylistByUserId = useSelector(playlistSelector).searchByUserId;
     const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
-    const [fetchingState, setFetchingState] = useState();
+    const fetching = useSelector(fetchSelector);
 
 
     useEffect(() => {
@@ -31,9 +31,9 @@ const DirectMenu = () => {
     }, [location.pathname])
     const navigate = useNavigate();
 
-    
+
     const createPlaylist = () => {
-        setFetchingState(latestPlaylist);
+        dispatch(actions.fetching(true))
         dispatch(actions.createPlaylist({
             name: 'My Playlist #',
             userId: cookies["userId"],
@@ -43,10 +43,11 @@ const DirectMenu = () => {
     }
 
     useEffect(() => {
-        if (fetchingState && latestPlaylist !== fetchingState) {
-            setFetchingState();
-            navigate('/form-playlist', {state: {playlistId:latestPlaylist.id}})
-        }
+        if (latestPlaylist && fetching) {
+            dispatch(actions.fetching(false))
+            // fetchingState.current = latestPlaylist;
+            navigate('/form-playlist', { state: { playlistId: latestPlaylist.id } })
+        } 
     }, [latestPlaylist])
 
     return (

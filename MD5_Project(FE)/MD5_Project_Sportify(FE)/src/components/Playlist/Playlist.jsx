@@ -9,8 +9,8 @@ const Playlist = () => {
     const selectAlbum = useSelector(selectAlbumSelector);
     const selectPlaylist = useSelector(playlistSelector);
 
-    const listAudios = selectAlbum && selectAlbum.select.audios;
-    const elementList = listAudios.map((audio, index) => {
+    const listAudios = selectAlbum.select && selectAlbum.select.audios;
+    const elementList = listAudios && listAudios.map((audio, index) => {
         return <tr key={audio.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
             <td className='text-center'>
                 <div className='relative'>
@@ -53,7 +53,7 @@ const Playlist = () => {
                         </div>
                         <div className='overflow-hidden banner-song-info text-[#fff]'>
                             <p className='text-[16px] font-CircularBook'>Playlist</p>
-                            <h3 className='font-CircularBold text-[72px] truncate'>{selectAlbum.select.name}</h3>
+                            <h3 className='font-CircularBold text-[72px] truncate'>{selectAlbum.select && selectAlbum.select.name}</h3>
                             <p className='text-[16px] font-CircularLight'>Danh sách nghệ sĩ</p>
                         </div>
                     </div>

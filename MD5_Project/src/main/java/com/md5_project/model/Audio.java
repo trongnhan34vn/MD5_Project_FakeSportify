@@ -42,4 +42,8 @@ public class Audio {
 
     @Column(columnDefinition = "BIT DEFAULT true")
     private boolean status;
+
+    @ManyToMany(mappedBy = "audios", cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties({"audios"})
+    private List<Playlist> playlists;
 }

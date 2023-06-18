@@ -5,7 +5,8 @@ const initState = {
     search: [],
     select: null,
     searchByUserId: [],
-    latestPlaylist: null
+    latestPlaylist: null,
+    fetching: false
 }
 
 const playlistSlice = (state = initState, action) => {
@@ -18,6 +19,8 @@ const playlistSlice = (state = initState, action) => {
             return {...state, searchByUserId: action.payload};
         case actionType.GET_LATEST_PLAYLIST:
             return {...state, latestPlaylist: action.payload};
+        case actionType.FETCHING:
+            return {...state, fetching: action.payload};
         default:
             return state;
     }

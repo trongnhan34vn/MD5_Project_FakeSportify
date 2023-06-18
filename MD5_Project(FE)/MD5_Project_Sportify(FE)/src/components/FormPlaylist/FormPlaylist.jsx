@@ -20,10 +20,10 @@ const FormPlaylist = () => {
     const audioList = useSelector(audioSelector).search;
     const [isOpenModal, setIsOpenModal] = useState(false);
     const selectPlaylist = useSelector(playlistSelector).select;
-    
+    const selectAudio = useSelector(audioSelector).select;
+    const [arrAudio, setArrAudio] = useState([]);
 
     useEffect(() => {
-        console.log(playlistId);
         dispatch(actions.findPlaylistById(playlistId))
     }, [])
 
@@ -38,9 +38,11 @@ const FormPlaylist = () => {
     }
 
     const handleInsertToPlaylist = (audioId) => {
-
+        dispatch(actions.insertAudioToPlaylist({
+            audioId: audioId,
+            playlistId: selectPlaylist.id
+        }))
     }
-
 
     const elementAudioSearch = audioList.map((item) => {
         return (
@@ -79,7 +81,7 @@ const FormPlaylist = () => {
                     </div>
                     <div onClick={handleModal} className='overflow-hidden banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularMedium'>Playlist</p>
-                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{selectPlaylist&&selectPlaylist.name}</span></button></h3>
+                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{selectPlaylist && selectPlaylist.name}</span></button></h3>
                         <p className='text-[16px] font-CircularLight'>{cookies["fullName"]}</p>
                     </div>
                 </div>

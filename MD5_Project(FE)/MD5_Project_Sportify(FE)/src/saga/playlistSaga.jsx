@@ -17,7 +17,7 @@ export const findPlaylistById = function* (action) {
         let playlist = yield call(playlistService.FIND_PLAYLIST_BY_ID, action.payload)
         yield put(actions.getPlaylistById(playlist))
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
@@ -45,5 +45,14 @@ export const updatePlaylist = function* (action) {
         console.log(response);
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const insertAudioToPlaylist = function* (action) { 
+    try {
+        let response = yield call(playlistService.INSERT_AUDIO_TO_PLAYLIST, action.payload)
+        console.log(response);
+    } catch (error) {
+        console.log(error);   
     }
 }

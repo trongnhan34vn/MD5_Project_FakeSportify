@@ -14,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/playlist")
@@ -55,7 +53,7 @@ public class PlaylistController {
         } else {
             count = playlists.size() + 1;
         }
-        List<Audio> audios = new ArrayList<>();
+        Set<Audio> audios = new HashSet<>();
         newPlaylist.setAudios(audios);
         newPlaylist.setName(playlistDTO.getName() + count);
         newPlaylist.setStatus(playlistDTO.isStatus());
@@ -105,8 +103,8 @@ public class PlaylistController {
     }
 
     @PatchMapping("/insert-audio-playlist")
-    public ResponseEntity<?> insertAudioToPlaylist(@RequestParam Long playlistId ,@RequestBody List<Audio> audios) {
-        Playlist playlist = playlistService.insertAudioToPlaylist(playlistId, audios);
+    public ResponseEntity<?> insertAudioToPlaylist(@RequestParam Long playlistId, @RequestParam Long audioId) {
+        Playlist playlist = playlistService.insertAudioToPlaylist(playlistId, audioId);
         if (playlist == null) {
             return new ResponseEntity<>(new ResponseMessage("INSERT FAILED"),HttpStatus.NOT_ACCEPTABLE);
         }

@@ -8,9 +8,12 @@ import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 public class PlaylistServiceIMPL implements IPlaylistService {
     @Autowired
@@ -50,9 +53,13 @@ public class PlaylistServiceIMPL implements IPlaylistService {
     }
 
     @Override
-    public Playlist insertAudioToPlaylist(Long playlistId, List<Audio> audios) {
-        Optional<Playlist> playlist = findById(playlistId);
-        playlist.ifPresent(value -> value.setAudios(audios));
-        return playlist.map(this::save).orElse(null);
+    public Playlist insertAudioToPlaylist(Long playlistId, Long audioId) {
+        Optional<Playlist> playlistOptional = findById(playlistId);
+        Playlist playlist = playlistOptional.orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        Audio audio = audioService.findById(audioId).orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        Set<Audio> audioList = playlist.getAudios();
+        audioList.add(audio);
+        playlist.setAudios(audioList);
+        return save(playlist);
     }
 }

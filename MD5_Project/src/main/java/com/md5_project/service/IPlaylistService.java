@@ -9,5 +9,5 @@ public interface IPlaylistService extends IGenericService<Playlist> {
     List<Playlist> findPlaylistByName(String name);
     Iterable<Playlist> findPlaylistByUserId(Long userId);
 
-    Playlist insertAudioToPlaylist(Long playlistId, List<Audio> audios);
+    Playlist insertAudioToPlaylist(Long playlistId, Long audioId);
 }

@@ -27,3 +27,6 @@ export const artistSelector = state => state.artistSlice
 
 // PLAYLIST
 export const playlistSelector = state => state.playlistSlice
+
+//OTHER
+export const fetchSelector = state => state.playlistSlice.fetching

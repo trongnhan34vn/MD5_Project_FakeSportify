@@ -29,9 +29,11 @@ public class Playlist {
     @JsonIgnoreProperties("playlists")
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "playlist_audio",
             joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "audio_id"))
-    private List<Audio> audios;
+            inverseJoinColumns = @JoinColumn(name = "audio_id")
+            )
+    @JsonIgnoreProperties("playlists")
+    private Set<Audio> audios;
 }
