@@ -8,6 +8,7 @@ import DirectMenu from '../DirectMenu/DirectMenu';
 import Navbar from '../Navbar/Navbar';
 import * as actions from '../../redux/actions';
 import Modal from '../Modal/Modal';
+import ToastPlaylistFail from '../Toast/ToastPlaylistFail';
 
 export default function MyPlaylistDetail() {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function MyPlaylistDetail() {
     const audioList = useSelector(audioSelector).search;
     const [isOpenModal, setIsOpenModal] = useState(false);
     const selectPlaylist = useSelector(playlistSelector).select;
+    const [isOnToast, setIsOnToast] = useState(false);
 
     useEffect(() => {
         playlistId &&
@@ -91,7 +93,10 @@ export default function MyPlaylistDetail() {
                 playlistId: selectPlaylist.id
             }))
         } else {
-            alert('ngủ đe')
+            setIsOnToast(true)
+            setTimeout(() => {
+                setIsOnToast(false)
+            }, 3000)
         }
     }
 
@@ -137,7 +142,7 @@ export default function MyPlaylistDetail() {
                         <p className='text-[16px] font-CircularLight'>{cookies["fullName"]}</p>
                     </div>
                 </div>
-                <div className='section-playlist-list-song h-full bg-[#121212]'>
+                <div className='section-playlist-list-song min-h-screen bg-[#121212]'>
                     <div className='section-playlist-list px-8 h-full mb-[40px]'>
                         <div className='section-play-list-control flex gap-8 px-8 py-6 items-center'>
                             <button className='rounded-[50%] hover:scale-110 transition-all duration-200 bg-primaryColor p-3.5'>
@@ -226,6 +231,7 @@ export default function MyPlaylistDetail() {
             {/* Content */}
             {/* Footer */}
             {modalElement}
+            <ToastPlaylistFail isOnToast={isOnToast} />
             {/* Footer */}
         </div>
     );

@@ -23,7 +23,7 @@ const FormPlaylist = () => {
 
     useEffect(() => {
         playlistId &&
-        dispatch(actions.findPlaylistById(playlistId))
+            dispatch(actions.findPlaylistById(playlistId))
     }, [selectPlaylist])
 
     const handleDelete = (audioId) => {
@@ -56,7 +56,7 @@ const FormPlaylist = () => {
                 </td>
                 <td>
                     <div className='vote flex items-center justify-center'>
-                        <button onClick={()=> handleDelete(item.id)} className='mr-5'>
+                        <button onClick={() => handleDelete(item.id)} className='mr-5'>
                             <i className='ti-trash text-[20px]'></i>
                         </button>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
@@ -80,7 +80,7 @@ const FormPlaylist = () => {
 
     const checkExist = (audioId) => {
         for (let index = 0; index < selectPlaylist.audios.length; index++) {
-            if(selectPlaylist.audios[index].id === audioId) {
+            if (selectPlaylist.audios[index].id === audioId) {
                 return true
             }
         }
@@ -131,7 +131,7 @@ const FormPlaylist = () => {
             <section className='section-playlist pb-[90px] h-full min-h-screen pl-[241px] bg-[#121212]'>
                 <div className='section-playlist-banner flex items-end gap-6 linearColor max-h-[500px] h-[30vh] min-h-[340px] p-8'>
                     <div className='banner-img w-48 h-48'>
-                        <img className='w-full object-cover h-full drop-shadow-2xl' src="" alt="" />
+                        <img className='w-full object-cover h-full drop-shadow-2xl' src={selectPlaylist.image} alt="" />
                     </div>
                     <div onClick={handleModal} className='overflow-hidden banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularMedium'>Playlist</p>
@@ -141,6 +141,11 @@ const FormPlaylist = () => {
                 </div>
                 <div className='section-playlist-list-song h-full bg-[#121212]'>
                     <div className='section-playlist-list px-8 h-full mb-[40px]'>
+                        <div className='section-play-list-control flex gap-8 px-8 py-6 items-center'>
+                            <button className='rounded-[50%] hover:scale-110 transition-all duration-200 bg-primaryColor p-3.5'>
+                                {iconPauseBtn_Playlist}
+                            </button>
+                        </div>
                         <table className='table-fixed w-full text-[#B3B3B3] h-full font-CircularLight text-sm mb-16'>
                             <thead className='text-left'>
                                 <tr className='border-b border-[hsla(0,0%,100%,.1)]'>

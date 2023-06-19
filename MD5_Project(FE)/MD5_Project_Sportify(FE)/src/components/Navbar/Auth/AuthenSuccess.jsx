@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import * as actions from '../../../redux/actions';
 import { stateOnSearchSelector } from '../../../redux/selector';
+import { useCookies } from 'react-cookie';
 
 const AuthenSuccess = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AuthenSuccess = () => {
     const location = useLocation();
     const path = location.pathname;
     const [activeTab, setActiveTab] = useState("")
+    const [cookies, removeCookie] = useCookies(["fullName", 'userId', 'token'])
 
     const handleChange = (e) => {
         let value = e.target.value;
@@ -90,6 +92,9 @@ const AuthenSuccess = () => {
     const handleSignOut = () => {
         setMenuToggle(false)
         navigate("/")
+        removeCookie('fullName', { path: '/', domain: 'localhost' });
+        removeCookie('token', { path: '/', domain: 'localhost' });
+        removeCookie('userId', { path: '/', domain: 'localhost' });
     }
     const elementIconToggle = (menuToggle) ? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
     const elementMenuToggle = (menuToggle) ? <ul className='right-0 top-10 p-1 direction-account absolute bg-[#282828] font-CircularLight text-sm rounded shadow-[0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%)] max-w-[350px] min-w-[160px]'>
@@ -130,7 +135,7 @@ const AuthenSuccess = () => {
                                     <img className='w-7 h-7 rounded-[50%]' src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/5/26/913299/Ngan-Ha25.jpg" alt="" />
                                 </span>
                                 <span className='users'>
-                                    Khoa
+                                    {cookies['fullName']}
                                 </span>
                                 <span className='pr-3'>
                                     {elementIconToggle}

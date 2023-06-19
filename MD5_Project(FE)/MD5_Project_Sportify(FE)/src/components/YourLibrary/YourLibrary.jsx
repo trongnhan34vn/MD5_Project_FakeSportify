@@ -24,7 +24,7 @@ const YourLibrary = () => {
     const handleSelectPlaylist = (id) => {
         navigate("/my-playlist", { state: { playlistId: id } })
     }
-
+    // console.log(currentPage);
     const handlePagin = (item) => {
         dispatch(actions.findPlaylistByUserId({
             userId: cookies['userId'],
@@ -41,7 +41,7 @@ const YourLibrary = () => {
             }
             setPages(pageArr)
         }
-    }, [userPlaylist])
+    }, [])
 
     const elementPages = pages.map((item, index) => {
         return (
@@ -84,6 +84,14 @@ const YourLibrary = () => {
             size: 10
         }
         dispatch(actions.findPlaylistByUserId(pageObj))
+    }, [])
+
+    useEffect(() => {
+        dispatch(actions.findPlaylistByUserId({
+            userId: cookies['userId'],
+            page: currentPage - 1,
+            size: 10
+        }))
     }, [userPlaylist])
     return (
         <div className='relative home-page mb-[66px] w-full flex' >

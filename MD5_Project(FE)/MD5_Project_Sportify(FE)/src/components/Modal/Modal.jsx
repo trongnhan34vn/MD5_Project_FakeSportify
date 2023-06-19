@@ -6,11 +6,13 @@ import { playlistSelector } from '../../redux/selector';
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import * as actions from '../../redux/actions';
 import { useCookies } from 'react-cookie';
+import { useLocation } from 'react-router-dom'
 
 const Modal = (props) => {
     const [cookies] = useCookies(["userId"])
     const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
     const selectPlaylist = useSelector(playlistSelector).select;
+    const location = useLocation()
     const [inputValue, setInputValue] = useState({
         id: '',
         name: '',
@@ -57,7 +59,7 @@ const Modal = (props) => {
     }, []);
 
     useEffect(() => {
-        latestPlaylist ?
+        location.pathname === '/form-playlist' ?
             setInputValue({
                 id: latestPlaylist.id,
                 image: latestPlaylist.image,
