@@ -38,7 +38,7 @@ const CategorySearch = () => {
         <div className='content w-full'>
             {/* List Playlists - Log Out */}
             <div className='list-playlists pt-[135px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
-                <div className='px-8 mb-14'>
+                <div className='px-8 mb-14 flex justify-start'>
                     <h1 className='text-[#fff] font-CircularBold text-[100px]'>{selectCategory && selectCategory.name}</h1>
                 </div>
                 {/* Playlists - Your Playlist */}

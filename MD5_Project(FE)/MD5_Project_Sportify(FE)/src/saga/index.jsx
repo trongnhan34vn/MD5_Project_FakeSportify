@@ -37,7 +37,9 @@ export const rootSaga = function* () {
             takeLatest(actionType.FIND_PLAYLIST_BY_USER_ID, playlistSaga.findPlaylistByUserId),
             takeLatest(actionType.CREATE_PLAYLIST, playlistSaga.createPlaylist),
             takeLatest(actionType.UPDATE_PLAYLIST, playlistSaga.updatePlaylist),
-            takeLatest(actionType.INSERT_AUDIO_TO_PLAYLIST, playlistSaga.insertAudioToPlaylist)
+            takeLatest(actionType.INSERT_AUDIO_TO_PLAYLIST, playlistSaga.insertAudioToPlaylist),
+            takeLatest(actionType.REMOVE_AUDIO_FROM_PLAYLIST,playlistSaga.removeAudioFromPlaylist),
+            takeLatest(actionType.DELETE_PLAYLIST_BY_ID, playlistSaga.deletePlaylistById)
         ]
     )
 }

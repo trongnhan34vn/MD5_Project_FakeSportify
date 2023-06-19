@@ -6,6 +6,9 @@ import com.md5_project.repository.IPlaylistRepository;
 import com.md5_project.service.IAudioService;
 import com.md5_project.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -38,11 +41,6 @@ public class PlaylistServiceIMPL implements IPlaylistService {
     }
 
     @Override
-    public void remove(Long id) {
-        playlistRepository.deleteById(id);
-    }
-
-    @Override
     public List<Playlist> findPlaylistByName(String name) {
         return playlistRepository.findPlaylistByNameContainingIgnoreCase(name);
     }
@@ -61,5 +59,36 @@ public class PlaylistServiceIMPL implements IPlaylistService {
         audioList.add(audio);
         playlist.setAudios(audioList);
         return save(playlist);
+    }
+
+    @Override
+    public boolean removeAudioFromPlaylist(Long playlistId, Long audioId) {
+        Playlist playlist = findById(playlistId).orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        Set<Audio> audioList = playlist.getAudios();
+
+        Audio audio = audioService.findById(audioId).orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        if (audioList.remove(audio)) {
+            playlist.setAudios(audioList);
+            save(playlist);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void remove(Long id) {
+        Playlist playlist = findById(id).orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        Set<Audio> audioList = playlist.getAudios();
+        for (Audio audio: audioList) {
+            removeAudioFromPlaylist(id, audio.getId());
+        }
+        playlistRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Playlist> findPlaylistByUserIdPaging(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return playlistRepository.findPlaylistByUserId(userId, pageable);
     }
 }

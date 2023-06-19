@@ -42,6 +42,8 @@ export const createPlaylist = function* (action) {
 export const updatePlaylist = function* (action) {
     try {
         let response = yield call(playlistService.UPDATE_PLAYLIST, action.payload)
+        let fakeAction = {payload: action.payload.id}
+        yield findPlaylistById(fakeAction)
     } catch (error) {
         console.log(error);
     }
@@ -50,7 +52,30 @@ export const updatePlaylist = function* (action) {
 export const insertAudioToPlaylist = function* (action) { 
     try {
         let response = yield call(playlistService.INSERT_AUDIO_TO_PLAYLIST, action.payload)
+        let fakeAction = {payload: action.payload.playlistId}
+        yield findPlaylistById(fakeAction);
     } catch (error) {
         console.log(error);   
+    }
+}
+
+export const removeAudioFromPlaylist = function* (action) {
+    try {
+        let response = yield call(playlistService.REMOVE_AUDIO_FROM_PLAYLIST, action.payload)
+        let fakeAction = {payload: action.payload.playlistId}
+        yield findPlaylistById(fakeAction);
+        console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deletePlaylistById = function * (action) {
+    try {
+        let response = yield call(playlistService.DELETE_PLAYLIST_BY_ID, action.payload.playlistId);
+        console.log(action.payload.paging);
+        yield findPlaylistByUserId(action.payload.paging)
+    } catch (error) {
+        
     }
 }

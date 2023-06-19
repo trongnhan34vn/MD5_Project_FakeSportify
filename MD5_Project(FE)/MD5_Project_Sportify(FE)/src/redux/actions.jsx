@@ -184,7 +184,6 @@ export const findAudioByCategoryAndArtist = (data) => {
 }
 
 export const getAudioByCategoryAndArtist = (data) => {
-    console.log(data);
     return {
         type: actionType.GET_AUDIO_BY_CATEGORY_ARTIST,
         payload: data
@@ -302,6 +301,20 @@ export const updatePlaylist = (data) => {
 export const insertAudioToPlaylist = (data) => {
     return {
         type: actionType.INSERT_AUDIO_TO_PLAYLIST,
+        payload: data
+    }
+}
+
+export const removeAudioFromPlaylist = (data) => {
+    return {
+        type: actionType.REMOVE_AUDIO_FROM_PLAYLIST,
+        payload: data
+    }
+}
+
+export const deletePlaylistById = (data) => {
+    return {
+        type: actionType.DELETE_PLAYLIST_BY_ID,
         payload: data
     }
 }

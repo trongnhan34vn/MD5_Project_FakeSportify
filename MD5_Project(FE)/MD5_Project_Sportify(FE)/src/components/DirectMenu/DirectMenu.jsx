@@ -21,6 +21,7 @@ const DirectMenu = () => {
             { path: "/", tab: "Home" },
             { path: "/search", tab: "Search" },
             { path: "/your-library", tab: "YourLibrary", },
+            { path: "/my-playlist", tab: "MyPlaylist" },
             { path: "/form-playlist", tab: "FormPlaylist", }
         ];
         activeArr.forEach((val) => {
@@ -47,7 +48,7 @@ const DirectMenu = () => {
             dispatch(actions.fetching(false))
             // fetchingState.current = latestPlaylist;
             navigate('/form-playlist', { state: { playlistId: latestPlaylist.id } })
-        } 
+        }
     }, [latestPlaylist])
 
     return (
@@ -95,7 +96,7 @@ const DirectMenu = () => {
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Tìm kiếm</span>
                     </li>
-                    <li onClick={() => { navigate("/your-library") }} className={`${activeTab === 'YourLibrary' && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
+                    <li onClick={() => { navigate("/your-library") }} className={`${(activeTab === 'YourLibrary' || activeTab === 'MyPlaylist') && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <svg
                             role="img"
                             height="24"

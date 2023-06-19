@@ -10,14 +10,20 @@ import { useCookies } from 'react-cookie';
 const Modal = (props) => {
     const [cookies] = useCookies(["userId"])
     const latestPlaylist = useSelector(playlistSelector).latestPlaylist;
+    const selectPlaylist = useSelector(playlistSelector).select;
     const [inputValue, setInputValue] = useState({
         id: '',
         name: '',
         image: null,
         status: true,
-        userId: cookies["userId"]
+        userId: + cookies["userId"]
     })
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        props.playlistId &&
+            dispatch(actions.findPlaylistById(props.playlistId))
+    }, [props.playlistId])
 
     // Upload Firebase
     const [imageUpload, setImageUpload] = useState(null);
@@ -30,7 +36,7 @@ const Modal = (props) => {
     const uploadImgFile = (e) => {
         setImageUpload(pre => pre = e)
         let image = e
-        const imageRef = ref(storage, `images/${image.name}`);
+        const imageRef = ref(storage, `images/${image?.name}`);
         uploadBytes(imageRef, image)
             .then((snapshot) => {
                 getDownloadURL(snapshot.ref)
@@ -40,7 +46,7 @@ const Modal = (props) => {
                             name: inputValue.name,
                             image: url,
                             status: true,
-                            userId: cookies["userId"]
+                            userId: + cookies["userId"]
                         }))
                     })
             });
@@ -59,17 +65,18 @@ const Modal = (props) => {
                 status: true,
                 userId: cookies["userId"]
             }) :
-            setInputValue({ ...inputValue, name: "" })
+            setInputValue({
+                id: selectPlaylist.id,
+                image: selectPlaylist.image,
+                name: selectPlaylist.name,
+                status: true,
+                userId: cookies["userId"]
+            })
     }, [latestPlaylist])
 
     const handleCloseModal = () => {
         props.setIsOpenModal(false);
-
     }
-
-    useEffect(() => {
-        
-    },[])
 
     const handleChange = (e) => {
         let key = e.target.name;
@@ -106,7 +113,7 @@ const Modal = (props) => {
                             <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6V3zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5v-1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5v-1.5z">
                             </path>
                         </svg>
-                        {selectedImage && (<img className='w-48 h-full object-cover shadow-[0 4px 60px rgb(0 0 0 / 50%)]' src={URL.createObjectURL(selectedImage)} alt="" />)}
+                        {selectedImage && (<img className='absolute z-[-1] w-48 h-full object-cover shadow-[0 4px 60px rgb(0 0 0 / 50%)]' src={URL.createObjectURL(selectedImage)} alt="" />)}
                     </div>
                     <div className='info flex flex-col gap-2'>
                         <div>

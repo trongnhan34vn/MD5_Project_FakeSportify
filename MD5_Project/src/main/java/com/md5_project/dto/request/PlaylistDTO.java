@@ -2,19 +2,38 @@ package com.md5_project.dto.request;
 
 import com.md5_project.model.Audio;
 
-import java.util.List;
+import java.util.Set;
 
 public class PlaylistDTO {
+    private Long id;
     private String name;
     private Long userId;
     private boolean status;
-    private List<Audio> audios;
+    private Set<Audio> audios;
+    private String image;
 
-    public List<Audio> getAudios() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public PlaylistDTO(Long id, String name, Long userId, boolean status, Set<Audio> audios, String imgUrl) {
+        this.id = id;
+        this.name = name;
+        this.userId = userId;
+        this.status = status;
+        this.audios = audios;
+        this.image = imgUrl;
+    }
+
+    public Set<Audio> getAudios() {
         return audios;
     }
 
-    public void setAudios(List<Audio> audios) {
+    public void setAudios(Set<Audio> audios) {
         this.audios = audios;
     }
 
@@ -25,7 +44,23 @@ public class PlaylistDTO {
     public PlaylistDTO() {
     }
 
-    public PlaylistDTO(List<Audio> audios) {
+    public PlaylistDTO(Long id, String name, Long userId, boolean status, Set<Audio> audios) {
+        this.id = id;
+        this.name = name;
+        this.userId = userId;
+        this.status = status;
+        this.audios = audios;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PlaylistDTO(Set<Audio> audios) {
         this.audios = audios;
     }
 
@@ -62,9 +97,12 @@ public class PlaylistDTO {
     @Override
     public String toString() {
         return "PlaylistDTO{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", userId=" + userId +
                 ", status=" + status +
+                ", audios=" + audios +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
