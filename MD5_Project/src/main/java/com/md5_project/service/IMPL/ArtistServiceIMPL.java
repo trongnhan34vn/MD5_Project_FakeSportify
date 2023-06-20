@@ -49,5 +49,10 @@ public class ArtistServiceIMPL implements IArtistService {
         return artistRepository.findArtistByCategory(categoryId, pageable);
     }
 
+    @Override
+    public List<Artist> findArtistByPlaylistId(Long playlistId) {
+        return artistRepository.findArtistByPlaylistId(playlistId);
+    }
+
 
 }

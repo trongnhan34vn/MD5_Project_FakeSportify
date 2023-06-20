@@ -39,9 +39,6 @@ public class PlaylistController {
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Playlist> playlist = playlistService.findById(id);
-        if (!playlist.isPresent()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(playlist.get(), HttpStatus.OK);
     }
 
@@ -91,18 +88,12 @@ public class PlaylistController {
     @GetMapping("/find-by-name")
     public ResponseEntity<?> findByName(@RequestParam String name) {
         List<Playlist> playlists = playlistService.findPlaylistByName(name);
-        if (playlists.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(playlists, HttpStatus.OK);
     }
 
     @GetMapping("/find-by-user-id/{id}")
     public ResponseEntity<?> findByUserId(@PathVariable Long id) {
         List<Playlist> playlists = (List<Playlist>) playlistService.findPlaylistByUserId(id);
-        if (playlists.isEmpty()) {
-            return new ResponseEntity<>(playlists, HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(playlists, HttpStatus.OK);
     }
 
@@ -117,9 +108,6 @@ public class PlaylistController {
         int totalPages = (int) Math.ceil(num);
 
         Page<Playlist> playlists = playlistService.findPlaylistByUserIdPaging(userId, page, size);
-        if (playlists.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("Empty!"), HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(new PlaylistResponse(totalPages, playlists.getContent()), HttpStatus.OK);
     }
 

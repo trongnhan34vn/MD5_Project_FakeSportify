@@ -97,10 +97,12 @@ const FormPlaylist = () => {
             alert('ngủ đe')
         }
     }
-
-    const elementAudioSearch = audioList && audioList.map((item) => {
+    useEffect(() => {
+        console.log(audioList);
+    },[audioList])
+    const elementAudioSearch = audioList.map((item) => {
         return (
-            <tr key={item.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
+            <tr key={item?.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
                 <td width={"50%"} className='flex gap-2 items-center py-2'>
                     <div className='relative'>
                         <img className='w-10 object-cover h-10' src="ảnh" alt="ảnh" />
@@ -108,12 +110,12 @@ const FormPlaylist = () => {
                             {iconPause_TrackItem}
                         </button>
                     </div>
-                    <div><p className='text-base font-CircularBook text-[#fff]'>{item.name}</p><p className='text-sm'>{item.artist.name}</p></div>
+                    <div><p className='text-base font-CircularBook text-[#fff]'>{item?.name}</p><p className='text-sm'>{item?.artist?.name}</p></div>
                 </td>
-                <td width={"40%"} className='overflow-hidden truncate'>{item.album.name}</td>
+                <td width={"40%"} className='overflow-hidden truncate'>{item?.album?.name}</td>
                 <td width={"10%"}>
                     <div className='vote flex items-center justify-center'>
-                        <button onClick={() => handleInsertToPlaylist(item.id)} className='px-2 py-1 border-[1px] border-[#fff] rounded-[500px] hover:scale-110 transition-all ease-in-out duration-200'>Add</button>
+                        <button onClick={() => handleInsertToPlaylist(item?.id)} className='px-2 py-1 border-[1px] border-[#fff] rounded-[500px] hover:scale-110 transition-all ease-in-out duration-200'>Add</button>
                     </div>
                 </td>
             </tr>
@@ -131,11 +133,11 @@ const FormPlaylist = () => {
             <section className='section-playlist pb-[90px] h-full min-h-screen pl-[241px] bg-[#121212]'>
                 <div className='section-playlist-banner flex items-end gap-6 linearColor max-h-[500px] h-[30vh] min-h-[340px] p-8'>
                     <div className='banner-img w-48 h-48'>
-                        <img className='w-full object-cover h-full drop-shadow-2xl' src={selectPlaylist.image} alt="" />
+                        <img className='w-full object-cover h-full drop-shadow-2xl' src={selectPlaylist?.image} alt="" />
                     </div>
                     <div onClick={handleModal} className='overflow-hidden banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularMedium'>Playlist</p>
-                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{selectPlaylist && selectPlaylist.name}</span></button></h3>
+                        <h3 className='font-CircularBold text-[72px] truncate'><button> <span className='mr-10'>{selectPlaylist && selectPlaylist?.name}</span></button></h3>
                         <p className='text-[16px] font-CircularLight'>{cookies["fullName"]}</p>
                     </div>
                 </div>

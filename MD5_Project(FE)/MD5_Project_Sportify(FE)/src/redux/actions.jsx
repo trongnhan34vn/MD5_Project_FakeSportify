@@ -233,6 +233,20 @@ export const getArtistById = (data) => {
     }
 }
 
+export const findArtistByPlaylist = (data) => {
+    return {
+        type: actionType.FIND_ARTIST_BY_PLAYLIST,
+        payload: data
+    }
+}
+
+export const getArtistByPlaylist = (data) => {
+    return {
+        type: actionType.GET_ARTIST_BY_PLAYLIST,
+        payload: data
+    }
+}
+
 
 // PLAYLIST
 export const findPlaylistByName = (data) => {

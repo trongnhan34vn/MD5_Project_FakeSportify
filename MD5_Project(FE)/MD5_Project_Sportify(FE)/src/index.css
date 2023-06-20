@@ -3,38 +3,48 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: "Circular Sp Vit Black Web";
-	src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Black.woff") format("woff"),
-		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Black.woff2") format("woff2");
+  font-family: "Circular Sp Vit Black Web";
+  src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Black.woff")
+      format("woff"),
+    url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Black.woff2")
+      format("woff2");
 }
 
 @font-face {
-	font-family: "Circular Sp Vit Bold Web";
-	src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Bold.woff") format("woff"),
-		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Bold.woff2") format("woff2");
+  font-family: "Circular Sp Vit Bold Web";
+  src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Bold.woff")
+      format("woff"),
+    url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Bold.woff2")
+      format("woff2");
 }
 
 @font-face {
-	font-family: "Circular Sp Vit Light Web";
-	src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Light.woff") format("woff"),
-		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Light.woff2") format("woff2");
+  font-family: "Circular Sp Vit Light Web";
+  src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Light.woff")
+      format("woff"),
+    url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Light.woff2")
+      format("woff2");
 }
 
 @font-face {
-	font-family: "Circular Sp Vit Medium Web";
-	src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Medium.woff") format("woff"),
-		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Medium.woff2") format("woff2");
+  font-family: "Circular Sp Vit Medium Web";
+  src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Medium.woff")
+      format("woff"),
+    url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Medium.woff2")
+      format("woff2");
 }
 
 @font-face {
-	font-family: "Circular Sp Vit Book Web";
-	src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Book.woff") format("woff"),
-		 url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Book.woff2") format("woff2");
+  font-family: "Circular Sp Vit Book Web";
+  src: url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Book.woff")
+      format("woff"),
+    url("/public/fonts/css/fonts/Circular\ Sp\ Vit\ Web\ Book.woff2")
+      format("woff2");
 }
 
 .bg-show {
-	background-color: #101010;
-	transition: all ease 0.3s;
+  background-color: #101010;
+  transition: all ease 0.3s;
 }
 
 /* :root {
@@ -116,5 +126,26 @@ button:focus-visible {
   background-color: #fff;
 }
 
-h1 { text-align: center; margin-top: 30px; margin-bottom: 50px; }
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.text-compact-2 {
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+.text-compact-1 {
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
 

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -62,9 +63,6 @@ public class ArtistController {
     @GetMapping("/search/{search}")
     public ResponseEntity<?> search(@PathVariable String search) {
         List<Artist> artistList = artistService.searchArtistByName(search);
-        if (artistList.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(artistList, HttpStatus.OK);
     }
 
@@ -73,9 +71,6 @@ public class ArtistController {
         pageable = PageRequest.of(pageable.getPageNumber(), 4);
         Page<Artist> page = artistService.searchArtistByName(search, pageable);
         List<Artist> audioList = page.getContent();
-        if (audioList.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
 
@@ -85,9 +80,12 @@ public class ArtistController {
         pageable = PageRequest.of(pageable.getPageNumber(), 5);
         Page<Artist> page = artistService.searchArtistByCategory(categoryId, pageable);
         List<Artist> result = page.getContent();
-        if (result.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(result, HttpStatus.OK) ;
+    }
+
+    @GetMapping("/find-artist-by-playlist/{id}")
+    public ResponseEntity<?> findArtistByPlaylist(@PathVariable Long id) {
+        List<Artist> artistList = artistService.findArtistByPlaylistId(id);
+        return new ResponseEntity<>(artistList, HttpStatus.OK) ;
     }
 }

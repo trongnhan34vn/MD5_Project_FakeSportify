@@ -10,5 +10,6 @@ public interface IArtistService extends IGenericService<Artist> {
     List<Artist> searchArtistByName(String name);
     Page<Artist> searchArtistByName(String name, Pageable pageable);
     Page<Artist> searchArtistByCategory(Long categoryId, Pageable pageable);
+    List<Artist> findArtistByPlaylistId(Long playlistId);
 
 }

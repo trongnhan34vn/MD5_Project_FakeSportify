@@ -100,7 +100,7 @@ export default function MyPlaylistDetail() {
         }
     }
 
-    const elementAudioSearch = audioList && audioList.map((item) => {
+    const elementAudioSearch = audioList?.map((item) => {
         return (
             <tr key={item.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
                 <td width={"50%"} className='flex gap-2 items-center py-2'>
@@ -110,12 +110,12 @@ export default function MyPlaylistDetail() {
                             {iconPause_TrackItem}
                         </button>
                     </div>
-                    <div><p className='text-base font-CircularBook text-[#fff]'>{item.name}</p><p className='text-sm'>{item.artist.name}</p></div>
+                    <div><p className='text-base font-CircularBook text-[#fff]'>{item?.name}</p><p className='text-sm'>{item?.artist?.name}</p></div>
                 </td>
-                <td width={"40%"} className='overflow-hidden truncate'>{item.album.name}</td>
+                <td width={"40%"} className='overflow-hidden truncate'>{item?.album?.name}</td>
                 <td width={"10%"}>
                     <div className='vote flex items-center justify-center'>
-                        <button onClick={() => handleInsertToPlaylist(item.id)} className='px-2 py-1 border-[1px] border-[#fff] rounded-[500px] hover:scale-110 transition-all ease-in-out duration-200'>Add</button>
+                        <button onClick={() => handleInsertToPlaylist(item?.id)} className='px-2 py-1 border-[1px] border-[#fff] rounded-[500px] hover:scale-110 transition-all ease-in-out duration-200'>Add</button>
                     </div>
                 </td>
             </tr>

@@ -77,7 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/artist/find-artist-by-category/**",
                         "/album/searchPaging/**",
                         "/artist/searchPaging/**",
-                        "/audio/searchPaging/**").permitAll()
+                        "/artist/find-artist-by-playlist/**",
+                        "/audio/searchPaging/**",
+                        "/audio/find-by-artist-and-category/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenTokenFilter(), UsernamePasswordAuthenticationFilter.class);

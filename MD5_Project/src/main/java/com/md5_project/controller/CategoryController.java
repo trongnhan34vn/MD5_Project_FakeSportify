@@ -24,9 +24,6 @@ public class CategoryController {
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
-        if (!category.isPresent()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(category.get(), HttpStatus.OK);
     }
 

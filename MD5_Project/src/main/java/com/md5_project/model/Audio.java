@@ -23,7 +23,8 @@ public class Audio {
     @JoinColumn(name = "audio_artist")
     @JsonIgnoreProperties({"audios"})
     private Artist artist;
-
+    @Lob
+    private String image;
     @Lob
     private String path;
 

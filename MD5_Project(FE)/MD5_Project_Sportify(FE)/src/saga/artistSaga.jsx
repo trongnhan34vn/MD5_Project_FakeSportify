@@ -28,3 +28,12 @@ export const findArtistById = function* (action) {
         
     }
 }
+
+export const findArtistByPlaylistId = function* (action) {
+    try {
+        let artists = yield call(artistService.FIND_ARTIST_BY_PLAYLIST, action.payload)
+        yield put(actions.getArtistByPlaylist(artists))
+    } catch (err) { 
+
+    }
+}

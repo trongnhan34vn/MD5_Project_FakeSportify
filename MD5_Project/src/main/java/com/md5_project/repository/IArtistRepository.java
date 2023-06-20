@@ -21,5 +21,9 @@ public interface IArtistRepository extends JpaRepository<Artist,Long> {
             "    join artists a2 on a2.id = a.audio_artist" +
             "    WHERE c.id = ?1", nativeQuery = true)
     Page<Artist> findArtistByCategory(Long categoryId, Pageable pageable);
-
+    @Query (value = "select distinct artists.id, artists.image, artists.name, artists.status from artists" +
+            "    join audios a on artists.id = a.audio_artist" +
+            "    join playlist_audio pa on a.id = pa.audio_id" +
+            "    where playlist_id = ?1", nativeQuery = true)
+    List<Artist> findArtistByPlaylistId(Long playlistId);
 }

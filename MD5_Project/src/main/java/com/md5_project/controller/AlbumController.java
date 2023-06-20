@@ -60,9 +60,6 @@ public class AlbumController {
     @GetMapping("/search/{search}")
     public ResponseEntity<?> searchByName (@PathVariable String search) {
         List<Album> listSearch = albumService.searchAlbumByName(search);
-        if (listSearch.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(listSearch, HttpStatus.OK);
     }
 
@@ -71,9 +68,6 @@ public class AlbumController {
         pageable = PageRequest.of(pageable.getPageNumber(), 4);
         Page<Album> page = albumService.searchAlbumByName(search, pageable);
         List<Album> audioList = page.getContent();
-        if (audioList.isEmpty()) {
-            return new ResponseEntity<>(new ResponseMessage("NOT FOUND!"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(audioList, HttpStatus.OK) ;
     }
 }

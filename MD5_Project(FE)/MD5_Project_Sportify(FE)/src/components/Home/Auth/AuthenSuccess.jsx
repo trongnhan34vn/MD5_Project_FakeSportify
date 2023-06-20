@@ -3,7 +3,7 @@ import { iconPause_TrackItem, iconPlay_TrackItem } from '../../../assets/icon/ic
 import DirectMenu from '../../DirectMenu/DirectMenu';
 import Navbar from '../../Navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { albumSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
+import { albumSelector, artistSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
 import * as actions from '../../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,31 +13,49 @@ const AuthenSuccess = () => {
     const listAlbums = useSelector(albumSelector);
     const currentAlbums = useSelector(selectAlbumSelector);
     const navigate = useNavigate();
+    const listDailyMix = useSelector(playlistSelector).search;
 
-    const handlePlaylist = (id, action) => {
-        if (action === 'daily-mix') {
-            dispatch(actions.findPlaylistById(id))
-        }
-        if (action === 'album') {
-            dispatch(actions.findAlbumById(id))
-        }
-        navigate('/playlist');
+    const handlePlaylist = (id) => {
+        dispatch(actions.findPlaylistById(id))
+        navigate('/playlist', { state: { type: 'daily-mix' } });
     }
 
-    const listDailyMix = useSelector(playlistSelector).search;
+    const getArtsit = (playlist) => {
+        let listAudio = playlist.audios;
+        let artist = []
+        for (let i = 0; i < listAudio.length; i++) {
+            if (!checkExist(listAudio[i].artist, artist)) {
+                artist.push(listAudio[i].artist);
+            }
+        }
+        return artist.map((item) => {
+            return (
+                <span key={item.id}>{item.name}, </span>
+            )
+        })
+    }
+
+    const checkExist = (item, arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (item.id === arr[i].id) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     const elementPlaylist = listDailyMix && listDailyMix.map((item) => {
         return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                 {iconPause_TrackItem}
             </button>
-            <button onClick={() => handlePlaylist(item.id, 'daily-mix')} className='block w-full album-wrap p-4'>
+            <button onClick={() => handlePlaylist(item.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
-                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item?.audios[3]?.artist?.image} alt="" />
                 </div>
                 <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                     <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>
-                    <p className='font-CircularLight text-sm text-[#6a6a6a]'>{ }</p>
+                    <p className='text-compact-2 font-CircularLight text-sm text-[#6a6a6a]'>{getArtsit(item)}...</p>
                 </div>
             </button>
         </div>
@@ -48,29 +66,29 @@ const AuthenSuccess = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(actions.findPlaylistByName("Daily Mix"))
+        { dispatch(actions.findPlaylistByName("Daily Mix")) }
     }, [])
 
     const handleSelectAlbums = (id) => {
-        if (!(currentAlbums.select.id === id)) {
+        if (!(currentAlbums?.select?.id === id)) {
             dispatch(actions.findAlbumById(id))
-            dispatch(actions.setPlayStat(true))
-            dispatch(actions.setResetStat(true))
-            setTimeout(() => dispatch(actions.setResetStat(false)), 150)
-
+            // dispatch(actions.setPlayStat(true))
+            // dispatch(actions.setResetStat(true))
+            // setTimeout(() => dispatch(actions.setResetStat(false)), 150)
+            navigate('/playlist')
         } else {
-            dispatch(actions.setPlayStat(!currentAlbums.isPlay))
+            // dispatch(actions.setPlayStat(!currentAlbums.isPlay))
         }
+        navigate('/playlist', { state: { type: 'album' } });
     }
-
     const elementAlbum = listAlbums.map(element => {
-        return <div key={element.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
+        return <div key={element.id} className='h-[263px] group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button onClick={() => handleSelectAlbums(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
                 {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
-            <button onClick={() => handlePlaylist(element.id, 'album')} className='block w-full album-wrap p-4'>
+            <button onClick={() => handleSelectAlbums(element.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
-                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={element?.audios[0]?.artist?.image} alt="" />
                 </div>
                 <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                     <h3 className='font-CircularMedium text-base mb-1 truncate'>{element.name}</h3>
@@ -79,7 +97,6 @@ const AuthenSuccess = () => {
             </button>
         </div>
     });
-
 
     return (
         <div>
@@ -99,11 +116,8 @@ const AuthenSuccess = () => {
                         <div className='list-playlists-item px-8 mb-4'>
                             {/* Playlist Title */}
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
-                                <a href="" className=''>
+                                <a href="#" className=''>
                                     <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Recommend Albums</h3>
-                                </a>
-                                <a href="" className=''>
-                                    <p className="text-[#B3B3B3] font-CircularMedium text-sm hover:underline">Show all</p>
                                 </a>
                             </div>
                             {/* Playlist Title */}
@@ -131,11 +145,8 @@ const AuthenSuccess = () => {
                         {/* Playlists - Spotify Playlists*/}
                         <div className='list-playlists-item px-8 mb-4'>
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
-                                <a href="" className=''>
+                                <a href="#" className=''>
                                     <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Your Top Mix</h3>
-                                </a>
-                                <a href="" className=''>
-                                    <p className="text-[#B3B3B3] font-CircularMedium text-sm hover:underline">Show all</p>
                                 </a>
                             </div>
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4 l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
@@ -150,9 +161,6 @@ const AuthenSuccess = () => {
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
                                 <a href="" className=''>
                                     <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Recommend</h3>
-                                </a>
-                                <a href="" className=''>
-                                    <p className="text-[#B3B3B3] font-CircularMedium text-sm hover:underline">Show all</p>
                                 </a>
                             </div>
                             <div className='list-playlists-item list-albums grid gap-6 grid-cols-5 min-w-[414px] xl:grid-cols-4 l:grid-cols-3 sm:!grid-cols-2 xl:[&>:last-child]:hidden l:[&>:nth-child(3)]:hidden sm:[&>:nth-child(2)]:hidden'>
