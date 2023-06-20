@@ -1,0 +1,10 @@
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (1, null, 'Daily Mix 1', false, null);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (2, null, 'Daily Mix 2', false, null);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (3, null, 'Daily Mix 3', false, null);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (4, null, 'Daily Mix 4', false, null);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (5, null, 'Daily Mix 5', false, null);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (12, null, 'My Playlist #1', true, 1);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (13, null, 'My Playlist #2', true, 1);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (14, null, 'My Playlist #3', true, 1);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (15, null, 'My Playlist #4', true, 1);
+INSERT INTO Spotify_Clone_Project.playlists (id, image, name, status, user_id) VALUES (16, null, 'My Playlist #5', true, 1);

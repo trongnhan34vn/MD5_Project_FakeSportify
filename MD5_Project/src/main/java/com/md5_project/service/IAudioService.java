@@ -12,4 +12,6 @@ public interface IAudioService extends IGenericService<Audio> {
     List<Audio> findAudioByCategoryAndArtist(Long categoryId, Long artistId);
     List<Audio> findAudioByArtistIdAndCategoryId(Long categoryId, Long artistId);
     List<Audio> findAudioByArtistId(Long artistId);
+    List<Audio> findFavoriteAudios();
+    void likeAudio(Long audioId);
 }

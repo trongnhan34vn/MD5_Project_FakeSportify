@@ -11,3 +11,8 @@ export const SIGN_IN = async (user) => {
     let response = await instance(new Cookies().get("token")).post('/api/auth/signin', user)
     return response.data;
 }
+
+export const LIKE_AUDIO = async (audioId) => {
+    let response = await instance(new Cookies().get("token")).post(`/audio/like-audio?audioId=${audioId}`);
+    return response.data;
+}

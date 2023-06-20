@@ -26,3 +26,8 @@ export const FIND_AUDIO_BY_CATEGORY_ARTIST = async (data) => {
     let response = await instance(new Cookies().get("token")).get(`/audio/find-by-artist-and-category?categoryId=${data.categoryId}&artistId=${data.artistId}`)
     return response.data;
 }
+
+export const FIND_FAVORITE_CURRENT_USER = async () => {
+    let response = await instance(new Cookies().get("token")).get('/audio/find-favorite-audio');
+    return response.data
+}

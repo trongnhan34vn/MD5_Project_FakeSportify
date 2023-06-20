@@ -3,7 +3,8 @@ import * as actionType from "../const/actionType";
 const initState = {
     listAll: [],
     select: null,
-    search: []
+    search: [],
+    favorites: []
 }
 
 const audioSlice = (state = initState, action) => {
@@ -15,8 +16,9 @@ const audioSlice = (state = initState, action) => {
         case actionType.GET_AUDIO_BY_ID:
             return { ...state, select: action.payload }
         case actionType.GET_AUDIO_BY_CATEGORY_ARTIST:
-            console.log(action.payload);
             return { ...state, search: action.payload }
+        case actionType.GET_FAVORITE_AUDIO:
+            return { ...state, favorites: action.payload }
         default:
             return state;
 

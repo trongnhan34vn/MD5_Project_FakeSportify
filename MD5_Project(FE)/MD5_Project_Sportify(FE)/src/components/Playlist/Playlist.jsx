@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { artistSelector, playlistSelector, selectAlbumSelector } from '../../redux/selector';
+import { artistSelector, audioSelector, playlistSelector, selectAlbumSelector } from '../../redux/selector';
 import { iconPauseBtn_Playlist, iconPause_TrackItem } from '../../assets/icon/icon';
 import Navbar from '../Navbar/Navbar';
 import DirectMenu from '../DirectMenu/DirectMenu';
@@ -13,8 +13,9 @@ const Playlist = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const listArtist = useSelector(artistSelector)?.search;
+    const [liked, setLiked] = useState([]);
+    const favorites = useSelector(audioSelector)?.favorites;
 
-    console.log(selectAlbum);
     const listAudios = (location?.state?.type === 'daily-mix') ? selectPlaylist?.select?.audios : selectAlbum?.select?.audios;
 
     useEffect(() => {
@@ -27,6 +28,27 @@ const Playlist = () => {
             <span key={artist.id} >{artist.name}, </span>
         )
     })
+
+    const handleFavorite = (id) => {
+        dispatch(actions.likeAudio(id));
+    }
+
+    useEffect(() => {
+        dispatch(actions.findFavoriteAudioByCurrentUser())
+    }, [])
+
+    useEffect(() => {
+        console.log(favorites);
+    }, [favorites])
+
+    const checkExist = (audioId) => {
+        for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].id === audioId) {
+                return true
+            }
+        }
+        return false
+    }
 
     const elementList = listAudios?.map((audio, index) => {
         return <tr key={audio.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
@@ -42,13 +64,14 @@ const Playlist = () => {
                 <div><img className='w-10 object-cover h-10' src={audio.image} alt="ảnh" /></div>
                 <div><p className='text-compact-1 text-base font-CircularBook text-[#fff]'>{audio.name}</p><p className='text-sm'>{audio.artist.name}</p></div>
             </td>
-            <td className='overflow-hidden truncate'>{selectAlbum.select.name}</td>
+            <td className='overflow-hidden truncate'>{selectAlbum?.select?.name}</td>
             <td>
-                {selectAlbum.select.dateAdded}
+                {selectAlbum?.select?.dateAdded}
             </td>
             <td>
-                <div className='vote flex justify-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
+                <div className='vote flex justify-start'>
+                    <svg onClick={() => handleFavorite(audio.id)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={checkExist(audio.id)? '#1ed760' : '#fff'} className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
+                        {checkExist(audio.id) ? <path d="M15.724 4.22A4.313 4.313 0 0 0 12.192.814a4.269 4.269 0 0 0-3.622 1.13.837.837 0 0 1-1.14 0 4.272 4.272 0 0 0-6.21 5.855l5.916 7.05a1.128 1.128 0 0 0 1.727 0l5.916-7.05a4.228 4.228 0 0 0 .945-3.577z"></path> : <div></div>}
                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                     </svg>
                 </div>
@@ -67,12 +90,12 @@ const Playlist = () => {
                 <section className='section-playlist pb-[90px] h-full pl-[241px] bg-[#121212] '>
                     <div className='section-playlist-banner flex items-end gap-6 linearColor max-h-[500px] h-[30vh] min-h-[340px] p-8'>
                         <div className='banner-img w-48 h-48'>
-                            <img className='w-48 h-48 object-cover drop-shadow-2xl' src={location?.state?.type === 'daily-mix' ? selectPlaylist?.select?.audios[0].image : selectAlbum?.select?.audios[0]?.image} alt="" />
+                            <img className='w-48 h-48 object-cover drop-shadow-2xl' src={location?.state?.type === 'daily-mix' ? selectPlaylist?.select?.audios[0]?.image : selectAlbum?.select?.audios[0]?.image} alt="" />
                         </div>
                         <div className='overflow-hidden flex-1 banner-song-info text-[#fff]'>
                             <p className='text-[16px] font-CircularBook'>Playlist</p>
-                            <h3 className='font-CircularBold text-[72px] truncate'>{selectAlbum.select && selectAlbum.select.name}</h3>
-                            {(location?.state?.type === 'daily-mix')?<p className='text-[16px] font-CircularLight'>{elementArtist}...</p> : <p className='text-[16px] font-CircularLight'>{selectAlbum?.select?.audios[0]?.artist?.name}</p>}
+                            <h3 className='font-CircularBold text-[72px] truncate'>{location?.state?.type === 'daily-mix' ? selectPlaylist?.select?.name : selectAlbum?.select?.name}</h3>
+                            {(location?.state?.type === 'daily-mix') ? <p className='text-[16px] font-CircularLight'>{elementArtist}...</p> : <p className='text-[16px] font-CircularLight'>{selectAlbum?.select?.audios[0]?.artist?.name}</p>}
                         </div>
                     </div>
                     <div className='section-playlist-list-song h-full bg-[#121212]'>

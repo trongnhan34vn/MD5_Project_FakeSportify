@@ -1,0 +1,11 @@
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (1, 'https://i.scdn.co/image/ab67fb8200005cafdfdaac1cf9574a196ca25196', 'EDM');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (2, 'https://i.scdn.co/image/ab67fb8200005cafcc70a3c2e4c71398708bdc4a', 'Acoustic');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (3, 'https://i.scdn.co/image/ab67fb8200005cafa862ab80dd85682b37c4e768', 'Pop');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (4, 'https://i.scdn.co/image/ab67fb8200005caf47e942f5bea637f4f4760170', 'Chill');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (5, 'https://i.scdn.co/image/ab67fb8200005cafa1a252e3a815b65778d8c2aa', 'Indie');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (6, 'https://i.scdn.co/image/ab67fb8200005cafa1a252e3a815b65778d8c2aa', 'Funk & Disco');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (7, 'https://i.scdn.co/image/ab67fb8200005caf7e11c8413dc33c00740579c1', 'Hip Hop');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (8, 'https://i.scdn.co/image/ab67fb8200005cafbe6a6e705e1a71117c2d0c2c', 'R&B');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (9, 'https://i.scdn.co/image/ab67fb8200005cafae7e69beb88f16969641b53e', 'Rock');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (10, 'https://i.scdn.co/image/ab67fb8200005cafb03c6f8e7efca2ae36f41b31', 'Love');
+INSERT INTO Spotify_Clone_Project.category (id, img, name) VALUES (11, 'https://i.scdn.co/image/ab67fb8200005cafc0d2222b4c6441930e1a386e', 'Country');

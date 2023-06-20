@@ -38,6 +38,13 @@ export const getCurrentUser = (data) => {
     }
 }
 
+export const likeAudio = (data) => {
+    return {
+        type: actionType.LIKE_AUDIO,
+        payload: data
+    }
+}
+
 // ALBUM
 export const findAllAlbums = () => {
     return {
@@ -186,6 +193,19 @@ export const findAudioByCategoryAndArtist = (data) => {
 export const getAudioByCategoryAndArtist = (data) => {
     return {
         type: actionType.GET_AUDIO_BY_CATEGORY_ARTIST,
+        payload: data
+    }
+}
+
+export const findFavoriteAudioByCurrentUser = () => {
+    return {
+        type: actionType.FIND_FAVORITE_CURRENT_USER
+    }
+}
+
+export const getFavoriteAudio = (data) => {
+    return {
+        type: actionType.GET_FAVORITE_AUDIO,
         payload: data
     }
 }

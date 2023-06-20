@@ -13,23 +13,6 @@ const AuthenSuccess = () => {
     const [songArr, setSongArr] = useState([])
     const [isPlay, setIsPlay] = useState(false)
     const selectAlbum = useSelector(selectAlbumSelector);
-    useEffect(() => {
-        if (selectAlbum.select != null) {
-            setSongArr(selectAlbum.select.audios)
-        }
-    }, [selectAlbum])
-
-    useEffect(() => {
-        setIsPlay(selectAlbum.isPlay)
-    }, [selectAlbum.isPlay])
-
-    useEffect(() => {
-        setIsReset(selectAlbum.isReset)
-    }, [selectAlbum.isReset])
-
-    useEffect(() => {
-        dispatch(actions.findAlbumById(1))
-    }, [])
 
     const [songIndex, setSongIndex] = useState(0)
     const [playLength, setPlayLength] = useState(0)

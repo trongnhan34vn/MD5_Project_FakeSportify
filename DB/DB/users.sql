@@ -1,0 +1,1 @@
+INSERT INTO Spotify_Clone_Project.users (id, birthDate, email, fullName, gender, image, password, status) VALUES (1, '2000-02-20', 'nambeo@gmail.com', 'nam béo', true, null, '$2a$10$Rpk.tu6QDmF0YucV04Zi2OHa.4JlHrFJy284g9nOLVJ28JYJK2FFK', true);

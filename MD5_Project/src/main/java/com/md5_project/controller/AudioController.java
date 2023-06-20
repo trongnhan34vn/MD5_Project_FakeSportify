@@ -5,6 +5,7 @@ import com.md5_project.model.Artist;
 import com.md5_project.model.Audio;
 import com.md5_project.service.IArtistService;
 import com.md5_project.service.IAudioService;
+import com.md5_project.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,9 @@ public class AudioController {
 
     @Autowired
     IArtistService artistService;
+
+    @Autowired
+    IUserService userService;
 
     @GetMapping("/find-all")
     public ResponseEntity<?> findAll() {
@@ -105,5 +109,16 @@ public class AudioController {
     public ResponseEntity<?> findAudioByArtistIdAndCategoryId(@RequestParam Long artistId, @RequestParam Long categoryId) {
         List<Audio> audioList = audioService.findAudioByArtistIdAndCategoryId(categoryId, artistId);
         return new ResponseEntity<>(audioList, HttpStatus.OK);
+    }
+
+    @GetMapping("/find-favorite-audio")
+    public ResponseEntity<?> findFavoriteAudio() {
+        return ResponseEntity.ok(audioService.findFavoriteAudios()) ;
+    }
+
+    @PostMapping("/like-audio")
+    public ResponseEntity<?> insertToFavorite(@RequestParam Long audioId) {
+        audioService.likeAudio(audioId);
+        return ResponseEntity.ok("favorite success!");
     }
 }

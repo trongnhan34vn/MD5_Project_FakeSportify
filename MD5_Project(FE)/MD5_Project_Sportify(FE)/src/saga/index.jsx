@@ -14,6 +14,7 @@ export const rootSaga = function* () {
             // USER
             takeLatest(actionType.REGISTER, userSaga.register),
             takeLatest(actionType.LOGIN, userSaga.login),
+            takeLatest(actionType.LIKE_AUDIO, userSaga.likeAudio),
             // ALBUM
             takeLatest(actionType.FIND_ALL_ALBUMS, albumSaga.findAllAlbums),
             takeLatest(actionType.FIND_ALBUM_BY_ID, albumSaga.findAlbumById),
@@ -27,6 +28,7 @@ export const rootSaga = function* () {
             takeLatest(actionType.FIND_AUDIO_BY_ID, audioSaga.findAudioById),
             takeLatest(actionType.FIND_AUDIO_BY_ARTIST,audioSaga.findAudioByArtist),
             takeLatest(actionType.FIND_AUDIO_BY_CATEGORY_ARTIST, audioSaga.findAudioByCategoryAndArtist),
+            takeLatest(actionType.FIND_FAVORITE_CURRENT_USER, audioSaga.findFavoriteAudioByCurrentUser),
             // ARTIST
             takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName),
             takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory),

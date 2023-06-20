@@ -47,3 +47,12 @@ export const findAudioByCategoryAndArtist = function* (action) {
         
     }
 }
+
+export const findFavoriteAudioByCurrentUser = function* () {
+    try {
+        let audios = yield call(audioService.FIND_FAVORITE_CURRENT_USER);
+        yield put(actions.getFavoriteAudio(audios));
+    } catch (error) {
+
+    }
+}

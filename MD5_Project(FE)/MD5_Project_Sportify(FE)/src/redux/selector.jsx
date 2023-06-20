@@ -21,7 +21,6 @@ export const categorySelector = state => state.categorySlice
 // AUDIO
 export const audioSelector = state => state.audioSlice
 
-
 // ARTIST   
 export const artistSelector = state => state.artistSlice
 
