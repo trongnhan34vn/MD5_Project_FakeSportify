@@ -19,6 +19,8 @@ const audioSlice = (state = initState, action) => {
             return { ...state, search: action.payload }
         case actionType.GET_FAVORITE_AUDIO:
             return { ...state, favorites: action.payload }
+        case actionType.GET_FAVORITE_AUDIO_PAGING:
+            return { ...state, favorites: action.payload }
         default:
             return state;
 

@@ -111,7 +111,8 @@ export default function Login() {
                 handleCookie()
             }
         }
-        if (message.trim() != "" && message.trim() !== "Register Success!") {
+        console.log(message);
+        if (message.trim() === 'Invalid username or password!') {
             setToggleToast(true);
             // không thể đăng kí
             console.log(message);

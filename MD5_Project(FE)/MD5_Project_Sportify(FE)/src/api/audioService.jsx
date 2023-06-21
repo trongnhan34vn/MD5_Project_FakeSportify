@@ -31,3 +31,8 @@ export const FIND_FAVORITE_CURRENT_USER = async () => {
     let response = await instance(new Cookies().get("token")).get('/audio/find-favorite-audio');
     return response.data
 }
+
+export const FIND_FAVORITE_AUDIO_PAGING = async (data) => {
+    let response = await instance(new Cookies().get("token")).get(`/audio/find-favorite-audio-paging?page=${data.page}&size=${data.size}`);
+    return response.data;
+}

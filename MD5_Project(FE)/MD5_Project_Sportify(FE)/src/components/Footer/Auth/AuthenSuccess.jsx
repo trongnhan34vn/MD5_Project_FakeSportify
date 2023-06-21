@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useRef, useState } from 'react';
 import { iconMute, iconPauseBtn_Playlist, iconPauseTrackBtn_Footer, iconPlayTrackBtn_Footer, iconUnMute } from '../../../assets/icon/icon.jsx';
 import * as actions from '../../../redux/actions';
-import { selectAlbumSelector } from '../../../redux/selector';
+import { musicPlayerSelector, selectAlbumSelector } from '../../../redux/selector';
 
 
 const AuthenSuccess = () => {
@@ -13,6 +13,21 @@ const AuthenSuccess = () => {
     const [songArr, setSongArr] = useState([])
     const [isPlay, setIsPlay] = useState(false)
     const selectAlbum = useSelector(selectAlbumSelector);
+
+    const musicPlayer = useSelector(musicPlayerSelector);
+
+    useEffect(() => { 
+        // console.log(musicPlayer);   
+        setSongArr(musicPlayer?.playlistTrack?.audios)
+    }, [musicPlayer?.playlistTrack])
+
+    useEffect(() => {
+        setIsPlay(musicPlayer?.isPlaying)
+    },[musicPlayer?.isPlaying])
+
+    useEffect(() => {
+        setIsReset(musicPlayer?.isReset)
+    },[musicPlayer?.isReset])
 
     const [songIndex, setSongIndex] = useState(0)
     const [playLength, setPlayLength] = useState(0)
@@ -166,7 +181,7 @@ const AuthenSuccess = () => {
             )
             audioRef.current.currentTime = 0
         }
-    }, [selectAlbum])
+    }, [musicPlayer])
     // Handle Play Audio
 
     // Handle Prev Track
@@ -269,7 +284,7 @@ const AuthenSuccess = () => {
             audioRef.current.volume = 0
             setAudioVol(pre => pre = 0)
         } else {
-            audioRef.current.volume = getVol/100
+            audioRef.current.volume = getVol / 100
             setAudioVol(pre => pre = 100)
         }
     }, [isMuted])
@@ -296,8 +311,8 @@ const AuthenSuccess = () => {
                             <img className='object-cover' src="" alt="" />
                         </div>
                         <div className='song-name mx-[14px] pl-[6px] pr-3'>
-                            <a className='font-CircularLight hover:underline cursor-pointer block leading-6 text-sm text-[#fff]'>{(songArr.length > 0) ? songArr[songIndex].name : ''}</a>
-                            <a className='font-CircularLight hover:underline cursor-pointer text-[11px] text-[#B3B3B3]'>{(songArr.length > 0) ? songArr[songIndex].artist.name : ''}</a>
+                            <a className='font-CircularLight hover:underline cursor-pointer block leading-6 text-sm text-[#fff]'>{(songArr?.length > 0) ? songArr[songIndex].name : ''}</a>
+                            <a className='font-CircularLight hover:underline cursor-pointer text-[11px] text-[#B3B3B3]'>{(songArr?.length > 0) ? songArr[songIndex].artist.name : ''}</a>
                         </div>
                         <div onClick={() => handleInsertFavorite(songArr[songIndex].id)} className='vote flex justify-center'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
@@ -306,7 +321,7 @@ const AuthenSuccess = () => {
                         </div>
                     </div>
                     <div className='song-control flex flex-col'>
-                        <audio ref={audioRef} onLoadedMetadata={onLoadedMetadata} src={(songArr.length > 0) ? songArr[songIndex].path : ''}></audio>
+                        <audio ref={audioRef} onLoadedMetadata={onLoadedMetadata} src={(songArr?.length > 0) ? songArr[songIndex]?.path : ''}></audio>
                         <div className='song-control-btn justify-center items-start mb-1 flex gap-4'>
                             <button onClick={() => handleSetTypePlay("random")} className={`w-8 h-8 flex-wrap flex flex-row justify-center items-center ${isRandom ? 'fill-[#1db954] opacity-100' : 'fill-[#fff] opacity-60'} hover:opacity-100`}>
                                 <svg

@@ -24,7 +24,9 @@ const DirectMenu = () => {
             { path: "/my-playlist", tab: "MyPlaylist" },
             { path: "/form-playlist", tab: "FormPlaylist", },
             { path: "/search-result-category", tab: "SearchCategory", },
+            { path: "/search-result", tab: "SearchResult", },
             { path: "/playlist", tab: "Playlist", },
+            { path: "/list-favorites", tab: "ListFavorites", },
         ];
         activeArr.forEach((val) => {
             if (val.path === location.pathname) {
@@ -84,7 +86,7 @@ const DirectMenu = () => {
                         </svg>
                         <span className='font-CircularMedium text-sm leading-10'>Trang chủ</span>
                     </li>
-                    <li onClick={() => { navigate("/search") }} className={`${(activeTab === 'Search' || activeTab === 'SearchCategory') && 'active'} cursor-pointer px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
+                    <li onClick={() => { navigate("/search") }} className={`${(activeTab === 'Search' || activeTab === 'SearchCategory' || activeTab === 'SearchResult') && 'active'} cursor-pointer px-4 fill-[#B3b3b3] flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <svg
                             role="img"
                             height="24"
@@ -113,7 +115,7 @@ const DirectMenu = () => {
                             className="Svg-sc-ytk21e-0 uPxdw collection-icon"
                             viewBox="0 0 24 24"
                             data-encore-id="icon">
-                            {location.pathname === '/your-library' ?
+                            {location.pathname === '/your-library' || location.pathname === '/my-playlist' ?
                                 <path d="M3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1zM15.5 2.134A1 1 0 0 0 14 3v18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V6.464a1 1 0 0 0-.5-.866l-6-3.464zM9 2a1 1 0 0 0-1 1v18a1 1 0 1 0 2 0V3a1 1 0 0 0-1-1z"></path> : <></>}
                             <path d="M14.5 2.134a1 1 0 0 1 1 0l6 3.464a1 1 0 0 1 .5.866V21a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1V3a1 1 0 0 1 .5-.866zM16 4.732V20h4V7.041l-4-2.309zM3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1zm6 0a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1z"></path>
                         </svg>
@@ -141,7 +143,8 @@ const DirectMenu = () => {
                         </div>
                         <span className='font-CircularMedium text-sm leading-10'>Tạo playlist</span>
                     </li>
-                    <li onClick={() => { navigate("/favorite") }} className='cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100'>
+                    <li onClick={() => { navigate("/list-favorites") }}
+                        className={`${activeTab === 'ListFavorites' && 'active'} cursor-pointer px-4 flex opacity-75 transition-all duration-200 gap-4 items-center hover:opacity-100`}>
                         <div className='w-6 h-6 bg-[linear-gradient(135deg,#450af5,#c4efd9)] rounded flex items-center justify-center'>
                             <svg
                                 role="img"
@@ -154,7 +157,6 @@ const DirectMenu = () => {
                                 <path d="M15.724 4.22A4.313 4.313 0 0 0 12.192.814a4.269 4.269 0 0 0-3.622 1.13.837.837 0 0 1-1.14 0 4.272 4.272 0 0 0-6.21 5.855l5.916 7.05a1.128 1.128 0 0 0 1.727 0l5.916-7.05a4.228 4.228 0 0 0 .945-3.577z"></path>
                             </svg>
                         </div>
-
                         <span className='font-CircularMedium text-sm leading-10'>Bài hát đã thích</span>
                     </li>
                 </ul>

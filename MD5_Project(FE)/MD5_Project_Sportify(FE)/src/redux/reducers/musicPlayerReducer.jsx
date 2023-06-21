@@ -1,20 +1,22 @@
 import * as actionType from "../const/actionType";
 
 const initialState = {
-    musicList: [], // Your list of music
+    playlistTrack: null, // Your list of music
     currentTrackIndex: 0,
     isPlaying: false,
     playbackType: "repeat",
-    audioVolume: 100
+    isReset: false
 };
 
 const musicPlayerReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionType.SET_TRACK:
+            return { ...state, playlistTrack: action.payload }
         case actionType.PLAY_TRACK:
             return { ...state, isPlaying: true };
         case actionType.PAUSE_TRACK:
             return { ...state, isPlaying: false };
-        case "NEXT_TRACK":
+        case actionType.NEXT_TRACK:
             let nextIndex;
             if (state.playbackType === "sequence" && state.currentTrackIndex === state.musicList.length - 1) {
                 nextIndex = 0;
@@ -27,7 +29,7 @@ const musicPlayerReducer = (state = initialState, action) => {
                 }
             }
             return { ...state, currentTrackIndex: nextIndex };
-        case "PREVIOUS_TRACK":
+        case actionType.PREVIOUS_TRACK:
             let prevIndex;
             if (state.playbackType === "sequence" && state.currentTrackIndex === 0) {
                 prevIndex = state.musicList.length - 1;
@@ -42,8 +44,8 @@ const musicPlayerReducer = (state = initialState, action) => {
             return { ...state, currentTrackIndex: prevIndex };
         case "CHANGE_PLAYBACK_TYPE":
             return { ...state, playbackType: action.payload };
-        case actionType.CHANGE_VOLUMN:
-            return { ...state, audioVolume: action.payload };
+        case actionType.RESET_TRACK:
+            return { ...state, isReset: action.payload};
         default:
             return state;
     }

@@ -30,7 +30,8 @@ const AuthenFailed = () => {
             { path: "/search", tab: "All" },
             { path: "/search/songs", tab: "Songs" },
             { path: "/search/artist", tab: "Artist", },
-            { path: "/search/albums", tab: "Albums", }
+            { path: "/search/albums", tab: "Albums", },
+            { path: "/search-result-category", tab: "Category"}
         ];
         activeArr.forEach((val) => {
             if (val.path === location.pathname) {
@@ -80,13 +81,13 @@ const AuthenFailed = () => {
                 <div className='nav-list flex items-center gap-4'>
                     <ul className='text-[#fff] font-CircularBook'>
                         <li className='inline-block'>
-                            <a href='' className='inline-block tracking-[0.105em] opacity-60 py-4 px-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Premium</a>
+                            <a href='#' className='inline-block tracking-[0.105em] opacity-60 py-4 px-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Premium</a>
                         </li>
                         <li className='inline-block'>
-                            <a href='' className='inline-block tracking-[0.105em] opacity-60 py-4 px-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Hỗ trợ</a>
+                            <a href='#' className='inline-block tracking-[0.105em] opacity-60 py-4 px-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Hỗ trợ</a>
                         </li>
                         <li className='inline-block'>
-                            <a href='' className='inline-block tracking-[0.105em] opacity-60 py-4 pl-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Tải xuống</a>
+                            <a href='#' className='inline-block tracking-[0.105em] opacity-60 py-4 pl-2 leading-8 hover:scale-105 hover:opacity-100 transition-all duration-200'>Tải xuống</a>
                         </li>
                     </ul>
                     <div className='m-4 bg-[#fff] h-6 w-[1px]'></div>

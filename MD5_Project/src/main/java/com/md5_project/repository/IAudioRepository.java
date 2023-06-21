@@ -33,4 +33,9 @@ public interface IAudioRepository extends JpaRepository<Audio,Long> {
             "    join favorites f on audios.id = f.audio_id" +
             "    where user_id = ?1", nativeQuery = true)
     List<Audio> findFavoriteAudio(Long userId);
+
+    @Query(value = "select audios.id, image, name, path, playCount, status, audio_album, audio_artist from audios" +
+            "    join favorites f on audios.id = f.audio_id" +
+            "    where user_id = ?1", nativeQuery = true)
+    Page<Audio> findFavoriteAudioPaging(Long userId, Pageable pageable);
 }

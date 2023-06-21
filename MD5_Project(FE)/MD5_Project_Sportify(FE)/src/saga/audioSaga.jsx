@@ -56,3 +56,12 @@ export const findFavoriteAudioByCurrentUser = function* () {
 
     }
 }
+
+export const findFavoriteAudioPaging = function* (action) {
+    try {
+        let audios = yield call(audioService.FIND_FAVORITE_AUDIO_PAGING, action.payload);
+        yield put(actions.getFavoriteAudioPaging(audios))
+    } catch (error) {
+        
+    }
+}

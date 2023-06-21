@@ -47,12 +47,12 @@ const FormPlaylist = () => {
                     </div>
                 </td>
                 <td className='flex gap-2 items-center py-2'>
-                    <div><img className='w-10 object-cover h-10' src="ảnh" alt="ảnh" /></div>
-                    <div><p className='text-base font-CircularBook text-[#fff]'>{item.name}</p><p className='text-sm'>{item.artist.name}</p></div>
+                    <div><img className='w-10 object-cover h-10' src={item?.image} alt="ảnh" /></div>
+                    <div><p className='text-base font-CircularBook text-[#fff]'>{item?.name}</p><p className='text-sm'>{item.artist.name}</p></div>
                 </td>
-                <td className='overflow-hidden truncate'>{item.album.name}</td>
+                <td className='overflow-hidden truncate'>{item?.album?.name}</td>
                 <td>
-                    {item.album.dateAdded}
+                    {item?.album?.dateAdded}
                 </td>
                 <td>
                     <div className='vote flex items-center justify-center'>
@@ -99,18 +99,18 @@ const FormPlaylist = () => {
     }
     useEffect(() => {
         console.log(audioList);
-    },[audioList])
+    }, [audioList])
     const elementAudioSearch = audioList.map((item) => {
         return (
             <tr key={item?.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
                 <td width={"50%"} className='flex gap-2 items-center py-2'>
                     <div className='relative'>
-                        <img className='w-10 object-cover h-10' src="ảnh" alt="ảnh" />
-                        <button className='z-20 fill-[#dbdbdb] top-0 left-2 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
+                        <img className='group-hover:opacity-70 w-10 h-10' src={item.image} alt="" />
+                        <button className='z-20 fill-[#dbdbdb] top-0 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
                             {iconPause_TrackItem}
                         </button>
                     </div>
-                    <div><p className='text-base font-CircularBook text-[#fff]'>{item?.name}</p><p className='text-sm'>{item?.artist?.name}</p></div>
+                    <div className='flex-1'><p className='text-compact-1 text-base font-CircularBook text-[#fff]'>{item?.name}</p><p className='text-sm'>{item?.artist?.name}</p></div>
                 </td>
                 <td width={"40%"} className='overflow-hidden truncate'>{item?.album?.name}</td>
                 <td width={"10%"}>
@@ -133,7 +133,25 @@ const FormPlaylist = () => {
             <section className='section-playlist pb-[90px] h-full min-h-screen pl-[241px] bg-[#121212]'>
                 <div className='section-playlist-banner flex items-end gap-6 linearColor max-h-[500px] h-[30vh] min-h-[340px] p-8'>
                     <div className='banner-img w-48 h-48'>
-                        <img className='w-full object-cover h-full drop-shadow-2xl' src={selectPlaylist?.image} alt="" />
+                        {
+                            selectPlaylist?.image ?
+                                <img className='w-full object-cover h-full drop-shadow-2xl' src={selectPlaylist?.image} alt="" /> :
+                                <div className='img w-[180px] relative flex flex-col justify-center items-center bg-[#282828] drop-shadow-3xl h-[180px]'>
+                                    <svg
+                                        role="img"
+                                        height="48"
+                                        width="48"
+                                        aria-hidden="true"
+                                        data-testid="playlist"
+                                        viewBox="0 0 24 24"
+                                        data-encore-id="icon"
+                                        className="Svg-sc-ytk21e-0 haNxPq fill-[#b3b3b3] absolute z-[-1]">
+                                        <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6V3zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5v-1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5v-1.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                        }
+
                     </div>
                     <div onClick={handleModal} className='overflow-hidden banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularMedium'>Playlist</p>

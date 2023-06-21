@@ -24,7 +24,7 @@ export default function AlbumSearch() {
         </button>
         <button onClick={() => handleToAlbumAudio(item.id)} className='block w-full album-wrap p-4'>
             <div className='album-img flex flex-col mb-4 relative'>
-                <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item.audios[0].image} alt="" />
             </div>
             <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                 <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>

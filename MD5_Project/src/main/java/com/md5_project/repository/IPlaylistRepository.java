@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface IPlaylistRepository extends JpaRepository<Playlist, Long> {
-    List<Playlist> findPlaylistByNameContainingIgnoreCase(String name);
+    List<Playlist> findPlaylistByNameContainingIgnoreCaseOrderByNameAsc (String name);
     Iterable<Playlist> findPlaylistByUserId(Long userId);
     Page<Playlist> findPlaylistByUserId(Long userId, Pageable pageable);
 }

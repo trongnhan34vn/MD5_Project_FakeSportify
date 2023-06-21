@@ -59,7 +59,7 @@ const YourLibrary = () => {
     const elementUserPlaylist = userPlaylist?.playlists?.map((item, index) => {
         return (
             <div key={item.id} className='group h-[243px] relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-                <button  className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-pointer rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-pointer rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                     {iconPause_TrackItem}
                 </button>
                 <button onClick={() => handleDeletePlaylist(item.id)} className='cursor-pointer shadow-2xl text-red-600 z-20 top-[42%] -translate-x-20 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
@@ -67,7 +67,23 @@ const YourLibrary = () => {
                 </button>
                 <button onClick={() => handleSelectPlaylist(item.id)} className='block w-full album-wrap p-4'>
                     <div className='album-img flex flex-col mb-4 relative'>
-                        <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item.image} alt="" />
+                        {item.image ?
+                            <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item.image} alt="" /> :
+                            <div className='img w-[167px] relative flex flex-col justify-center items-center bg-[#282828] drop-shadow-3xl h-[167px]'>
+                                <svg
+                                    role="img"
+                                    height="48"
+                                    width="48"
+                                    aria-hidden="true"
+                                    data-testid="playlist"
+                                    viewBox="0 0 24 24"
+                                    data-encore-id="icon"
+                                    className="Svg-sc-ytk21e-0 haNxPq fill-[#b3b3b3] absolute z-[-1]">
+                                    <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6V3zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5v-1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5v-1.5z">
+                                    </path>
+                                </svg>
+                            </div>
+                        }
                     </div>
                     <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                         <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>

@@ -1,15 +1,19 @@
 import React from 'react';
 import { iconPauseBtn_Playlist, iconPause_TrackItem } from '../../assets/icon/icon';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import DirectMenu from '../DirectMenu/DirectMenu';
 import Navbar from '../Navbar/Navbar';
 import { audioSelector } from '../../redux/selector';
+import { useEffect } from 'react';
+import * as actions from '../../redux/actions';
+import FavoritesComp from '../FavoritesComp/FavoritesComp';
 
 const ResultSearchCategory = () => {
     const listAudios = useSelector(audioSelector)?.search;
     const location = useLocation();
     const selectCategory = location.state.selectCategory;
+    const favorites = useSelector(audioSelector)?.favorites;
 
     const elementListAudios = listAudios && listAudios?.map((audio, index) => {
         return (
@@ -31,10 +35,8 @@ const ResultSearchCategory = () => {
                     {audio.album.dateAdded}
                 </td>
                 <td>
-                    <div className='vote flex justify-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                        </svg>
+                    <div className='vote flex justify-start'>
+                        <FavoritesComp audio={audio} />
                     </div>
                 </td>
             </tr>

@@ -42,13 +42,15 @@ public class PlaylistServiceIMPL implements IPlaylistService {
 
     @Override
     public List<Playlist> findPlaylistByName(String name) {
-        return playlistRepository.findPlaylistByNameContainingIgnoreCase(name);
+        return playlistRepository.findPlaylistByNameContainingIgnoreCaseOrderByNameAsc(name);
     }
 
     @Override
     public Iterable<Playlist> findPlaylistByUserId(Long userId) {
         return playlistRepository.findPlaylistByUserId(userId);
     }
+
+
 
     @Override
     public Playlist insertAudioToPlaylist(Long playlistId, Long audioId) {
@@ -91,4 +93,6 @@ public class PlaylistServiceIMPL implements IPlaylistService {
         Pageable pageable = PageRequest.of(page, size);
         return playlistRepository.findPlaylistByUserId(userId, pageable);
     }
+
+
 }

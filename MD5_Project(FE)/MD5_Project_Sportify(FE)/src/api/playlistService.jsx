@@ -22,7 +22,6 @@ export const CREATE_PLAYLIST = async (data) => {
 }
 
 export const UPDATE_PLAYLIST = async (data) => {
-    console.log(data);
     let response = await instance(new Cookies().get("token")).put('playlist/update', data);
     return response.data;
 }
@@ -40,4 +39,9 @@ export const REMOVE_AUDIO_FROM_PLAYLIST = async (data) => {
 export const DELETE_PLAYLIST_BY_ID = async (data) => {
     let response = await instance(new Cookies().get("token")).delete(`playlist/delete/${data}`);
     return response.data
+}
+
+export const FIND_PLAYLIST_BY_ID_ORDER_BY_AUDIO = async (data) => { 
+    let response = await instance(new Cookies().get("token")).get(`playlist/find-by-id-order-by-audio-id/${data}`);
+    return response.data;
 }

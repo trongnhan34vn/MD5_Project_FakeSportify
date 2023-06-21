@@ -8,6 +8,7 @@ import { getMessageSelector } from '../../redux/selector';
 const Register = () => {
     const dispatch = useDispatch();
     const message = useSelector(getMessageSelector);
+    
 
 
     const [inputVal, setInputValue] = useState({

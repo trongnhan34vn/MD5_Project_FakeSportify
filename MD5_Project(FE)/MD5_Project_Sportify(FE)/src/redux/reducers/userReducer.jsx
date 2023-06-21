@@ -8,6 +8,7 @@ const initState = {
 const userSlice = (state = initState, action) => {
     switch (action.type) {
         case actionType.GET_MESSAGE:
+            console.log(action.payload);
             return { ...state, message: action.payload }
         case actionType.GET_CURRENT_USER:
             return { ...state, user: action.payload }

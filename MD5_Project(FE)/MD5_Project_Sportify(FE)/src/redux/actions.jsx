@@ -18,6 +18,7 @@ export const register = (data) => {
 }
 
 export const getMessage = (data) => {
+    console.log(data);
     return {
         type: actionType.GET_MESSAGE,
         payload: data
@@ -210,6 +211,20 @@ export const getFavoriteAudio = (data) => {
     }
 }
 
+export const findFavoriteAudioPaging = (data) => {
+    return {
+        type: actionType.FIND_FAVORITE_AUDIO_PAGING,
+        payload: data
+    }
+}
+
+export const getFavoriteAudioPaging = (data) => {
+    return {
+        type: actionType.GET_FAVORITE_AUDIO_PAGING,
+        payload: data
+    }
+}
+
 // ARTIST
 export const searchArtistByName = (data) => {
     return {
@@ -353,6 +368,13 @@ export const deletePlaylistById = (data) => {
     }
 }
 
+export const storeDailyMix = (data) => {
+    return {
+        type: actionType.STORE_DAILY_MIX,
+        payload: data
+    }
+}
+
 // OTHER
 export const fetching = (data) => {
     return {
@@ -360,6 +382,52 @@ export const fetching = (data) => {
         payload: data
     }
 }
+
+
+// PLAY MUSIC  
+
+export const playTrack = (data) => {
+    return {
+        type: actionType.PLAY_TRACK,
+        payload: data
+    }
+}
+
+export const pauseTrack = (data) => {
+    return {
+        type: actionType.PAUSE_TRACK,
+        payload: data
+    }
+}
+
+export const nextTrack = (data) => {
+    return {
+        type: actionType.NEXT_TRACK,
+        payload: data
+    }
+}
+
+export const previousTrack = (data) => {
+    return {
+        type: actionType.PREVIOUS_TRACK,
+        payload: data
+    }
+}
+
+export const setTrack = (data) => {
+    return {
+        type: actionType.SET_TRACK,
+        payload: data
+    }
+}
+
+export const resetTrack = (data) => { 
+    return {
+        type: actionType.RESET_TRACK,
+        payload: data
+    }
+}
+
 
 
 

@@ -3,7 +3,7 @@ import { iconPause_TrackItem, iconPlay_TrackItem } from '../../../assets/icon/ic
 import DirectMenu from '../../DirectMenu/DirectMenu';
 import Navbar from '../../Navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { albumSelector, artistSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
+import { albumSelector, artistSelector, musicPlayerSelector, playlistSelector, selectAlbumSelector } from '../../../redux/selector';
 import * as actions from '../../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,8 @@ const AuthenSuccess = () => {
     const currentAlbums = useSelector(selectAlbumSelector);
     const navigate = useNavigate();
     const listDailyMix = useSelector(playlistSelector).search;
+    const musicPlayer = useSelector(musicPlayerSelector);
+    const storeDailyMix = useSelector(playlistSelector).dailyMix;
 
     const handlePlaylist = (id) => {
         dispatch(actions.findPlaylistById(id))
@@ -44,10 +46,36 @@ const AuthenSuccess = () => {
         return false;
     }
 
+    const handlePlayMusic = (item) => {
+        dispatch(actions.setTrack(item))
+        dispatch(actions.playTrack())
+        if (musicPlayer?.playlistTrack?.id !== item?.id) {
+            // dispatch(actions.setPlayStat(true))
+            // dispatch(actions.setResetStat(true))
+            // setTimeout(() => dispatch(actions.setResetStat(false)), 150)
+            // pause -> reset = true -> setTimeout(reset = false -> play )
+            dispatch(actions.pauseTrack())
+            dispatch(actions.resetTrack(true))
+            setTimeout(() => {
+                dispatch(actions.resetTrack(false))
+                setTimeout(() => {
+                    dispatch(actions.playTrack())
+                }, 500)
+            }, 150)
+        } else {
+            if (musicPlayer.isPlaying) {
+                dispatch(actions.pauseTrack())
+            } else {
+                dispatch(actions.playTrack())
+            }
+        }
+    }
+
+
     const elementPlaylist = listDailyMix && listDailyMix.map((item) => {
         return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-            <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
-                {iconPause_TrackItem}
+            <button onClick={() => handlePlayMusic(item)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                {(musicPlayer.isPlaying && musicPlayer.playlistTrack.id === item.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
             <button onClick={() => handlePlaylist(item.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
@@ -66,9 +94,13 @@ const AuthenSuccess = () => {
     }, [])
 
     useEffect(() => {
-        { dispatch(actions.findPlaylistByName("Daily Mix")) }
+        if (storeDailyMix.length === 0) {
+            dispatch(actions.findPlaylistByName("Daily Mix"))
+        }
     }, [])
-
+    useEffect(() => {
+        listDailyMix && dispatch(actions.storeDailyMix(listDailyMix))
+    }, [listDailyMix])
     const handleSelectAlbums = (id) => {
         if (!(currentAlbums?.select?.id === id)) {
             dispatch(actions.findAlbumById(id))
@@ -83,7 +115,7 @@ const AuthenSuccess = () => {
     }
     const elementAlbum = listAlbums.map(element => {
         return <div key={element.id} className='h-[263px] group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-            <button onClick={() => handleSelectAlbums(element.id)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
+            <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
                 {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
             <button onClick={() => handleSelectAlbums(element.id)} className='block w-full album-wrap p-4'>
@@ -159,7 +191,7 @@ const AuthenSuccess = () => {
                         {/* Playlists - Sleep*/}
                         <div className='list-playlists-item px-8 mb-4'>
                             <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
-                                <a href="" className=''>
+                                <a href="#" className=''>
                                     <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Recommend</h3>
                                 </a>
                             </div>

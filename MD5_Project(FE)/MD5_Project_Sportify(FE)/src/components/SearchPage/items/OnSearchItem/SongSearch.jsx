@@ -10,9 +10,9 @@ export default function SongSearch() {
             <td width={"4%"} className='text-[#fff] px-2 py-6'>
                 {index+1}
             </td>
-            <td width={"8%"} className=" p-2">
+            <td width={"5%"} className=" p-2">
                 <div className='relative'>
-                    <img className='group-hover:opacity-70 w-10 h-10' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='group-hover:opacity-70 w-10 h-10' src={item.image} alt="" />
                     <button className='z-20 fill-[#dbdbdb] top-0 left-5 -translate-x-5 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
                         {iconPause_TrackItem}
                     </button>

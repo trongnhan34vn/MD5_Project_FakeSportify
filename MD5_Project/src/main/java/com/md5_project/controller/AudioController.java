@@ -121,4 +121,9 @@ public class AudioController {
         audioService.likeAudio(audioId);
         return ResponseEntity.ok("favorite success!");
     }
+
+    @GetMapping("/find-favorite-audio-paging")
+    public ResponseEntity<?> findFavorite(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(audioService.findFavoriteAudioPaging(page, size).getContent());
+    }
 }

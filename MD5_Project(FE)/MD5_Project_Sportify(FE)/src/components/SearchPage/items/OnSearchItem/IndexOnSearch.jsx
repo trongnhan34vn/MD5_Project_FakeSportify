@@ -22,11 +22,11 @@ export default function IndexOnSearch() {
         navigate('/search-result', {state: {result: 'album'}});
     }
 
-    const elementSearchSong = audioSearch.search.map((item) => {
+    const elementSearchSong = audioSearch?.search?.map((item) => {
         return <tr key={item.id} className='hover:bg-[hsla(0,0%,100%,.1)] block p-2 rounded-md group'>
             <td width={"8%"}>
                 <div className='relative'>
-                    <img className='group-hover:opacity-70 w-10 h-10' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='group-hover:opacity-70 w-10 h-10' src={item.image} alt="" />
                     <button className='z-20 fill-[#dbdbdb] top-0 left-5 -translate-x-5 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
                         {iconPause_TrackItem}
                     </button>
@@ -44,14 +44,14 @@ export default function IndexOnSearch() {
         </tr>
     })
 
-    const elementSearchAlbum = albumSearch.search.map((item) => {
+    const elementSearchAlbum = albumSearch?.search?.map((item) => {
         return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                 {iconPause_TrackItem}
             </button>
             <button onClick={()=>handleToAlbumAudio(item.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
-                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='rounded object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item.audios[0].image} alt="" />
                 </div>
                 <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                     <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>
@@ -60,14 +60,14 @@ export default function IndexOnSearch() {
         </div>
     })
 
-    const elementSearchArtist = artistSearch.search.map((item) => {
+    const elementSearchArtist = artistSearch?.search?.map((item) => {
         return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
                 {iconPause_TrackItem}
             </button>
             <button onClick={() => handleToArtistAudio(item.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
-                    <img className='rounded-[50%] object-cover w-[167px] h-[167px] drop-shadow-2xl' src="https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg" alt="" />
+                    <img className='rounded-[50%] object-cover w-[167px] h-[167px] drop-shadow-2xl' src={item.image} alt="" />
                 </div>
                 <div className='album-content w-full text-left overflow-hidden text-[#fff]'>
                     <h3 className='font-CircularMedium text-base mb-1 truncate'>{item.name}</h3>

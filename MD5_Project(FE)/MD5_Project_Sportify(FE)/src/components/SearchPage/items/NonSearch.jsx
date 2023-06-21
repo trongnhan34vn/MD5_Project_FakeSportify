@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { allCateforySelector } from '../../../redux/selector';
@@ -13,11 +13,24 @@ export default function NonSearch() {
     }, [])
     const listCategories = useSelector(allCateforySelector)
     const navigate = useNavigate();
-    const location = useLocation()
-
+    const location = useLocation();
+    const [color, setColor] = useState()
     useEffect(() => {
-        console.log(listCategories);
-    }, [listCategories])
+        let codeArr = [
+           'bg-tahiti-100',
+           'bg-tahiti-200',
+           'bg-tahiti-300',
+           'bg-tahiti-400',
+           'bg-tahiti-500',
+           'bg-tahiti-600',
+           'bg-tahiti-700',
+           'bg-tahiti-800',
+           'bg-tahiti-900',
+           'bg-tahiti-1000',
+           'bg-tahiti-1100'
+        ];
+        setColor(codeArr);
+    }, [])
 
     const handleSelectCategory = (id) => {
         navigate("/search/category")
@@ -26,7 +39,7 @@ export default function NonSearch() {
     }
 
     const elementCategory = listCategories.map((category, index) => {
-        return <div key={category.id} className={`group relative album-item bg-tahiti-${(index + 1) * 100} w-[200px] h-[200px] rounded-[8px] transition-all duration-300`}>
+        return <div key={category.id} className={`group relative album-item bg-tahiti-${(index + 1)*100} w-[200px] h-[200px] rounded-[8px] transition-all duration-300`}>
             {/* <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
             {iconPause_TrackItem}
         </button> */}
@@ -49,7 +62,7 @@ export default function NonSearch() {
                     <div className='list-playlists-item px-8 mb-4'>
                         {/* Playlist Title */}
                         <div className='list-playlists-item-title flex justify-between items-end mb-[22px]'>
-                            <a href="" className=''>
+                            <a href="#" className=''>
                                 <h3 className='text-[#fff] font-CircularMedium leading-none tracking-tight hover:underline text-2xl'>Browse all</h3>
                             </a>
                         </div>

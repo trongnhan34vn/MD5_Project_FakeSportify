@@ -56,7 +56,7 @@ const AuthenSuccess = () => {
         </NavLink>
     </div> : <></>;
 
-    const elementSearchBar = isSearch && location.pathname != "/search/category" && location.pathname != '/search-result' ? <div className='flex justify-center flex-col'>
+    const elementSearchBar = isSearch && location.pathname != "/search/category" && location.pathname != '/search-result' && location.pathname != '/search-result-category' ? <div className='flex justify-center flex-col'>
         <div className='bg-[#242424] mb-2 px-4 rounded-[500px] border-[2px] border-[#000] hover:border-solid hover:border-[2px] hover:border-[#fff] active:border-[#fff] '>
             <i className="fa-solid fa-magnifying-glass text-[#fff]"></i>
             <input value={stateOnSearch.searchVal} onChange={handleChange} name='search' placeholder='What do you want to listen to?' type="text" className='text-[#fff] text-sm py-2 pl-2 pr-9 bg-[#242424] outline-none' />

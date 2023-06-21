@@ -99,4 +99,11 @@ public class AudioServiceIMPL implements IAudioService {
         user.setFavorites(audioSet);
         userService.save(user);
     }
+
+    @Override
+    public Page<Audio> findFavoriteAudioPaging(int page, int size) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Pageable pageable = PageRequest.of(page, size);
+        return audioRepository.findFavoriteAudioPaging(userPrinciple.getId(), pageable);
+    }
 }

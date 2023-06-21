@@ -29,6 +29,7 @@ export const rootSaga = function* () {
             takeLatest(actionType.FIND_AUDIO_BY_ARTIST,audioSaga.findAudioByArtist),
             takeLatest(actionType.FIND_AUDIO_BY_CATEGORY_ARTIST, audioSaga.findAudioByCategoryAndArtist),
             takeLatest(actionType.FIND_FAVORITE_CURRENT_USER, audioSaga.findFavoriteAudioByCurrentUser),
+            takeLatest(actionType.FIND_FAVORITE_AUDIO_PAGING, audioSaga.findFavoriteAudioPaging),
             // ARTIST
             takeLatest(actionType.SEARCH_ARTIST_BY_NAME, artistSaga.searchArtistByName),
             takeLatest(actionType.SEARCH_ARTIST_BY_CATEGORY, artistSaga.searchArtistByCategory),
@@ -42,7 +43,7 @@ export const rootSaga = function* () {
             takeLatest(actionType.UPDATE_PLAYLIST, playlistSaga.updatePlaylist),
             takeLatest(actionType.INSERT_AUDIO_TO_PLAYLIST, playlistSaga.insertAudioToPlaylist),
             takeLatest(actionType.REMOVE_AUDIO_FROM_PLAYLIST,playlistSaga.removeAudioFromPlaylist),
-            takeLatest(actionType.DELETE_PLAYLIST_BY_ID, playlistSaga.deletePlaylistById)
+            takeLatest(actionType.DELETE_PLAYLIST_BY_ID, playlistSaga.deletePlaylistById),
         ]
     )
 }
