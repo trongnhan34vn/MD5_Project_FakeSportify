@@ -12,6 +12,10 @@ const userSlice = (state = initState, action) => {
             return { ...state, message: action.payload }
         case actionType.GET_CURRENT_USER:
             return { ...state, user: action.payload }
+        case actionType.LOGOUT:
+            return { user: null, message: ''}
+        case actionType.RESET_MESSAGE: 
+            return { ...state, message: '' }
         default:
             return state;
     }

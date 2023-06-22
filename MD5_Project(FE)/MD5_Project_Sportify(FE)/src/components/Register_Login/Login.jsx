@@ -12,7 +12,7 @@ export default function Login() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(["token", "fullName","userId"])
+    const [cookies, setCookie] = useCookies(["token", "fullName", "userId"])
 
     const message = useSelector(getMessageSelector);
     const currentUser = useSelector(currentUserSelector);
@@ -81,12 +81,10 @@ export default function Login() {
         event.preventDefault()
         if (checkSubmit()) {
             // validate xong mới gửi request
-            console.log("in");
             dispatch(actions.login(inputValue))
         } else {
             setToggleToast(true);
             // không thể đăng kí
-            console.log("thất bại");
             setErrorLogin("Sign In Failed! Try Again!")
             closeToast()
         }
@@ -94,8 +92,8 @@ export default function Login() {
 
     const handleCookie = () => {
         setCookie("token", currentUser.token, { path: "/", maxAge: 24 * 60 * 60 })
-        setCookie("fullName", currentUser.fullName, { path: "/", maxAge: 24 * 60 * 60})
-        setCookie("userId", currentUser.id, { path: "/", maxAge: 24 * 60 * 60})
+        setCookie("fullName", currentUser.fullName, { path: "/", maxAge: 24 * 60 * 60 })
+        setCookie("userId", currentUser.id, { path: "/", maxAge: 24 * 60 * 60 })
     }
 
     useEffect(() => {
@@ -107,15 +105,16 @@ export default function Login() {
                 closeToast()
                 setTimeout(() => {
                     navigate("/")
-                }, 5000)
+                }, 3000)
                 handleCookie()
             }
-        }
-        console.log(message);
-        if (message.trim() === 'Invalid username or password!') {
+        } else if (message.trim() === 'Invalid username or password!') {
             setToggleToast(true);
+            setTimeout(() => {
+                dispatch(actions.resetMessage());
+            }, 200)
+
             // không thể đăng kí
-            console.log(message);
             setErrorLogin("Sign In Failed! Try Again!")
             closeToast()
         }
@@ -124,7 +123,7 @@ export default function Login() {
     const closeToast = () => {
         setTimeout(() => {
             setToggleToast(false);
-        }, 5000)
+        }, 3000)
     }
 
 

@@ -6,7 +6,7 @@ import { albumSlice, artistSelector, audioSelector } from '../../../../redux/sel
 export default function SongSearch() {
     const audioSearch = useSelector(audioSelector)
     const elementSearchSong = audioSearch.search.map((item, index) => {
-        return <tr className='hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
+        return <tr key={item.id} className='hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
             <td width={"4%"} className='text-[#fff] px-2 py-6'>
                 {index+1}
             </td>

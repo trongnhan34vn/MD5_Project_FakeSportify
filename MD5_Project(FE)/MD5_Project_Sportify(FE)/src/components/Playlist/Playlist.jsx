@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { artistSelector, audioSelector, musicPlayerSelector, playlistSelector, selectAlbumSelector } from '../../redux/selector';
-import { iconPauseBtn_Playlist, iconPause_TrackItem } from '../../assets/icon/icon';
+import { iconPauseBtn_Playlist, iconPause_TrackItem, iconPlay_TrackItem } from '../../assets/icon/icon';
 import Navbar from '../Navbar/Navbar';
 import DirectMenu from '../DirectMenu/DirectMenu';
 import { useLocation } from 'react-router-dom';
@@ -17,7 +17,7 @@ const Playlist = () => {
     const favorites = useSelector(audioSelector)?.favorites;
     const musicPlayer = useSelector(musicPlayerSelector);
 
-  
+    const selectPlaylistObj = (location?.state?.type === 'daily-mix') ? selectPlaylist : selectAlbum;
     const listAudios = (location?.state?.type === 'daily-mix') ? selectPlaylist?.select?.audios : selectAlbum?.select?.audios;
 
     useEffect(() => {
@@ -30,9 +30,48 @@ const Playlist = () => {
             <span key={artist.id} >{artist.name}, </span>
         )
     })
+    const getType = () => {
+        if (location.state.type === 'daily-mix') {
+            return 'playlist'
+        } else {
+            return 'album'
+        }
+    }
 
     const handlePlayMusic = (item) => {
- 
+        dispatch(actions.setTrack(selectPlaylistObj?.select))
+        let currentTrackIndex = selectPlaylistObj?.select?.audios?.indexOf(item);
+        dispatch(actions.setCurrentTrackIndex(currentTrackIndex));
+        dispatch(actions.playTrack())
+        if (location.state.type === 'daily-mix') {
+            dispatch(actions.setTypeData('playlist'))
+        } else {
+            dispatch(actions.setTypeData('album'))
+        }
+        if (musicPlayer?.playlistTrack?.id !== selectPlaylistObj?.id || musicPlayer?.typeData !== getType()) {
+            dispatch(actions.pauseTrack())
+            dispatch(actions.resetTrack(true))
+            setTimeout(() => {
+                dispatch(actions.resetTrack(false))
+                setTimeout(() => {
+                    dispatch(actions.playTrack())
+                }, 500)
+            }, 150)
+        } else {
+            if (musicPlayer.isPlaying) {
+                dispatch(actions.pauseTrack())
+            } else {
+                dispatch(actions.playTrack())
+            }
+        }
+
+    }
+
+    const getPlay = (index) => {
+        if (location?.state?.type === 'daily-mix' && musicPlayer?.typeData === getType() && musicPlayer?.isPlaying && musicPlayer?.currentTrackIndex === index) {
+            return true;
+        }
+        return false;
     }
 
     const elementList = listAudios?.map((audio, index) => {
@@ -40,8 +79,8 @@ const Playlist = () => {
             <td className='text-center'>
                 <div className='relative'>
                     <p className='group-hover:opacity-0 transition-all duration-300'>{index + 1}</p>
-                    <button onClick={() => handlePlayMusic(audio)}  className='z-20 fill-[#dbdbdb] -top-3 left-2 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
-                        {iconPause_TrackItem}
+                    <button onClick={() => handlePlayMusic(audio)} className='z-20 fill-[#dbdbdb] -top-3 left-2 group-hover:opacity-100 group-hover:shadow-xl w-10 h-10 rounded-[50%] flex items-center cursor-default justify-center absolute transition-all duration-300 opacity-0'>
+                        {(getPlay(index) ? iconPlay_TrackItem : iconPause_TrackItem )}
                     </button>
                 </div>
             </td>
@@ -49,9 +88,9 @@ const Playlist = () => {
                 <div><img className='w-10 object-cover h-10' src={audio.image} alt="ảnh" /></div>
                 <div className='flex-1'><p className='text-compact-1 text-base font-CircularBook text-[#fff]'>{audio.name}</p><p className='text-sm'>{audio.artist.name}</p></div>
             </td>
-            <td className='overflow-hidden truncate'>{selectAlbum?.select?.name}</td>
+            <td className='overflow-hidden truncate'>{(location?.state?.type === 'daily-mix')? selectPlaylist?.select?.name : selectAlbum?.select?.name}</td>
             <td>
-                {selectAlbum?.select?.dateAdded}
+                {(location?.state?.type === 'daily-mix')? '' : selectAlbum?.select?.dateAdded}
             </td>
             <td>
                 <div className='vote flex justify-start'>

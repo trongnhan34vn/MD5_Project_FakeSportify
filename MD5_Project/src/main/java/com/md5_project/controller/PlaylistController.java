@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @RestController
@@ -112,6 +113,7 @@ public class PlaylistController {
     }
 
     @PatchMapping("/insert-audio-playlist")
+    @Transactional(rollbackOn = {Exception.class, Throwable.class})
     public ResponseEntity<?> insertAudioToPlaylist(@RequestParam Long playlistId, @RequestParam Long audioId) {
         Playlist playlist = playlistService.insertAudioToPlaylist(playlistId, audioId);
         if (playlist == null) {

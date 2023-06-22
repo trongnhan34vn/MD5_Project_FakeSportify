@@ -17,6 +17,18 @@ export const register = (data) => {
     }
 }
 
+export const logOut = () => {
+    return {
+        type: actionType.LOGOUT,
+    }
+}
+
+export const resetMessage = () => {
+    return {
+        type: actionType.RESET_MESSAGE
+    }
+}
+
 export const getMessage = (data) => {
     console.log(data);
     return {
@@ -417,6 +429,20 @@ export const previousTrack = (data) => {
 export const setTrack = (data) => {
     return {
         type: actionType.SET_TRACK,
+        payload: data
+    }
+}
+
+export const setCurrentTrackIndex = (data) => {
+    return {
+        type: actionType.SET_CURRENT_TRACK_INDEX,
+        payload: data
+    }
+}
+
+export const setTypeData = (data) => {
+    return {
+        type: actionType.SET_TYPE_DATA,
         payload: data
     }
 }

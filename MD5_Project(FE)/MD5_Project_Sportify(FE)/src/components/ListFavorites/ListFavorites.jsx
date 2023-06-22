@@ -22,7 +22,7 @@ export default function ListFavorites() {
 
     const elementFavorites = favorites?.map((item, index) => {
         return (
-            <tr className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
+            <tr key={item.id} className='pt-8 hover:bg-[hsla(0,0%,100%,.1)] rounded-md group'>
                 <td className='text-center'>
                     <div className='relative'>
                         <p className='group-hover:opacity-0 transition-all duration-300'>{index + 1}</p>
@@ -67,7 +67,7 @@ export default function ListFavorites() {
                         {/* <p className='text-[16px] font-CircularLight'>Danh sách nghệ sĩ</p> */}
                     </div>
                 </div>
-                <div className='section-playlist-list-song h-full bg-[#121212]'>
+                <div className='section-playlist-list-song min-h-screen bg-[#121212]'>
                     <div className='section-play-list-control flex gap-8 px-8 py-6 items-center'>
                         <button className='rounded-[50%] hover:scale-110 transition-all duration-200 bg-primaryColor p-3.5'>
                             {iconPauseBtn_Playlist}

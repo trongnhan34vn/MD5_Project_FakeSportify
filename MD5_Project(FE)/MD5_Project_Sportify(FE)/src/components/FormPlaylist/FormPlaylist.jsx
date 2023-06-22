@@ -9,6 +9,7 @@ import * as actions from '../../redux/actions';
 import { audioSelector, playlistSelector } from '../../redux/selector';
 import Modal from '../Modal/Modal';
 import { useLocation } from 'react-router-dom';
+import ToastPlaylistFail from '../Toast/ToastPlaylistFail';
 
 
 
@@ -20,6 +21,7 @@ const FormPlaylist = () => {
     const audioList = useSelector(audioSelector).search;
     const [isOpenModal, setIsOpenModal] = useState(false);
     const selectPlaylist = useSelector(playlistSelector).select;
+    const [isOnToast, setIsOnToast] = useState(false);
 
     useEffect(() => {
         playlistId &&
@@ -94,7 +96,10 @@ const FormPlaylist = () => {
                 playlistId: selectPlaylist.id
             }))
         } else {
-            alert('ngủ đe')
+            setIsOnToast(true)
+            setTimeout(() => {
+                setIsOnToast(false)
+            }, 3000)
         }
     }
     useEffect(() => {
@@ -248,6 +253,7 @@ const FormPlaylist = () => {
             {/* Content */}
             {/* Footer */}
             {modalElement}
+            <ToastPlaylistFail isOnToast={isOnToast} />
             {/* Footer */}
         </div>
     );

@@ -12,7 +12,8 @@ export const PREVIOUS_TRACK = 'PREVIOUS_TRACK';
 export const CHANGE_PLAYBACK_TYPE = 'CHANGE_PLAYBACK_TYPE';
 export const RESET_TRACK = 'RESET_TRACK';
 export const SET_TRACK = 'SET_TRACK';
-
+export const SET_CURRENT_TRACK_INDEX = 'SET_CURRENT_TRACK_INDEX';
+export const SET_TYPE_DATA = 'SET_TYPE_DATA';
 
 // USER
 export const REGISTER = 'REGISTER';
@@ -20,6 +21,8 @@ export const GET_MESSAGE = 'GET_MESSAGE';
 export const LOGIN = 'LOGIN';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 export const LIKE_AUDIO = 'LIKE_AUDIO';
+export const LOGOUT = 'LOGOUT';
+export const RESET_MESSAGE = 'RESET_MESSAGE';
 
 //ALBUM
 export const FIND_ALL_ALBUMS = 'FIND_ALL_ALBUMS';

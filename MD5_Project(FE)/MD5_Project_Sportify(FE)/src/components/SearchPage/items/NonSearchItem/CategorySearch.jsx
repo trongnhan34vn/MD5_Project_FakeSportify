@@ -19,8 +19,6 @@ const CategorySearch = () => {
         navigate('/search-result-category', {state: {selectCategory: selectCategory}})
     }
 
-    console.log(listArtistCategory);
-
     const elementArtist = listArtistCategory?.search?.map(artist => {
         return <div key={artist.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
             <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
@@ -39,7 +37,7 @@ const CategorySearch = () => {
     return (
         <div className='content w-full'>
             {/* List Playlists - Log Out */}
-            <div className='list-playlists pt-[60px] ml-[241px] flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
+            <div className='list-playlists pt-[60px] ml-[241px] min-h-screen flex flex-col gap-6 py-6 bg-[linear-gradient(#1f1f1f,#121212)]'>
                 <div className='px-8 mb-10 flex justify-start'>
                     <h1 className='text-[#fff] font-CircularBold text-[100px]'>{selectCategory && selectCategory?.name}</h1>
                 </div>

@@ -53,7 +53,7 @@ const SearchPlaylistResult = () => {
             <section className='section-playlist pb-[90px] min-h-screen pl-[241px] bg-[#121212] '>
                 <div className='section-playlist-banner flex items-end gap-6 linearColor max-h-[500px] h-[30vh] min-h-[340px] p-8'>
                     <div className='banner-img w-48 h-48'>
-                        <img className='w-full object-cover h-full drop-shadow-2xl' src={typeResult == 'artist'? selectArtist.image : selectAlbum.audios[0].image} alt="" />
+                        <img className='w-full object-cover h-full drop-shadow-2xl' src={typeResult == 'artist'? selectArtist?.image : selectAlbum?.audios[0]?.image} alt="" />
                     </div>
                     <div className='overflow-hidden flex-1 banner-song-info text-[#fff]'>
                         <p className='text-[16px] font-CircularBook'>{typeResult === 'artist' ? 'Artist' : 'Album'}</p>

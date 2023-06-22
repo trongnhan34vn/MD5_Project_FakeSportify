@@ -46,5 +46,5 @@ public class Audio {
 
     @ManyToMany(mappedBy = "audios", cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties({"audios"})
-    private List<Playlist> playlists;
+    private Set<Playlist> playlists;
 }

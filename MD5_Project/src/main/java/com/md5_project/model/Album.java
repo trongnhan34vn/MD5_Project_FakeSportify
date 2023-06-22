@@ -24,6 +24,6 @@ public class Album {
     @OneToMany(mappedBy = "album", targetEntity = Audio.class)
     @JsonIgnoreProperties({"album"})
     private Set<Audio> audios;
-    @CreationTimestamp
+
     private LocalDate dateAdded;
 }

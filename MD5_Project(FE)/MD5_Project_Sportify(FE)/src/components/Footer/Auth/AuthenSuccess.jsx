@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { iconMute, iconPauseBtn_Playlist, iconPauseTrackBtn_Footer, iconPlayTrackBtn_Footer, iconUnMute } from '../../../assets/icon/icon.jsx';
 import * as actions from '../../../redux/actions';
 import { musicPlayerSelector, selectAlbumSelector } from '../../../redux/selector';
+import FavoritesComp from '../../FavoritesComp/FavoritesComp.jsx';
 
 
 const AuthenSuccess = () => {
@@ -15,19 +16,6 @@ const AuthenSuccess = () => {
     const selectAlbum = useSelector(selectAlbumSelector);
 
     const musicPlayer = useSelector(musicPlayerSelector);
-
-    useEffect(() => { 
-        // console.log(musicPlayer);   
-        setSongArr(musicPlayer?.playlistTrack?.audios)
-    }, [musicPlayer?.playlistTrack])
-
-    useEffect(() => {
-        setIsPlay(musicPlayer?.isPlaying)
-    },[musicPlayer?.isPlaying])
-
-    useEffect(() => {
-        setIsReset(musicPlayer?.isReset)
-    },[musicPlayer?.isReset])
 
     const [songIndex, setSongIndex] = useState(0)
     const [playLength, setPlayLength] = useState(0)
@@ -51,6 +39,27 @@ const AuthenSuccess = () => {
     const [isRandom, setIsRandom] = useState(false);
     const [isOneSong, setIsOneSong] = useState(false);
     const [nextSong, setNextSong] = useState(songIndex + 1);
+
+
+    useEffect(() => {
+        if (musicPlayer?.playlistTrack) {
+            let audiosArray = musicPlayer?.playlistTrack?.audios;
+            setSongArr([...audiosArray].sort((a, b) => a.id - b.id))
+        }
+
+    }, [musicPlayer?.playlistTrack])
+
+    useEffect(() => {
+        setIsPlay(musicPlayer?.isPlaying)
+    }, [musicPlayer?.isPlaying])
+
+    useEffect(() => {
+        setIsReset(musicPlayer?.isReset)
+    }, [musicPlayer?.isReset])
+
+    useEffect(() => {
+        setSongIndex(musicPlayer?.currentTrackIndex)
+    }, [musicPlayer.currentTrackIndex])
 
     // Lấy time progress 
     const onLoadedMetadata = () => {
@@ -121,6 +130,11 @@ const AuthenSuccess = () => {
     const handlePlay = () => {
         setIsPlay(pre => !pre)
         dispatch(actions.setPlayStat(!selectAlbum.isPlay))
+        if (musicPlayer.isPlaying) {
+            dispatch(actions.pauseTrack())
+        } else {
+            dispatch(actions.playTrack())
+        }
         // dispatch(actPlayAudio())
         // console.log("Footer -----> ", controllAlbums);
     }
@@ -308,17 +322,22 @@ const AuthenSuccess = () => {
                 <div className='grid grid-cols-3 items-center bg-[#181818] h-[90px] pt-[11px] pr-[24px] pb-[7px] pl-[15px] '>
                     <div className='footer-content song-info flex items-center'>
                         <div className='song-img w-14 h-14 overflow-hidden'>
-                            <img className='object-cover' src="" alt="" />
+                            <img className='object-cover' src={(songArr?.length > 0) ? songArr[songIndex]?.image : ''} alt="" />
                         </div>
                         <div className='song-name mx-[14px] pl-[6px] pr-3'>
                             <a className='font-CircularLight hover:underline cursor-pointer block leading-6 text-sm text-[#fff]'>{(songArr?.length > 0) ? songArr[songIndex].name : ''}</a>
                             <a className='font-CircularLight hover:underline cursor-pointer text-[11px] text-[#B3B3B3]'>{(songArr?.length > 0) ? songArr[songIndex].artist.name : ''}</a>
                         </div>
-                        <div onClick={() => handleInsertFavorite(songArr[songIndex].id)} className='vote flex justify-center'>
+                        {/* <div className='vote flex justify-center'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
                                 <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                             </svg>
-                        </div>
+                        </div> */}
+                        {(songArr?.length > 0) ? <FavoritesComp audio={songArr[songIndex]} /> : <div className='vote flex justify-center'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" className="bi bi-heart cursor-pointer" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                            </svg>
+                        </div>}
                     </div>
                     <div className='song-control flex flex-col'>
                         <audio ref={audioRef} onLoadedMetadata={onLoadedMetadata} src={(songArr?.length > 0) ? songArr[songIndex]?.path : ''}></audio>

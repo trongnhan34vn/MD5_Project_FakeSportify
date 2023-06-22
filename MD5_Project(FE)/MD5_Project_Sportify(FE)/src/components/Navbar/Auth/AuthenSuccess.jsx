@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import * as actions from '../../../redux/actions';
-import { stateOnSearchSelector } from '../../../redux/selector';
+import { currentUserSelector, stateOnSearchSelector } from '../../../redux/selector';
 import { useCookies } from 'react-cookie';
 
 const AuthenSuccess = () => {
@@ -13,7 +13,9 @@ const AuthenSuccess = () => {
     const location = useLocation();
     const path = location.pathname;
     const [activeTab, setActiveTab] = useState("")
-    const [cookies, removeCookie] = useCookies(["fullName", 'userId', 'token'])
+    const [cookies, setCookie] = useCookies(["fullName", 'userId', 'token'])
+    const currentUser = useSelector(currentUserSelector);
+ 
 
     const handleChange = (e) => {
         let value = e.target.value;
@@ -29,7 +31,7 @@ const AuthenSuccess = () => {
 
     useEffect(() => {
         let activeArr = [
-            { path: "/search", tab: "All" }, 
+            { path: "/search", tab: "All" },
             { path: "/search/songs", tab: "Songs" },
             { path: "/search/artist", tab: "Artist", },
             { path: "/search/albums", tab: "Albums", }
@@ -43,16 +45,16 @@ const AuthenSuccess = () => {
 
     const elementFilterSearch = (stateOnSearch.searchVal != '') ? <div className='flex'>
         <NavLink to={"/search"} className={`${activeTab === "All" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
-            <button className={`${activeTab==="All"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>All</button>
+            <button className={`${activeTab === "All" ? 'text-[#000]' : 'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>All</button>
         </NavLink>
         <NavLink to={"/search/songs"} className={`${activeTab === "Songs" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
-            <button className={`${activeTab==="Songs"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Songs</button>
+            <button className={`${activeTab === "Songs" ? 'text-[#000]' : 'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Songs</button>
         </NavLink>
         <NavLink to={"/search/artist"} className={`${activeTab === "Artist" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
-            <button className={`${activeTab==="Artist"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Artist</button>
+            <button className={`${activeTab === "Artist" ? 'text-[#000]' : 'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Artist</button>
         </NavLink>
         <NavLink to={"/search/albums"} className={`${activeTab === "Albums" && "bg-[#fff] rounded-[500px] transition-all ease-in-out duration-200"}`}>
-            <button className={`${activeTab==="Albums"?'text-[#000]':'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Albums</button>
+            <button className={`${activeTab === "Albums" ? 'text-[#000]' : 'text-[#fff]'} px-3 font-CircularBook text-[14px]`}>Albums</button>
         </NavLink>
     </div> : <></>;
 
@@ -92,9 +94,10 @@ const AuthenSuccess = () => {
     const handleSignOut = () => {
         setMenuToggle(false)
         navigate("/")
-        removeCookie('fullName', { path: '/', domain: 'localhost' });
-        removeCookie('token', { path: '/', domain: 'localhost' });
-        removeCookie('userId', { path: '/', domain: 'localhost' });
+        setCookie("token", currentUser.token, { path: "/", maxAge: 0})
+        setCookie("fullName", currentUser.fullName, { path: "/", maxAge: 0})
+        setCookie("userId", currentUser.id, { path: "/", maxAge: 0})
+        dispatch(actions.logOut())
     }
     const elementIconToggle = (menuToggle) ? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
     const elementMenuToggle = (menuToggle) ? <ul className='right-0 top-10 p-1 direction-account absolute bg-[#282828] font-CircularLight text-sm rounded shadow-[0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%)] max-w-[350px] min-w-[160px]'>
@@ -114,7 +117,7 @@ const AuthenSuccess = () => {
                     <i className="ti-angle-right text-[#fff] font-bold" />
                 </button>
             </div> */}
-            <nav className={`fixed z-[60] ${(isSearch && stateOnSearch.searchVal != '' && location.pathname!='/search-result') ? 'p-12' : ''} right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
+            <nav className={`fixed z-[60] ${(isSearch && stateOnSearch.searchVal != '' && location.pathname != '/search-result') ? 'p-12' : ''} right-0 left-[241px] navbar-menu h-16 px-8 flex justify-between duration-[0.3s] bg-show`}>
                 <div className='nav-direction-page  flex items-center gap-4 z-[60]'>
                     <button onClick={() => navigate(-1)} className='w-8 h-8 px-2 py-1 opacity-75 hover:opacity-100 transition-all bg-[#101010] rounded-[50%] duration-200'>
                         <i className="ti-angle-left text-[#fff] font-bold" />

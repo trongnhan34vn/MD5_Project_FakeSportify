@@ -16,7 +16,8 @@ export const findPlaylistByName = function* (action) {
 export const findPlaylistById = function* (action) {
     try {
         let playlist = yield call(playlistService.FIND_PLAYLIST_BY_ID, action.payload)
-        let sortPlaylist = [...playlist.audios].sort((a, b) => a.id - b.id);
+        let sortPlaylist = yield [...playlist.audios].sort((a, b) => a.id - b.id);
+        playlist.audios = yield sortPlaylist;
         yield put(actions.getPlaylistById(playlist))
     } catch (error) {
         console.log(error);

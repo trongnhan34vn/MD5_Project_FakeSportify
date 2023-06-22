@@ -46,14 +46,12 @@ const AuthenSuccess = () => {
         return false;
     }
 
-    const handlePlayMusic = (item) => {
+    const handlePlayMusic = (item, typeData) => {
+        dispatch(actions.setCurrentTrackIndex(0))
+        dispatch(actions.setTypeData(typeData))
         dispatch(actions.setTrack(item))
-        dispatch(actions.playTrack())
-        if (musicPlayer?.playlistTrack?.id !== item?.id) {
-            // dispatch(actions.setPlayStat(true))
-            // dispatch(actions.setResetStat(true))
-            // setTimeout(() => dispatch(actions.setResetStat(false)), 150)
-            // pause -> reset = true -> setTimeout(reset = false -> play )
+        // dispatch(actions.playTrack())
+        if (musicPlayer?.playlistTrack?.id !== item?.id || musicPlayer.typeData !== typeData) {
             dispatch(actions.pauseTrack())
             dispatch(actions.resetTrack(true))
             setTimeout(() => {
@@ -71,11 +69,10 @@ const AuthenSuccess = () => {
         }
     }
 
-
     const elementPlaylist = listDailyMix && listDailyMix.map((item) => {
         return <div key={item.id} className='group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-            <button onClick={() => handlePlayMusic(item)} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
-                {(musicPlayer.isPlaying && musicPlayer.playlistTrack.id === item.id) ? iconPlay_TrackItem : iconPause_TrackItem}
+            <button onClick={() => handlePlayMusic(item, 'playlist')} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 cursor-default rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-105 transition-all duration-300 opacity-0 translate-y-2'>
+                {(musicPlayer.typeData === 'playlist' && musicPlayer.isPlaying && musicPlayer.playlistTrack.id === item.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
             <button onClick={() => handlePlaylist(item.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
@@ -115,8 +112,8 @@ const AuthenSuccess = () => {
     }
     const elementAlbum = listAlbums.map(element => {
         return <div key={element.id} className='h-[263px] group relative album-item bg-[#181818] max-w-[200px] rounded hover:bg-[#282828] transition-all duration-300'>
-            <button className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
-                {(currentAlbums.isPlay && currentAlbums.select.id == element.id) ? iconPlay_TrackItem : iconPause_TrackItem}
+            <button onClick={() => handlePlayMusic(element,'album')} className='z-20 top-[42%] -translate-x-5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:shadow-xl w-12 h-12 rounded-[50%] bg-[#1ed760] flex items-center justify-center absolute bottom-2 right-2 hover:scale-110 cursor-pointer transition-all duration-300 opacity-0 translate-y-2'>
+                {(musicPlayer.typeData === 'album' && musicPlayer.isPlaying && musicPlayer.playlistTrack.id === element.id) ? iconPlay_TrackItem : iconPause_TrackItem}
             </button>
             <button onClick={() => handleSelectAlbums(element.id)} className='block w-full album-wrap p-4'>
                 <div className='album-img flex flex-col mb-4 relative'>
